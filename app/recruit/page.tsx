@@ -3,8 +3,7 @@
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
-import { Briefcase, Users, Lightbulb, Heart, TrendingUp, Award } from 'lucide-react'
-import Image from 'next/image'
+import { Users, Heart, TrendingUp, Award } from 'lucide-react'
 
 interface JobPosition {
   id: string

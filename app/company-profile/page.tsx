@@ -3,7 +3,7 @@
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
-import { Building2, Users, Calendar, Globe, Award, Heart } from 'lucide-react'
+import { Building2, Users, Globe, Award, Heart } from 'lucide-react'
 
 interface TimelineItem {
   year: string
