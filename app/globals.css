@@ -22,5 +22,127 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Shippori Mincho", serif !important;
+  display: block !important;
+}
+
+/* Apply Shippori Mincho to all elements */
+* {
+  font-family: "Shippori Mincho", serif !important;
+}
+
+/* Hide default cursor on desktop */
+@media (hover: hover) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* Custom utilities */
+.writing-mode-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Animation classes */
+.animate-fadeIn {
+  animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Ripple Effect Styles */
+.ripple-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+.ripple-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--image-url);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.ripple-base {
+  filter: brightness(1.1);
+}
+
+.ripple-wave-1 {
+  animation: rippleWave1 8s ease-in-out infinite;
+  transform-origin: var(--mouse-x) var(--mouse-y);
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+.ripple-wave-2 {
+  animation: rippleWave2 10s ease-in-out infinite;
+  transform-origin: calc(100% - var(--mouse-x)) calc(100% - var(--mouse-y));
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+.ripple-wave-3 {
+  animation: rippleWave3 12s ease-in-out infinite;
+  transform-origin: 50% 50%;
+  opacity: 0.3;
+  mix-blend-mode: screen;
+}
+
+@keyframes rippleWave1 {
+  0%, 100% {
+    transform: scale(1) translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: scale(1.02) translateY(-10px) rotateX(2deg) rotateY(-1deg);
+  }
+  50% {
+    transform: scale(1.01) translateY(5px) rotateX(-1deg) rotateY(2deg);
+  }
+  75% {
+    transform: scale(1.015) translateY(-5px) rotateX(1deg) rotateY(-2deg);
+  }
+}
+
+@keyframes rippleWave2 {
+  0%, 100% {
+    transform: scale(1) translateX(0px) rotateX(0deg) rotateY(0deg);
+  }
+  33% {
+    transform: scale(1.015) translateX(5px) rotateX(-2deg) rotateY(1deg);
+  }
+  66% {
+    transform: scale(1.02) translateX(-8px) rotateX(1deg) rotateY(-1deg);
+  }
+}
+
+@keyframes rippleWave3 {
+  0%, 100% {
+    transform: scale(1) rotate(0deg) translateZ(0);
+  }
+  50% {
+    transform: scale(1.03) rotate(0.5deg) translateZ(0);
+  }
+}
+
+/* 3D perspective for depth */
+.ripple-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
 }

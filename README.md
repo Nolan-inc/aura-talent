@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AURA Official Website - Next.js Version
 
-## Getting Started
+## 技術スタック
 
-First, run the development server:
+- **フレームワーク**: Next.js 15.2.4 (App Router)
+- **言語**: TypeScript (厳格モード)
+- **スタイリング**: Tailwind CSS
+- **アニメーション**: Framer Motion
+- **パッケージマネージャー**: pnpm
+
+## 機能
+
+- レスポンシブデザイン
+- カスタム円形カーソル（デスクトップのみ）
+- スムーズなアニメーション
+- 日本語フォント対応（Noto Sans JP）
+
+## 開発環境のセットアップ
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# 依存関係のインストール
+pnpm install
+
+# 開発サーバーの起動
 pnpm dev
-# or
-bun dev
+
+# ビルド
+pnpm build
+
+# プロダクションサーバーの起動
+pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## プロジェクト構造
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+nextjs/
+├── app/
+│   ├── globals.css      # グローバルスタイル
+│   ├── layout.tsx       # ルートレイアウト
+│   └── page.tsx         # ホームページ
+├── components/
+│   ├── custom-cursor.tsx # カスタムカーソル
+│   ├── header.tsx       # ヘッダー
+│   ├── footer.tsx       # フッター
+│   └── home/           # ホームページコンポーネント
+│       ├── actress-marquee.tsx
+│       ├── audition-link.tsx
+│       ├── hero-banner.tsx
+│       └── news-section.tsx
+└── lib/
+    └── utils.ts         # ユーティリティ関数
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## TypeScript設定
 
-## Learn More
+厳格モードが有効になっており、以下の設定が含まれています：
 
-To learn more about Next.js, take a look at the following resources:
+- `strict`: true
+- `noImplicitAny`: true
+- `strictNullChecks`: true
+- `noUnusedLocals`: true
+- `noUnusedParameters`: true
+- `noUncheckedIndexedAccess`: true
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## デプロイ
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Vercelへのデプロイが推奨されます：
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Vercel CLIでデプロイ
+vercel
+```

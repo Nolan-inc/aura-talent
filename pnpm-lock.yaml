@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      framer-motion:
+        specifier: ^12.19.2
+        version: 12.19.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      lucide-react:
+        specifier: ^0.525.0
+        version: 0.525.0(react@19.1.0)
       next:
         specifier: 15.3.4
         version: 15.3.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -17,6 +26,12 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.1.0(react@19.1.0)
+      react-water-wave:
+        specifier: ^2.0.1
+        version: 2.0.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      tailwind-merge:
+        specifier: ^3.3.1
+        version: 3.3.1
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4
@@ -358,6 +373,10 @@ packages:
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
 
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
+
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
     engines: {node: '>=7.0.0'}
@@ -383,6 +402,20 @@ packages:
     resolution: {integrity: sha512-6Jw4sE1maoRJo3q8MsSIn2onJFbLTOjY9hlx4DZXmOKvLRd1Ok2kXmAGXaafL2+ijsJZ1ClYbl/pmqr9+k4iUQ==}
     engines: {node: '>=10.13.0'}
 
+  framer-motion@12.19.2:
+    resolution: {integrity: sha512-0cWMLkYr+i0emeXC4hkLF+5aYpzo32nRdQ0D/5DI460B3O7biQ3l2BpDzIGsAHYuZ0fpBP0DC8XBkVf6RPAlZw==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
@@ -392,6 +425,14 @@ packages:
   jiti@2.4.2:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
+
+  jquery.ripples@0.6.3:
+    resolution: {integrity: sha512-ZZQtIoPdesJCx59eDpmbUThZs8HkAxNWG7eFogdziqwFx19oktRbC5XNIjY1PKbSx4YtmoQLHfbl4NHR1z9Wmw==}
+    peerDependencies:
+      jquery: '>=1.7.0'
+
+  jquery@3.7.1:
+    resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
 
   lightningcss-darwin-arm64@1.30.1:
     resolution: {integrity: sha512-c8JK7hyE65X1MHMN+Viq9n11RRC7hgin3HhYKhrMyaXflk5GVplZ60IxyoVtzILeKr+xAJwg6zK6sjTBJ0FKYQ==}
@@ -457,6 +498,11 @@ packages:
     resolution: {integrity: sha512-xi6IyHML+c9+Q3W0S4fCQJOym42pyurFiJUHEcEyHS0CeKzia4yZDEsLlqOFykxOdHpNy0NmvVO31vcSqAxJCg==}
     engines: {node: '>= 12.0.0'}
 
+  lucide-react@0.525.0:
+    resolution: {integrity: sha512-Tm1txJ2OkymCGkvwoHt33Y2JpN5xucVq1slHcgE6Lk0WjDfjgKWor5CdVER8U6DvcfMwh4M8XxmpTiyzfmfDYQ==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
 
@@ -472,6 +518,12 @@ packages:
     resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
     engines: {node: '>=10'}
     hasBin: true
+
+  motion-dom@12.19.0:
+    resolution: {integrity: sha512-m96uqq8VbwxFLU0mtmlsIVe8NGGSdpBvBSHbnnOJQxniPaabvVdGgxSamhuDwBsRhwX7xPxdICgVJlOpzn/5bw==}
+
+  motion-utils@12.19.0:
+    resolution: {integrity: sha512-BuFTHINYmV07pdWs6lj6aI63vr2N4dg0vR+td0rtrdpWOhBzIkEklZyLcvKBoEtwSqx8Jg06vUB5RS0xDiUybw==}
 
   nanoid@3.3.11:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
@@ -515,6 +567,12 @@ packages:
     peerDependencies:
       react: ^19.1.0
 
+  react-water-wave@2.0.1:
+    resolution: {integrity: sha512-+iu4pUzDebh2cIQbupzckCSAMok+dYx6hTOziVdLt2gIbB4erceMmlnzF2TmUg7FZDvFW7NJYWXEbfi7gzOsfA==}
+    peerDependencies:
+      react: ^16 | ^17 | ^18
+      react-dom: ^16 | ^17 | ^18
+
   react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
     engines: {node: '>=0.10.0'}
@@ -554,6 +612,9 @@ packages:
         optional: true
       babel-plugin-macros:
         optional: true
+
+  tailwind-merge@3.3.1:
+    resolution: {integrity: sha512-gBXpgUm/3rp1lMZZrM/w7D8GKqshif0zAymAhbCyIt8KMe+0v9DQ7cdYLR4FHH/cKpdTXb+A/tKKU3eolfsI+g==}
 
   tailwindcss@4.1.11:
     resolution: {integrity: sha512-2E9TBm6MDD/xKYe+dvJZAmg3yxIEDNRc0jwlNyDg/4Fil2QcSLjFKGVff0lAf1jjeaArlG/M75Ey/EYr/OJtBA==}
@@ -823,6 +884,8 @@ snapshots:
 
   client-only@0.0.1: {}
 
+  clsx@2.1.1: {}
+
   color-convert@2.0.1:
     dependencies:
       color-name: 1.1.4
@@ -852,12 +915,27 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.2.2
 
+  framer-motion@12.19.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      motion-dom: 12.19.0
+      motion-utils: 12.19.0
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+
   graceful-fs@4.2.11: {}
 
   is-arrayish@0.3.2:
     optional: true
 
   jiti@2.4.2: {}
+
+  jquery.ripples@0.6.3(jquery@3.7.1):
+    dependencies:
+      jquery: 3.7.1
+
+  jquery@3.7.1: {}
 
   lightningcss-darwin-arm64@1.30.1:
     optional: true
@@ -904,6 +982,10 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.30.1
       lightningcss-win32-x64-msvc: 1.30.1
 
+  lucide-react@0.525.0(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+
   magic-string@0.30.17:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
@@ -915,6 +997,12 @@ snapshots:
       minipass: 7.1.2
 
   mkdirp@3.0.1: {}
+
+  motion-dom@12.19.0:
+    dependencies:
+      motion-utils: 12.19.0
+
+  motion-utils@12.19.0: {}
 
   nanoid@3.3.11: {}
 
@@ -961,6 +1049,13 @@ snapshots:
     dependencies:
       react: 19.1.0
       scheduler: 0.26.0
+
+  react-water-wave@2.0.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      jquery: 3.7.1
+      jquery.ripples: 0.6.3(jquery@3.7.1)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   react@19.1.0: {}
 
@@ -1011,6 +1106,8 @@ snapshots:
     dependencies:
       client-only: 0.0.1
       react: 19.1.0
+
+  tailwind-merge@3.3.1: {}
 
   tailwindcss@4.1.11: {}
 
