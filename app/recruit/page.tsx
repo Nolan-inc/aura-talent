@@ -128,7 +128,7 @@ export default function RecruitPage() {
             viewport={{ once: true }}
             className="relative h-[500px] rounded-2xl overflow-hidden"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600" />
+            <div className="absolute inset-0 bg-gradient-to-r from-sky-500 to-blue-600" />
             <div className="absolute inset-0 bg-black/40" />
             <div className="absolute inset-0 flex items-center justify-center text-white text-center px-4">
               <div>
@@ -193,7 +193,7 @@ export default function RecruitPage() {
                 viewport={{ once: true }}
                 className="text-center group"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-purple-100 to-blue-100 text-purple-600 mb-4 group-hover:scale-110 transition-transform">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-sky-100 to-blue-100 text-sky-600 mb-4 group-hover:scale-110 transition-transform">
                   {benefit.icon}
                 </div>
                 <h3 className="text-xl mb-3">{benefit.title}</h3>
@@ -287,7 +287,7 @@ export default function RecruitPage() {
                 className="bg-gray-50 rounded-lg p-6"
               >
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full mr-4" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-blue-400 rounded-full mr-4" />
                   <div>
                     <h4 className="font-medium">社員 {i}</h4>
                     <p className="text-sm text-gray-600">マネジメント部</p>
@@ -350,7 +350,7 @@ export default function RecruitPage() {
                 top: `${12 + i * 17}%`,
                 width: 75 + i * 25,
                 height: 75 + i * 25,
-                background: 'radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 70%)',
                 filter: 'blur(3px)',
               }}
               animate={{

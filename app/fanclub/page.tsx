@@ -64,7 +64,7 @@ const fanclubTiers: FanclubTier[] = [
       '誕生日プレゼント',
       '年末特別イベント招待',
     ],
-    color: 'from-purple-400 to-purple-700',
+    color: 'from-sky-400 to-sky-700',
     icon: <Gift className="w-8 h-8" />,
   },
 ]
@@ -120,7 +120,7 @@ export default function FanclubPage() {
           className="container mx-auto px-4 max-w-6xl mb-20"
         >
           <div className="relative h-[400px] rounded-2xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600" />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-sky-600" />
             <div className="absolute inset-0 bg-black/30" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
               <motion.div
@@ -264,15 +264,15 @@ export default function FanclubPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl p-12 text-center"
+            className="bg-gradient-to-r from-blue-50 to-sky-50 rounded-2xl p-12 text-center"
           >
-            <Calendar className="w-12 h-12 mx-auto mb-4 text-purple-600" />
+            <Calendar className="w-12 h-12 mx-auto mb-4 text-sky-600" />
             <h2 className="text-3xl mb-4">会員限定イベント</h2>
             <p className="text-gray-700 mb-8 max-w-2xl mx-auto">
               ファンミーティング、オンライントークイベント、舞台挨拶優先予約など、
               会員だけの特別なイベントを定期的に開催しています。
             </p>
-            <button className="px-8 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors">
+            <button className="px-8 py-3 bg-sky-600 text-white rounded-full hover:bg-sky-700 transition-colors">
               イベントカレンダーを見る
             </button>
           </motion.div>
@@ -289,7 +289,7 @@ export default function FanclubPage() {
                 top: `${18 + i * 16}%`,
                 width: 90 + i * 18,
                 height: 90 + i * 18,
-                background: 'radial-gradient(circle, rgba(147, 51, 234, 0.05) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 70%)',
                 filter: 'blur(3px)',
               }}
               animate={{

@@ -214,7 +214,7 @@ export default function CompanyProfilePage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-12"
+            className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-2xl p-12"
           >
             <h2 className="text-3xl text-center mb-8">代表メッセージ</h2>
             <p className="text-gray-700 leading-relaxed mb-6">

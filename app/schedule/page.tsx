@@ -97,7 +97,7 @@ const getTypeColor = (type: string) => {
     case 'tv':
       return 'bg-blue-100 text-blue-800'
     case 'movie':
-      return 'bg-purple-100 text-purple-800'
+      return 'bg-sky-100 text-sky-800'
     case 'radio':
       return 'bg-green-100 text-green-800'
     case 'event':
