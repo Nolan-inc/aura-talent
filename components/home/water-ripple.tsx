@@ -42,6 +42,7 @@ export function WaterRipple({ children }: WaterRippleProps) {
       // Update and draw ripples
       for (let i = ripples.length - 1; i >= 0; i--) {
         const ripple = ripples[i]
+        if (!ripple) continue
         
         // Draw ripple
         ctx.beginPath()
