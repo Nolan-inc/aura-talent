@@ -61,13 +61,23 @@ export function ActressMarquee() {
   const displayCount = isMobile ? 5 : 8
 
   useEffect(() => {
-    // Check if mobile
+    // Check if mobile with debounce
+    let timeoutId: NodeJS.Timeout
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768)
+      }, 150) // 150msのデバウンス
     }
-    checkMobile()
+    
+    // 初期値を設定
+    setIsMobile(window.innerWidth < 768)
+    
     window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+      clearTimeout(timeoutId)
+    }
   }, [])
 
   // Auto-rotate actresses
@@ -81,6 +91,7 @@ export function ActressMarquee() {
     return () => {} // Add empty return for the else case
   }, [actresses.length, displayCount])
 
+  // APIからデータを取得（一度だけ）
   useEffect(() => {
     const fetchActresses = async () => {
       try {
@@ -93,11 +104,12 @@ export function ActressMarquee() {
         }
 
         const data: ApiResponse = await response.json()
-        const positions = isMobile ? mobilePositions : desktopPositions
         
+        // デスクトップとモバイルの両方のポジションを含むデータを作成
         const mappedActresses: Actress[] = data.data.map((item, index) => {
-          const positionIndex = index % positions.length
-          const position = positions[positionIndex] || positions[0] || { x: 10, y: 10, size: 200, rotate: 0 }
+          // デスクトップポジションをデフォルトとして使用
+          const desktopPositionIndex = index % desktopPositions.length
+          const desktopPosition = desktopPositions[desktopPositionIndex] || desktopPositions[0] || { x: 10, y: 10, size: 200, rotate: 0 }
           
           return {
             id: item.id,
@@ -105,7 +117,7 @@ export function ActressMarquee() {
             nameJa: item.title,
             slug: item.slug.toLowerCase().replace(/ /g, '_'),
             marqueeImage: item.thumbnail.url,
-            position: position
+            position: desktopPosition // デフォルトポジションを設定
           }
         })
 
@@ -117,7 +129,7 @@ export function ActressMarquee() {
     }
 
     fetchActresses()
-  }, [isMobile])
+  }, []) // 空の依存配列で一度だけ実行
   return (
     <section className="relative py-20 overflow-hidden">
       <div className="container mx-auto px-4">

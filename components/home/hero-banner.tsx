@@ -166,12 +166,23 @@ function BannerContent({ banner }: { banner: Banner }) {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    // Check if mobile with debounce
+    let timeoutId: NodeJS.Timeout
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768)
+      }, 150) // 150msのデバウンス
     }
-    checkMobile()
+    
+    // 初期値を設定
+    setIsMobile(window.innerWidth < 768)
+    
     window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+      clearTimeout(timeoutId)
+    }
   }, [])
 
   return (
