@@ -155,7 +155,7 @@ export default function ActressDetailPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20">
+      <main className="relative min-h-screen pt-32 pb-20 bg-white text-gray-900">
         {/* Back Button */}
         <div className="container mx-auto px-4 mb-8">
           <Link 

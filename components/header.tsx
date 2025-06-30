@@ -37,7 +37,7 @@ export function Header({ isHomePage = false }: HeaderProps) {
         'fixed top-0 z-50 w-full transition-all duration-500',
         isHomePage && !isScrolled
           ? 'bg-transparent'
-          : 'bg-white/90 backdrop-blur-md shadow-sm',
+          : 'bg-white/95 backdrop-blur-md shadow-sm',
         isScrolled && 'py-2',
         !isScrolled && 'py-4'
       )}

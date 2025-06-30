@@ -29,7 +29,7 @@ export function Footer() {
 
   return (
     <motion.footer 
-      className="relative bg-gray-100 pt-16 pb-8"
+      className="relative bg-gray-100 text-gray-800 pt-16 pb-8"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}

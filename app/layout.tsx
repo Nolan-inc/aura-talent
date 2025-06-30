@@ -40,8 +40,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ja">
-      <body className={`${shipporiMincho.variable} antialiased`}>
+    <html lang="ja" className="light">
+      <head>
+        <meta name="color-scheme" content="light only" />
+      </head>
+      <body className={`${shipporiMincho.variable} antialiased bg-white text-gray-900`}>
         <LoadingAnimation />
         <CustomCursor />
         <BubbleBackground />

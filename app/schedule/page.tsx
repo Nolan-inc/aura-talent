@@ -124,7 +124,7 @@ export default function SchedulePage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20">
+      <main className="relative min-h-screen pt-32 pb-20 bg-white text-gray-900">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

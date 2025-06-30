@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <Header isHomePage />
       <AuditionLink />
-      <main className="relative">
+      <main className="relative bg-white text-gray-900">
         <HeroBanner />
         <div className="relative bg-white">
           <NewsSection />
