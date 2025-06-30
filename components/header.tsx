@@ -44,9 +44,28 @@ export function Header({ isHomePage = false }: HeaderProps) {
       )}
     >
       <div className="container mx-auto px-4">
-        <div className="relative flex items-center justify-between">
+        <div className="relative flex items-center justify-between h-16">
+          {/* Left side - Social Links on desktop, empty space on mobile */}
+          <div className="flex items-center">
+            <ul className="hidden items-center gap-4 lg:flex">
+              {socialLinks.map((social) => (
+                <li key={social.label}>
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    aria-label={social.label}
+                  >
+                    {social.icon}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="w-12 h-12 lg:hidden" /> {/* Spacer for mobile */}
+          </div>
 
-          {/* Logo */}
+          {/* Center - Logo */}
           <Link
             href="/"
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
@@ -67,24 +86,7 @@ export function Header({ isHomePage = false }: HeaderProps) {
             </motion.div>
           </Link>
 
-          {/* Desktop Social Links */}
-          <ul className="hidden items-center gap-4 lg:flex">
-            {socialLinks.map((social) => (
-              <li key={social.label}>
-                <a
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                  aria-label={social.label}
-                >
-                  {social.icon}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          {/* Hamburger Menu - Right aligned */}
+          {/* Right side - Hamburger Menu */}
           <div className="ml-auto">
             <HamburgerMenu />
           </div>

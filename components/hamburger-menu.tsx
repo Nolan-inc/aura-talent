@@ -43,53 +43,46 @@ export function HamburgerMenu() {
       {/* Hamburger Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex flex-col items-center justify-center w-12 h-12 space-y-1.5 focus:outline-none relative z-10"
+        className="flex flex-col items-center justify-center w-12 h-12 space-y-1.5 focus:outline-none relative z-[9998]"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <motion.span
+        <span
           className="block w-7 rounded-full origin-center"
           style={{ backgroundColor: '#4A5F7A', height: '0.75px' }}
-          animate={{
-            rotate: isOpen ? 45 : 0,
-            y: isOpen ? 8 : 0,
-            backgroundColor: isOpen ? '#ffffff' : '#4A5F7A',
-          }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
         />
-        <motion.span
+        <span
           className="block w-7 rounded-full origin-center"
           style={{ backgroundColor: '#4A5F7A', height: '0.75px' }}
-          animate={{
-            opacity: isOpen ? 0 : 1,
-            scaleX: isOpen ? 0 : 1,
-          }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
         />
-        <motion.span
+        <span
           className="block w-7 rounded-full origin-center"
           style={{ backgroundColor: '#4A5F7A', height: '0.75px' }}
-          animate={{
-            rotate: isOpen ? -45 : 0,
-            y: isOpen ? -8 : 0,
-            backgroundColor: isOpen ? '#ffffff' : '#4A5F7A',
-          }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
         />
       </motion.button>
 
       {/* Full Screen Menu */}
       <AnimatePresence>
         {isOpen && (
-          <>
-            {/* Background overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-[#4A5F7A] z-[90]"
-            />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-[#4A5F7A] z-[9999]"
+          >
+            {/* Close Button */}
+            <motion.button
+              onClick={() => setIsOpen(false)}
+              className="fixed top-6 right-6 z-[10001] p-2 text-white hover:text-gray-300 transition-colors"
+              initial={{ opacity: 0, rotate: -90 }}
+              animate={{ opacity: 1, rotate: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <XIcon className="w-8 h-8" />
+            </motion.button>
 
             {/* Menu content */}
             <motion.nav
@@ -97,10 +90,10 @@ export function HamburgerMenu() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-[95] flex"
+              className="relative h-full w-full flex"
             >
               <div className="w-full max-w-md mx-auto flex flex-col">
-                {/* FLaMme Logo */}
+                {/* Logo */}
                 <div className="flex items-center h-[30vh] px-12">
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
@@ -185,7 +178,7 @@ export function HamburgerMenu() {
                 </div>
               </div>
             </motion.nav>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
