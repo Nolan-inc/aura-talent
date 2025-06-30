@@ -18,6 +18,7 @@ export function LoadingAnimation() {
 
     if (document.readyState === 'complete') {
       handleLoad()
+      return () => {} // Return empty cleanup function
     } else {
       window.addEventListener('load', handleLoad)
       return () => window.removeEventListener('load', handleLoad)

@@ -95,14 +95,19 @@ export function ActressMarquee() {
         const data: ApiResponse = await response.json()
         const positions = isMobile ? mobilePositions : desktopPositions
         
-        const mappedActresses: Actress[] = data.data.map((item, index) => ({
-          id: item.id,
-          name: item.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-          nameJa: item.title,
-          slug: item.slug.toLowerCase().replace(/ /g, '_'),
-          marqueeImage: item.thumbnail.url,
-          position: positions[index % positions.length] || positions[0]
-        }))
+        const mappedActresses: Actress[] = data.data.map((item, index) => {
+          const positionIndex = index % positions.length
+          const position = positions[positionIndex] || positions[0] || { x: 10, y: 10, size: 200, rotate: 0 }
+          
+          return {
+            id: item.id,
+            name: item.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            nameJa: item.title,
+            slug: item.slug.toLowerCase().replace(/ /g, '_'),
+            marqueeImage: item.thumbnail.url,
+            position: position
+          }
+        })
 
         setActresses(mappedActresses)
       } catch (error) {
@@ -155,9 +160,9 @@ export function ActressMarquee() {
                 key={`${actress.id}-${currentIndex}`}
                 className="absolute"
                 style={{
-                  left: `${actress.position.x}%`,
-                  top: `${actress.position.y}%`,
-                  width: actress.position.size,
+                  left: `${actress.position?.x || 10}%`,
+                  top: `${actress.position?.y || 10}%`,
+                  width: actress.position?.size || 200,
                   maxWidth: isMobile ? '45%' : 'none',
                 }}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -168,7 +173,11 @@ export function ActressMarquee() {
                 <motion.div
                   animate={{
                     y: isMobile ? [0, -10, 0] : [0, -20, 0],
-                    rotate: [actress.position.rotate, actress.position.rotate + (isMobile ? 2 : 5), actress.position.rotate],
+                    rotate: [
+                      actress.position?.rotate || 0, 
+                      (actress.position?.rotate || 0) + (isMobile ? 2 : 5), 
+                      actress.position?.rotate || 0
+                    ],
                   }}
                   transition={{
                     duration: 6 + index,
