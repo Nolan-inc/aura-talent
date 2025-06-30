@@ -100,7 +100,7 @@ export default function ActressPage() {
       try {
         // QuickWeb APIからデータを取得
         const response = await fetch(
-          'http://localhost:3003/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f',
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f',
           {
             method: 'GET',
             headers: {

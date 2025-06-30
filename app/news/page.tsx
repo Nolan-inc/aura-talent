@@ -41,7 +41,7 @@ export default function NewsPage() {
     const fetchNews = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3003/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article'
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article'
         )
 
         if (!response.ok) {
