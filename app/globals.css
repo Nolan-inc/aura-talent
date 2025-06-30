@@ -36,12 +36,6 @@ body {
   font-family: "Shippori Mincho", serif !important;
 }
 
-/* Hide default cursor on desktop */
-@media (hover: hover) {
-  * {
-    cursor: none !important;
-  }
-}
 
 /* Custom utilities */
 .writing-mode-vertical {
