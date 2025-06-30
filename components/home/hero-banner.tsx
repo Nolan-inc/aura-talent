@@ -14,7 +14,24 @@ interface Banner {
   link?: string
 }
 
-const banners: Banner[] = [
+// APIレスポンスの型定義
+interface ApiBanner {
+  id: string
+  title: string
+  publishedAt: string
+  thumbnail: {
+    url: string
+  }
+  url?: string
+}
+
+interface ApiResponse {
+  success: boolean
+  data: ApiBanner[]
+}
+
+// 静的なフォールバックデータ
+const staticBanners: Banner[] = [
   {
     id: 1,
     name: 'AURA\nTALENT',
@@ -53,6 +70,44 @@ const banners: Banner[] = [
 
 export function HeroBanner() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [banners, setBanners] = useState<Banner[]>(staticBanners)
+
+  // APIからバナーデータを取得
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const response = await fetch(
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=4008c980-d4ce-4671-a4db-8d119cc7525a'
+        )
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch banners')
+        }
+
+        const data: ApiResponse = await response.json()
+        
+        if (data.success && data.data.length > 0) {
+          // APIデータをBanner型にマップ
+          const mappedBanners: Banner[] = data.data.map((item, index) => ({
+            id: index + 1,
+            name: item.title.toUpperCase().replace(/ /g, '\n'), // スペースを改行に変換
+            subtitle: new Date(item.publishedAt).toLocaleDateString('ja-JP'),
+            description: `${item.title}\n${new Date(item.publishedAt).toLocaleDateString('ja-JP')}`,
+            imagePC: item.thumbnail.url,
+            imageSP: item.thumbnail.url,
+            link: item.url
+          }))
+          
+          setBanners(mappedBanners)
+        }
+      } catch (error) {
+        console.error('Error fetching banners:', error)
+        // エラー時は静的データを使用
+      }
+    }
+
+    fetchBanners()
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -60,7 +115,7 @@ export function HeroBanner() {
     }, 5000)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [banners.length])
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
