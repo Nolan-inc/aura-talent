@@ -3,6 +3,8 @@ import { Shippori_Mincho } from "next/font/google"
 import "./globals.css"
 import { CustomCursor } from "@/components/custom-cursor"
 import { BubbleBackground } from "@/components/bubble-background"
+import { LoadingAnimation } from "@/components/loading-animation"
+import { HamburgerMenu } from "@/components/hamburger-menu"
 
 const shipporiMincho = Shippori_Mincho({
   variable: "--font-shippori-mincho",
@@ -40,8 +42,13 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${shipporiMincho.variable} antialiased`}>
+        <LoadingAnimation />
         <CustomCursor />
         <BubbleBackground />
+        {/* Hamburger Menu positioned globally */}
+        <div className="fixed top-6 right-6 z-[100002]">
+          <HamburgerMenu />
+        </div>
         <div className="c-app relative" id="app">
           {children}
         </div>

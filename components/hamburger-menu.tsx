@@ -42,22 +42,25 @@ export function HamburgerMenu() {
     <>
       {/* Hamburger Button */}
       <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex flex-col items-center justify-center w-12 h-12 space-y-1.5 focus:outline-none relative z-[9998]"
+        onClick={() => {
+          console.log('Hamburger clicked, current state:', isOpen)
+          setIsOpen(!isOpen)
+        }}
+        className="flex flex-col items-center justify-center w-12 h-12 space-y-1.5 focus:outline-none relative z-[100000] bg-black/20 backdrop-blur-sm rounded-full"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
         <span
-          className="block w-7 rounded-full origin-center"
-          style={{ backgroundColor: '#4A5F7A', height: '0.75px' }}
+          className="block w-7 rounded-full origin-center bg-white shadow-sm"
+          style={{ height: '2px' }}
         />
         <span
-          className="block w-7 rounded-full origin-center"
-          style={{ backgroundColor: '#4A5F7A', height: '0.75px' }}
+          className="block w-7 rounded-full origin-center bg-white shadow-sm"
+          style={{ height: '2px' }}
         />
         <span
-          className="block w-7 rounded-full origin-center"
-          style={{ backgroundColor: '#4A5F7A', height: '0.75px' }}
+          className="block w-7 rounded-full origin-center bg-white shadow-sm"
+          style={{ height: '2px' }}
         />
       </motion.button>
 
@@ -69,12 +72,12 @@ export function HamburgerMenu() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-[#4A5F7A] z-[9999]"
+            className="fixed inset-0 bg-[#4A5F7A] z-[100000]"
           >
             {/* Close Button */}
             <motion.button
               onClick={() => setIsOpen(false)}
-              className="fixed top-6 right-6 z-[10001] p-2 text-white hover:text-gray-300 transition-colors"
+              className="fixed top-6 right-6 z-[100001] p-2 text-white hover:text-gray-300 transition-colors"
               initial={{ opacity: 0, rotate: -90 }}
               animate={{ opacity: 1, rotate: 0 }}
               transition={{ duration: 0.3, delay: 0.2 }}

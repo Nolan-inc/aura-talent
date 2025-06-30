@@ -5,7 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
-import { HamburgerMenu } from './hamburger-menu'
 
 interface HeaderProps {
   isHomePage?: boolean
@@ -86,10 +85,8 @@ export function Header({ isHomePage = false }: HeaderProps) {
             </motion.div>
           </Link>
 
-          {/* Right side - Hamburger Menu */}
-          <div className="ml-auto">
-            <HamburgerMenu />
-          </div>
+          {/* Right side - Empty space for balance */}
+          <div className="w-12 h-12" />
         </div>
       </div>
 

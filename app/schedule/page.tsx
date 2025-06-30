@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
@@ -20,60 +21,81 @@ interface ScheduleItem {
 const scheduleItems: ScheduleItem[] = [
   {
     id: '1',
-    date: '2025.07.10',
-    time: '22:00',
-    title: '愛の、がっこう。',
-    actress: '田中みな実',
+    date: '2025.07.05',
+    time: '21:00',
+    title: 'Moonlight Echoes',
+    actress: 'Yuki Tanaka',
     type: 'tv',
-    channel: 'フジテレビ',
-    description: '新ドラマスタート',
+    channel: 'NHK Premium',
+    description: '新感覚ドラマシリーズ 第1話',
   },
   {
     id: '2',
-    date: '2025.07.15',
-    title: 'グラスハート',
-    actress: '宮﨑優',
+    date: '2025.07.10',
+    time: '22:00',
+    title: 'The Velvet Hour',
+    actress: 'Mika Sato',
     type: 'tv',
     channel: 'Netflix',
-    description: 'シリーズ配信開始',
+    description: 'オリジナルシリーズ配信開始',
   },
   {
     id: '3',
-    date: '2025.07.20',
+    date: '2025.07.15',
     time: '13:00',
-    title: '映画「夏の約束」舞台挨拶',
-    actress: '有村架純',
+    title: 'Summer Dreams プレミア上映会',
+    actress: 'Rina Hayashi',
     type: 'event',
-    venue: 'TOHOシネマズ 六本木',
-    description: '初日舞台挨拶',
+    venue: '六本木ヒルズ アリーナ',
+    description: 'レッドカーペット＆舞台挨拶',
   },
   {
     id: '4',
-    date: '2025.07.25',
-    time: '21:00',
-    title: 'オールナイトニッポン',
-    actress: '白石聖',
-    type: 'radio',
-    channel: 'ニッポン放送',
-    description: 'スペシャルゲスト出演',
+    date: '2025.07.18',
+    title: 'AURA Showcase 2025',
+    actress: 'All AURA Talents',
+    type: 'event',
+    venue: 'Zepp DiverCity Tokyo',
+    time: '18:00',
+    description: '所属タレント総出演スペシャルイベント',
   },
   {
     id: '5',
-    date: '2025.08.01',
-    title: '映画「真夏の奇跡」',
-    actress: '戸田恵梨香',
+    date: '2025.07.22',
+    time: '24:00',
+    title: 'Midnight Sessions',
+    actress: 'Kana Yamamoto',
+    type: 'radio',
+    channel: 'J-WAVE',
+    description: 'ゲストDJ出演',
+  },
+  {
+    id: '6',
+    date: '2025.07.28',
+    title: 'Azure Sky',
+    actress: 'Mai Suzuki',
     type: 'movie',
     description: '全国ロードショー',
   },
   {
-    id: '6',
-    date: '2025.08.10',
+    id: '7',
+    date: '2025.08.03',
     time: '14:00',
-    title: 'AURA ファンミーティング2025',
-    actress: 'AURA所属女優',
+    title: 'AURA FAN MEETING 2025',
+    actress: 'AURA Talents',
     type: 'event',
-    venue: '東京国際フォーラム',
-    description: '所属女優総出演',
+    venue: '東京国際フォーラム ホールA',
+    description: 'ファン感謝祭',
+  },
+  {
+    id: '8',
+    date: '2025.08.08',
+    time: '20:00',
+    title: 'Crystal Memories',
+    actress: 'Yui Nakamura',
+    type: 'tv',
+    channel: 'TBS',
+    description: 'スペシャルドラマ',
   },
 ]
 
@@ -95,19 +117,25 @@ const getIcon = (type: string) => {
 const getTypeColor = (type: string) => {
   switch (type) {
     case 'tv':
-      return 'bg-blue-100 text-blue-800'
+      return 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-800 shadow-blue-200/50'
     case 'movie':
-      return 'bg-sky-100 text-sky-800'
+      return 'bg-gradient-to-br from-sky-100 to-sky-200 text-sky-800 shadow-sky-200/50'
     case 'radio':
-      return 'bg-green-100 text-green-800'
+      return 'bg-gradient-to-br from-green-100 to-green-200 text-green-800 shadow-green-200/50'
     case 'event':
-      return 'bg-pink-100 text-pink-800'
+      return 'bg-gradient-to-br from-pink-100 to-pink-200 text-pink-800 shadow-pink-200/50'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 shadow-gray-200/50'
   }
 }
 
 export default function SchedulePage() {
+  const [selectedType, setSelectedType] = useState<string>('all')
+  
+  const filteredItems = selectedType === 'all' 
+    ? scheduleItems 
+    : scheduleItems.filter(item => item.type === selectedType)
+
   return (
     <>
       <Header />
@@ -119,8 +147,74 @@ export default function SchedulePage() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl font-light tracking-widest">SCHEDULE</h1>
-          <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
+          <h1 className="text-5xl font-light tracking-widest bg-gradient-to-r from-blue-600 to-sky-600 bg-clip-text text-transparent">SCHEDULE</h1>
+          <p className="mt-4 text-gray-600 font-light">最新の出演情報をお届けします</p>
+          <div className="mt-6 w-20 h-0.5 bg-gradient-to-r from-blue-400 to-sky-400 mx-auto" />
+        </motion.div>
+
+        {/* Filter Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="container mx-auto px-4 max-w-5xl mb-8"
+        >
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              onClick={() => setSelectedType('all')}
+              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+                selectedType === 'all'
+                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
+                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+              }`}
+            >
+              すべて
+            </button>
+            <button
+              onClick={() => setSelectedType('tv')}
+              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+                selectedType === 'tv'
+                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
+                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+              }`}
+            >
+              <Tv className="inline w-4 h-4 mr-2" />
+              TV番組
+            </button>
+            <button
+              onClick={() => setSelectedType('movie')}
+              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+                selectedType === 'movie'
+                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
+                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+              }`}
+            >
+              <Film className="inline w-4 h-4 mr-2" />
+              映画
+            </button>
+            <button
+              onClick={() => setSelectedType('event')}
+              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+                selectedType === 'event'
+                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
+                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+              }`}
+            >
+              <MapPin className="inline w-4 h-4 mr-2" />
+              イベント
+            </button>
+            <button
+              onClick={() => setSelectedType('radio')}
+              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+                selectedType === 'radio'
+                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
+                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+              }`}
+            >
+              <Radio className="inline w-4 h-4 mr-2" />
+              ラジオ
+            </button>
+          </div>
         </motion.div>
 
         {/* Calendar View */}
@@ -137,7 +231,7 @@ export default function SchedulePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <h2 className="text-2xl font-light">2025年 7月</h2>
+            <h2 className="text-2xl font-light">2025年 7月 - 8月</h2>
             <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -147,7 +241,7 @@ export default function SchedulePage() {
 
           {/* Schedule List */}
           <div className="space-y-4">
-            {scheduleItems.map((item, index) => (
+            {filteredItems.map((item, index) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, x: -20 }}
@@ -156,21 +250,26 @@ export default function SchedulePage() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div className="flex gap-6 p-6 bg-white border border-gray-200 rounded-lg hover:shadow-lg transition-all duration-300 group-hover:border-blue-200">
+                <div className="flex gap-6 p-6 bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl hover:shadow-2xl hover:shadow-blue-100/50 transition-all duration-300 group-hover:border-blue-300/50 group-hover:-translate-y-1">
                   {/* Date */}
-                  <div className="flex-shrink-0 text-center min-w-[100px]">
-                    <div className="text-3xl font-light text-gray-800">
-                      {item.date.split('.')[2]}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {item.date.split('.')[1]}月
+                  <div className="flex-shrink-0 text-center min-w-[120px]">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 shadow-inner">
+                      <div className="text-3xl font-bold bg-gradient-to-br from-blue-600 to-sky-600 bg-clip-text text-transparent">
+                        {item.date.split('.')[2]}
+                      </div>
+                      <div className="text-sm text-gray-600 font-medium mt-1">
+                        {item.date.split('.')[1]}月
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {['日', '月', '火', '水', '木', '金', '土'][new Date(item.date.replace(/\./g, '-')).getDay()]}曜日
+                      </div>
                     </div>
                   </div>
 
                   {/* Content */}
                   <div className="flex-1">
                     <div className="flex items-start gap-4">
-                      <div className={`p-2 rounded-full ${getTypeColor(item.type)}`}>
+                      <div className={`p-3 rounded-full shadow-lg ${getTypeColor(item.type)}`}>
                         {getIcon(item.type)}
                       </div>
                       
@@ -217,7 +316,7 @@ export default function SchedulePage() {
             viewport={{ once: true }}
             className="text-center mt-12"
           >
-            <button className="px-8 py-3 text-sm font-light tracking-wider border border-gray-800 hover:bg-gray-800 hover:text-white transition-all duration-300">
+            <button className="px-10 py-4 text-sm font-light tracking-wider bg-gradient-to-r from-blue-600 to-sky-600 text-white rounded-full hover:shadow-lg hover:shadow-blue-300/50 hover:scale-105 transition-all duration-300">
               さらに表示
             </button>
           </motion.div>

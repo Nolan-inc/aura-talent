@@ -20,6 +20,7 @@ interface Actress {
 interface ApiActress {
   id: string
   title: string
+  slug: string
   publishedAt: string
   thumbnail: {
     url: string
@@ -117,9 +118,9 @@ export default function ActressPage() {
         // APIデータを既存の構造に変換
         const apiActresses: Actress[] = data.data.map((item) => ({
           id: item.id,
-          name: item.title, // 英語名としてtitleを使用
+          name: item.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // slugから英語名を生成
           nameJa: item.title, // 日本語名としてtitleを使用
-          slug: item.title.toLowerCase().replace(/\s+/g, '_'), // titleをスネークケース化
+          slug: item.slug.toLowerCase().replace(/ /g, '_'), // slugを正規化
           // metadata.imagesの2番目の画像を使用、なければthumbnail.urlを使用
           image: item.metadata?.images?.[1]?.url || item.thumbnail.url,
           profile: new Date(item.publishedAt).toLocaleDateString('ja-JP', {
