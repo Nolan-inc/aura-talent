@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
-import { Calendar, Clock, MapPin, Tv, Film, Radio } from 'lucide-react'
+import { Calendar, Clock, MapPin } from 'lucide-react'
 
 interface ScheduleItem {
   id: string
@@ -99,33 +99,18 @@ const scheduleItems: ScheduleItem[] = [
   },
 ]
 
-const getIcon = (type: string) => {
+const getTypeLabel = (type: string) => {
   switch (type) {
     case 'tv':
-      return <Tv className="w-5 h-5" />
+      return 'TV'
     case 'movie':
-      return <Film className="w-5 h-5" />
-    case 'radio':
-      return <Radio className="w-5 h-5" />
+      return 'MOVIE'
     case 'event':
-      return <MapPin className="w-5 h-5" />
-    default:
-      return <Calendar className="w-5 h-5" />
-  }
-}
-
-const getTypeColor = (type: string) => {
-  switch (type) {
-    case 'tv':
-      return 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-800 shadow-blue-200/50'
-    case 'movie':
-      return 'bg-gradient-to-br from-sky-100 to-sky-200 text-sky-800 shadow-sky-200/50'
+      return 'EVENT'
     case 'radio':
-      return 'bg-gradient-to-br from-green-100 to-green-200 text-green-800 shadow-green-200/50'
-    case 'event':
-      return 'bg-gradient-to-br from-pink-100 to-pink-200 text-pink-800 shadow-pink-200/50'
+      return 'RADIO'
     default:
-      return 'bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 shadow-gray-200/50'
+      return type.toUpperCase()
   }
 }
 
@@ -147,97 +132,73 @@ export default function SchedulePage() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl font-light tracking-widest bg-gradient-to-r from-blue-600 to-sky-600 bg-clip-text text-transparent">SCHEDULE</h1>
-          <p className="mt-4 text-gray-600 font-light">最新の出演情報をお届けします</p>
-          <div className="mt-6 w-20 h-0.5 bg-gradient-to-r from-blue-400 to-sky-400 mx-auto" />
+          <h1 className="text-5xl font-light tracking-widest">SCHEDULE</h1>
+          <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
         </motion.div>
 
         {/* Filter Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="container mx-auto px-4 max-w-5xl mb-8"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="container mx-auto px-4 max-w-4xl mb-12"
         >
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={() => setSelectedType('all')}
-              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+              className={`px-6 py-2 text-sm border transition-all duration-300 ${
                 selectedType === 'all'
-                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
-                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  ? 'bg-gray-800 text-white border-gray-800'
+                  : 'border-gray-300 hover:bg-gray-800 hover:text-white'
               }`}
             >
-              すべて
+              ALL
             </button>
             <button
               onClick={() => setSelectedType('tv')}
-              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+              className={`px-6 py-2 text-sm border transition-all duration-300 ${
                 selectedType === 'tv'
-                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
-                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  ? 'bg-gray-800 text-white border-gray-800'
+                  : 'border-gray-300 hover:bg-gray-800 hover:text-white'
               }`}
             >
-              <Tv className="inline w-4 h-4 mr-2" />
-              TV番組
+              TV
             </button>
             <button
               onClick={() => setSelectedType('movie')}
-              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+              className={`px-6 py-2 text-sm border transition-all duration-300 ${
                 selectedType === 'movie'
-                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
-                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  ? 'bg-gray-800 text-white border-gray-800'
+                  : 'border-gray-300 hover:bg-gray-800 hover:text-white'
               }`}
             >
-              <Film className="inline w-4 h-4 mr-2" />
-              映画
+              MOVIE
             </button>
             <button
               onClick={() => setSelectedType('event')}
-              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+              className={`px-6 py-2 text-sm border transition-all duration-300 ${
                 selectedType === 'event'
-                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
-                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  ? 'bg-gray-800 text-white border-gray-800'
+                  : 'border-gray-300 hover:bg-gray-800 hover:text-white'
               }`}
             >
-              <MapPin className="inline w-4 h-4 mr-2" />
-              イベント
+              EVENT
             </button>
             <button
               onClick={() => setSelectedType('radio')}
-              className={`px-6 py-2 rounded-full text-sm font-light transition-all duration-300 ${
+              className={`px-6 py-2 text-sm border transition-all duration-300 ${
                 selectedType === 'radio'
-                  ? 'bg-gradient-to-r from-blue-600 to-sky-600 text-white shadow-lg shadow-blue-300/50'
-                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  ? 'bg-gray-800 text-white border-gray-800'
+                  : 'border-gray-300 hover:bg-gray-800 hover:text-white'
               }`}
             >
-              <Radio className="inline w-4 h-4 mr-2" />
-              ラジオ
+              RADIO
             </button>
           </div>
         </motion.div>
 
-        {/* Calendar View */}
-        <div className="container mx-auto px-4 max-w-5xl">
-          {/* Month Header */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex items-center justify-between mb-8 pb-4 border-b"
-          >
-            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <h2 className="text-2xl font-light">2025年 7月 - 8月</h2>
-            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </motion.div>
+        {/* Schedule List */}
+        <div className="container mx-auto px-4 max-w-4xl">
 
           {/* Schedule List */}
           <div className="space-y-4">
@@ -250,45 +211,37 @@ export default function SchedulePage() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div className="flex gap-6 p-6 bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl hover:shadow-2xl hover:shadow-blue-100/50 transition-all duration-300 group-hover:border-blue-300/50 group-hover:-translate-y-1">
-                  {/* Date */}
-                  <div className="flex-shrink-0 text-center min-w-[120px]">
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 shadow-inner">
-                      <div className="text-3xl font-bold bg-gradient-to-br from-blue-600 to-sky-600 bg-clip-text text-transparent">
-                        {item.date.split('.')[2]}
-                      </div>
-                      <div className="text-sm text-gray-600 font-medium mt-1">
-                        {item.date.split('.')[1]}月
-                      </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        {['日', '月', '火', '水', '木', '金', '土'][new Date(item.date.replace(/\./g, '-')).getDay()]}曜日
-                      </div>
+                <div className="flex flex-col lg:flex-row gap-6 p-6 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-300">
+                  {/* Date and Category */}
+                  <div className="flex-shrink-0 lg:w-48">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        {item.date}
+                      </span>
+                      <span className="px-2 py-1 text-xs font-medium bg-gray-100 rounded">
+                        {getTypeLabel(item.type)}
+                      </span>
                     </div>
                   </div>
 
                   {/* Content */}
                   <div className="flex-1">
-                    <div className="flex items-start gap-4">
-                      <div className={`p-3 rounded-full shadow-lg ${getTypeColor(item.type)}`}>
-                        {getIcon(item.type)}
-                      </div>
-                      
-                      <div className="flex-1">
-                        <h3 className="text-xl font-medium mb-2 group-hover:text-blue-600 transition-colors">
+                        <h2 className="text-xl mb-3 group-hover:text-blue-600 transition-colors">
                           {item.title}
-                        </h3>
+                        </h2>
                         
-                        <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-2">
+                        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                           <span className="font-medium">{item.actress}</span>
                           {item.time && (
                             <span className="flex items-center gap-1">
-                              <Clock className="w-4 h-4" />
+                              <Clock className="w-3 h-3" />
                               {item.time}
                             </span>
                           )}
                           {item.venue && (
                             <span className="flex items-center gap-1">
-                              <MapPin className="w-4 h-4" />
+                              <MapPin className="w-3 h-3" />
                               {item.venue}
                             </span>
                           )}
@@ -298,10 +251,8 @@ export default function SchedulePage() {
                         </div>
                         
                         {item.description && (
-                          <p className="text-gray-600">{item.description}</p>
+                          <p className="text-gray-600 mt-3 leading-relaxed">{item.description}</p>
                         )}
-                      </div>
-                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -316,31 +267,31 @@ export default function SchedulePage() {
             viewport={{ once: true }}
             className="text-center mt-12"
           >
-            <button className="px-10 py-4 text-sm font-light tracking-wider bg-gradient-to-r from-blue-600 to-sky-600 text-white rounded-full hover:shadow-lg hover:shadow-blue-300/50 hover:scale-105 transition-all duration-300">
-              さらに表示
+            <button className="px-8 py-3 text-sm font-light tracking-wider border border-gray-800 hover:bg-gray-800 hover:text-white transition-all duration-300">
+              もっと見る
             </button>
           </motion.div>
         </div>
 
         {/* Decorative bubbles */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-          {[...Array(4)].map((_, i) => (
+          {[...Array(3)].map((_, i) => (
             <motion.div
               key={`schedule-bubble-${i}`}
               className="absolute rounded-full"
               style={{
-                left: `${10 + i * 22}%`,
-                top: `${15 + i * 20}%`,
-                width: 40 + i * 15,
-                height: 40 + i * 15,
-                background: 'radial-gradient(circle, rgba(135, 206, 235, 0.06) 0%, transparent 70%)',
+                left: `${20 + i * 30}%`,
+                top: `${30 + i * 25}%`,
+                width: 60 + i * 20,
+                height: 60 + i * 20,
+                background: 'radial-gradient(circle, rgba(135, 206, 235, 0.08) 0%, transparent 70%)',
               }}
               animate={{
-                y: [0, -15, 0],
-                x: [0, 8, 0],
+                y: [0, -20, 0],
+                x: [0, 10, 0],
               }}
               transition={{
-                duration: 30 + i * 7,
+                duration: 20 + i * 5,
                 repeat: Infinity,
                 ease: 'easeInOut',
                 delay: i * 3,
