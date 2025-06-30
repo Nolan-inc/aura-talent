@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 interface Actress {
   id: string
@@ -15,7 +16,29 @@ interface Actress {
   profile?: string
 }
 
-const actresses: Actress[] = [
+// APIレスポンスの型定義
+interface ApiActress {
+  id: string
+  title: string
+  publishedAt: string
+  thumbnail: {
+    url: string
+  }
+  metadata?: {
+    images?: Array<{
+      url: string
+      alt: string
+      order: number
+    }>
+  }
+}
+
+interface ApiResponse {
+  data: ApiActress[]
+}
+
+// 静的データ（フォールバック用）
+const staticActresses: Actress[] = [
   {
     id: '1',
     name: 'Sei Shiraishi',
@@ -67,6 +90,56 @@ const actresses: Actress[] = [
 ]
 
 export default function ActressPage() {
+  const [actresses, setActresses] = useState<Actress[]>(staticActresses)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // APIからデータを取得
+    const fetchActresses = async () => {
+      try {
+        // QuickWeb APIからデータを取得
+        const response = await fetch(
+          'http://localhost:3003/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f',
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch')
+        }
+
+        const data: ApiResponse = await response.json()
+        
+        // APIデータを既存の構造に変換
+        const apiActresses: Actress[] = data.data.map((item) => ({
+          id: item.id,
+          name: item.title, // 英語名としてtitleを使用
+          nameJa: item.title, // 日本語名としてtitleを使用
+          slug: item.title.toLowerCase().replace(/\s+/g, '_'), // titleをスネークケース化
+          // metadata.imagesの2番目の画像を使用、なければthumbnail.urlを使用
+          image: item.metadata?.images?.[1]?.url || item.thumbnail.url,
+          profile: new Date(item.publishedAt).toLocaleDateString('ja-JP', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          }) + ' 公開'
+        }))
+
+        setActresses(apiActresses)
+      } catch (error) {
+        console.error('Error fetching actresses:', error)
+        // エラー時は静的データを使用（既にセット済み）
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchActresses()
+  }, [])
   return (
     <>
       <Header />
@@ -84,8 +157,16 @@ export default function ActressPage() {
 
         {/* Actress Grid */}
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {actresses.map((actress, index) => (
+          {isLoading ? (
+            <div className="flex justify-center items-center min-h-[400px]">
+              <div className="text-center">
+                <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-sky-600 border-r-transparent mb-4"></div>
+                <p className="text-gray-600">Loading...</p>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {actresses.map((actress, index) => (
               <motion.article
                 key={actress.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -118,8 +199,9 @@ export default function ActressPage() {
                   </div>
                 </Link>
               </motion.article>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Decorative bubbles */}

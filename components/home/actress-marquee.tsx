@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 interface Actress {
   id: string
@@ -11,52 +12,55 @@ interface Actress {
   marqueeImage: string
 }
 
-const actresses: Actress[] = [
-  {
-    id: '1',
-    name: 'Sei Shiraishi',
-    nameJa: '白石聖',
-    slug: 'sei_shiraishi',
-    marqueeImage: '/talent/acprof_fv_SeiShiraishi202505_02.jpg',
-  },
-  {
-    id: '2',
-    name: 'Kasumi Arimura',
-    nameJa: '有村架純',
-    slug: 'kasumi_arimura',
-    marqueeImage: '/talent/actress_thumb_202410_arimura-1.jpg',
-  },
-  {
-    id: '3',
-    name: 'Eiko Karata',
-    nameJa: '唐田えりか',
-    slug: 'eiko_karata',
-    marqueeImage: '/talent/marquee_img__0007_karata.jpg',
-  },
-  {
-    id: '4',
-    name: 'Han Hyo-joo',
-    nameJa: 'ハン・ヒョジュ',
-    slug: 'han_hyo_joo',
-    marqueeImage: '/talent/marquee_img__0010_hyo-joo.jpg',
-  },
-  {
-    id: '5',
-    name: 'Michiko Kichise',
-    nameJa: '吉瀬美智子',
-    slug: 'michiko_kichise',
-    marqueeImage: '/talent/marquee_img__0013_kichise.jpg',
-  },
-  {
-    id: '6',
-    name: 'Erika Toda',
-    nameJa: '戸田恵梨香',
-    slug: 'erika_toda',
-    marqueeImage: '/talent/marquee_img__0015_toda.jpg',
-  },
-]
+interface ApiActress {
+  id: string
+  title: string
+  slug: string
+  thumbnail: {
+    url: string
+    alt: string
+  }
+}
+
+interface ApiResponse {
+  success: boolean
+  data: ApiActress[]
+}
 
 export function ActressMarquee() {
+  const [actresses, setActresses] = useState<Actress[]>([])
+
+  useEffect(() => {
+    const fetchActresses = async () => {
+      try {
+        const response = await fetch(
+          'http://localhost:3003/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f'
+        )
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch')
+        }
+
+        const data: ApiResponse = await response.json()
+        
+        const mappedActresses: Actress[] = data.data.map((item) => ({
+          id: item.id,
+          name: item.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // slugを英語名として使用
+          nameJa: item.title,
+          slug: item.slug,
+          marqueeImage: item.thumbnail.url
+        }))
+
+        setActresses(mappedActresses)
+      } catch (error) {
+        console.error('Error fetching actresses:', error)
+        // エラー時は空配列
+        setActresses([])
+      }
+    }
+
+    fetchActresses()
+  }, [])
   return (
     <section className="py-20 overflow-hidden">
       <motion.div

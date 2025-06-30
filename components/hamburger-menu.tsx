@@ -43,34 +43,36 @@ export function HamburgerMenu() {
       {/* Hamburger Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-[18px] right-6 z-[100] flex flex-col items-center justify-center w-12 h-12 space-y-1.5 focus:outline-none"
+        className="flex flex-col items-center justify-center w-12 h-12 space-y-1.5 focus:outline-none relative z-10"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
         <motion.span
-          className="block w-7 h-0.5 bg-gray-800 rounded-full origin-center"
+          className="block w-7 rounded-full origin-center"
+          style={{ backgroundColor: '#4A5F7A', height: '0.75px' }}
           animate={{
             rotate: isOpen ? 45 : 0,
             y: isOpen ? 8 : 0,
-            backgroundColor: isOpen ? '#ffffff' : '#1f2937',
+            backgroundColor: isOpen ? '#ffffff' : '#4A5F7A',
           }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
         />
         <motion.span
-          className="block w-7 h-0.5 bg-gray-800 rounded-full"
+          className="block w-7 rounded-full origin-center"
+          style={{ backgroundColor: '#4A5F7A', height: '0.75px' }}
           animate={{
             opacity: isOpen ? 0 : 1,
             scaleX: isOpen ? 0 : 1,
-            backgroundColor: isOpen ? '#ffffff' : '#1f2937',
           }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
         />
         <motion.span
-          className="block w-7 h-0.5 bg-gray-800 rounded-full origin-center"
+          className="block w-7 rounded-full origin-center"
+          style={{ backgroundColor: '#4A5F7A', height: '0.75px' }}
           animate={{
             rotate: isOpen ? -45 : 0,
             y: isOpen ? -8 : 0,
-            backgroundColor: isOpen ? '#ffffff' : '#1f2937',
+            backgroundColor: isOpen ? '#ffffff' : '#4A5F7A',
           }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
         />

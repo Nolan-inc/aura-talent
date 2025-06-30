@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Calendar, Tag } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 interface NewsItem {
   id: string
@@ -16,71 +17,65 @@ interface NewsItem {
   link?: string
 }
 
-const newsItems: NewsItem[] = [
-  {
-    id: '1',
-    date: '2025.06.27',
-    category: 'MEDIA',
-    title: '白石聖 Amazon Originalドラマ「私の夫と結婚して」配信開始',
-    excerpt: 'Amazon Prime Videoにて、白石聖主演のオリジナルドラマが世界独占配信されます。',
-    image: '/talent/acprof_fv_SeiShiraishi202505_02.jpg',
-  },
-  {
-    id: '2',
-    date: '2025.06.25',
-    category: 'EVENT',
-    title: '宮﨑優 Netflixシリーズ「グラスハート」完成披露試写会',
-    excerpt: '7月配信予定のNetflixシリーズ「グラスハート」の完成披露試写会が開催されました。',
-  },
-  {
-    id: '3',
-    date: '2025.06.20',
-    category: 'MEDIA',
-    title: '田中みな実 「愛の、がっこう。」制作発表',
-    excerpt: 'フジテレビ系新ドラマ「愛の、がっこう。」の制作発表会見が行われました。',
-  },
-  {
-    id: '4',
-    date: '2025.06.15',
-    category: 'NEWS',
-    title: '鳴海唯 NHK連続テレビ小説「あんぱん」クランクイン',
-    excerpt: 'NHK連続テレビ小説「あんぱん」の撮影が本格的にスタートしました。',
-  },
-  {
-    id: '5',
-    date: '2025.06.10',
-    category: 'EVENT',
-    title: '有村架純 映画舞台挨拶登壇',
-    excerpt: '最新主演映画の初日舞台挨拶に登壇し、作品への思いを語りました。',
-    image: '/talent/actress_thumb_202410_arimura-1.jpg',
-  },
-  {
-    id: '6',
-    date: '2025.06.05',
-    category: 'AWARD',
-    title: 'AURA所属女優 各種映画賞を受賞',
-    excerpt: '今年度の各種映画賞において、AURA所属の女優陣が多数の賞を受賞しました。',
-  },
-  {
-    id: '7',
-    date: '2025.05.30',
-    category: 'MEDIA',
-    title: '戸田恵梨香 新作映画撮影開始',
-    excerpt: '戸田恵梨香が主演を務める新作映画の撮影が開始されました。',
-    image: '/talent/marquee_img__0015_toda.jpg',
-  },
-  {
-    id: '8',
-    date: '2025.05.25',
-    category: 'EVENT',
-    title: 'AURA ファンミーティング2025 開催決定',
-    excerpt: '所属女優が一堂に会するファンミーティングの開催が決定しました。',
-  },
-]
+// APIレスポンスの型定義
+interface ApiNewsItem {
+  id: string
+  type: string
+  title: string
+  excerpt: string
+  publishedAt: string
+  url: string
+}
+
+interface ApiResponse {
+  success: boolean
+  data: ApiNewsItem[]
+}
 
 const categories = ['ALL', 'MEDIA', 'EVENT', 'NEWS', 'AWARD']
 
 export default function NewsPage() {
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([])
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await fetch(
+          'http://localhost:3003/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article'
+        )
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch')
+        }
+
+        const data: ApiResponse = await response.json()
+
+        if (data.success) {
+          const mappedNews: NewsItem[] = data.data.map((item) => ({
+            id: item.id,
+            date: new Date(item.publishedAt).toLocaleDateString('ja-JP', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            }).replace(/\//g, '.'), // YYYY.MM.DD形式に変換
+            category: item.type.toUpperCase(), // typeを大文字に変換
+            title: item.title,
+            excerpt: item.excerpt,
+            link: item.url,
+            // imageはAPIレスポンスにない場合が多いのでundefined
+          }))
+
+          setNewsItems(mappedNews)
+        }
+      } catch (error) {
+        console.error('Error fetching news:', error)
+        // エラー時は空配列
+        setNewsItems([])
+      }
+    }
+
+    fetchNews()
+  }, [])
   return (
     <>
       <Header />
