@@ -46,7 +46,7 @@ export function LinkCollection() {
             <h3 className="mb-4 text-2xl font-light relative z-10">
               {item.subtitle && (
                 <motion.small 
-                  className="block text-sm mb-2"
+                  className="block text-lg mb-2"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
