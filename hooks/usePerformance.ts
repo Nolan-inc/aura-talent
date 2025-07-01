@@ -16,7 +16,9 @@ export function usePerformance() {
         const lcpObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries()
           const lastEntry = entries[entries.length - 1]
-          console.log('LCP:', lastEntry.startTime.toFixed(2), 'ms')
+          if (lastEntry) {
+            console.log('LCP:', lastEntry.startTime.toFixed(2), 'ms')
+          }
         })
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] })
 
