@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { fetchWithCache } from '@/lib/cache'
 
 interface NewsItem {
   id: string
@@ -12,8 +13,24 @@ interface NewsItem {
   link?: string
 }
 
-// Mock news data
-const newsItems: NewsItem[] = [
+// API response interface
+interface ApiNewsItem {
+  id: string
+  title: string
+  publishedAt: string
+  category?: string
+  type?: string
+  link?: string
+  url?: string
+}
+
+interface ApiResponse {
+  success: boolean
+  data: ApiNewsItem[]
+}
+
+// Mock news data (fallback)
+const mockNewsItems: NewsItem[] = [
   {
     id: '1',
     date: '2025.06.27',
@@ -47,8 +64,50 @@ const newsItems: NewsItem[] = [
 ]
 
 export function NewsSection() {
+  const [newsItems, setNewsItems] = useState<NewsItem[]>(mockNewsItems)
   const [displayCount, setDisplayCount] = useState(3)
   const [showAll, setShowAll] = useState(false)
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const data = await fetchWithCache<ApiResponse>(
+          'news-home-section',
+          async () => {
+            const response = await fetch(
+              'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article'
+            )
+            if (!response.ok) {
+              throw new Error('Failed to fetch news')
+            }
+            return response.json()
+          },
+          300 // Cache for 5 minutes
+        )
+
+        if (data.success && data.data) {
+          const mappedNews: NewsItem[] = data.data.map((item) => ({
+            id: item.id,
+            date: new Date(item.publishedAt).toLocaleDateString('ja-JP', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            }).replace(/\//g, '.'),
+            category: (item.category || item.type || 'NEWS').toUpperCase(),
+            title: item.title,
+            link: item.link || item.url,
+          }))
+          setNewsItems(mappedNews)
+        }
+      } catch (error) {
+        console.error('Error fetching news:', error)
+        // Use mock data as fallback
+        setNewsItems(mockNewsItems)
+      }
+    }
+
+    fetchNews()
+  }, [])
 
   const handleShowMore = () => {
     if (displayCount < newsItems.length) {
