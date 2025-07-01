@@ -69,6 +69,27 @@ function extractSkills(content: string | null): string[] {
   return ['演技'];
 }
 
+// Clean content for Biography section - only keep B/W/H/S and birthplace
+function cleanBiography(content: string | null): string {
+  if (!content) return 'AURA所属のタレント。';
+  
+  const lines = content.split('\n');
+  const cleanedLines: string[] = [];
+  
+  for (const line of lines) {
+    // Keep B/W/H/S line
+    if (line.match(/B.*?[/／].*?W.*?[/／].*?H.*?[/／].*?S/)) {
+      cleanedLines.push(line);
+    }
+    // Keep birthplace line
+    else if (line.match(/出身地[：:]/)) {
+      cleanedLines.push(line);
+    }
+  }
+  
+  return cleanedLines.length > 0 ? cleanedLines.join('\n') : 'AURA所属のタレント。';
+}
+
 export default function ActorDetailPage() {
   const params = useParams()
   const slug = params.slug as string
