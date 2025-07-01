@@ -7,7 +7,7 @@ import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calendar, Film, Tv, Radio, ChevronLeft } from 'lucide-react'
+import { Film, Tv, Radio, ChevronLeft } from 'lucide-react'
 import { fetchWithCache } from '@/lib/cache'
 
 interface ActorDetail {
