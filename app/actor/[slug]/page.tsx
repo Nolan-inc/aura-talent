@@ -77,13 +77,28 @@ function cleanBiography(content: string | null): string {
   const cleanedLines: string[] = [];
   
   for (const line of lines) {
+    // Skip empty lines
+    if (!line.trim()) continue;
+    
+    // Skip birth date line
+    if (line.match(/生年月日[：:]/)) continue;
+    
+    // Skip height/weight line
+    if (line.match(/身長.*?体重/)) continue;
+    
+    // Skip hobbies line
+    if (line.match(/趣味[：:]/)) continue;
+    
+    // Skip skills line
+    if (line.match(/特技[：:]/)) continue;
+    
     // Keep B/W/H/S line
-    if (line.match(/B.*?[/／].*?W.*?[/／].*?H.*?[/／].*?S/)) {
-      cleanedLines.push(line);
+    if (line.match(/B.*?[\/／].*?W.*?[\/／].*?H.*?[\/／].*?S/)) {
+      cleanedLines.push(line.trim());
     }
     // Keep birthplace line
     else if (line.match(/出身地[：:]/)) {
-      cleanedLines.push(line);
+      cleanedLines.push(line.trim());
     }
   }
   

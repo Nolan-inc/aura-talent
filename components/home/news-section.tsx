@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { fetchWithCache } from '@/lib/cache'
 
 interface NewsItem {
   id: string
@@ -13,21 +12,7 @@ interface NewsItem {
   link?: string
 }
 
-// API response interface
-interface ApiNewsItem {
-  id: string
-  title: string
-  publishedAt: string
-  category?: string
-  type?: string
-  link?: string
-  url?: string
-}
 
-interface ApiResponse {
-  success: boolean
-  data: ApiNewsItem[]
-}
 
 // Mock news data (fallback)
 const mockNewsItems: NewsItem[] = [
@@ -64,45 +49,63 @@ const mockNewsItems: NewsItem[] = [
 ]
 
 export function NewsSection() {
-  const [newsItems, setNewsItems] = useState<NewsItem[]>(mockNewsItems)
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([])
   const [displayCount, setDisplayCount] = useState(3)
   const [showAll, setShowAll] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const data = await fetchWithCache<ApiResponse>(
-          'news-home-section',
-          async () => {
-            const response = await fetch(
-              'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article'
-            )
-            if (!response.ok) {
-              throw new Error('Failed to fetch news')
-            }
-            return response.json()
-          },
-          300 // Cache for 5 minutes
+        // Force fresh fetch without cache for debugging
+        console.log('Fetching news from API...')
+        const response = await fetch(
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article',
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            cache: 'no-store'
+          }
         )
-
-        if (data.success && data.data) {
-          const mappedNews: NewsItem[] = data.data.map((item) => ({
-            id: item.id,
-            date: new Date(item.publishedAt).toLocaleDateString('ja-JP', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-            }).replace(/\//g, '.'),
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch news: ${response.status}`)
+        }
+        
+        const rawData = await response.json()
+        console.log('Raw API Response:', rawData)
+        
+        // Check if data exists directly on response or wrapped in success/data structure
+        const newsData = rawData.data || rawData;
+        
+        if (Array.isArray(newsData) && newsData.length > 0) {
+          const mappedNews: NewsItem[] = newsData.slice(0, 10).map((item) => ({
+            id: item.id || item._id || String(Math.random()),
+            date: item.publishedAt 
+              ? new Date(item.publishedAt).toLocaleDateString('ja-JP', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                }).replace(/\//g, '.')
+              : new Date().toLocaleDateString('ja-JP').replace(/\//g, '.'),
             category: (item.category || item.type || 'NEWS').toUpperCase(),
-            title: item.title,
-            link: item.link || item.url,
+            title: item.title || 'No title',
+            link: item.link || item.url || undefined,
           }))
+          console.log('Mapped news:', mappedNews)
           setNewsItems(mappedNews)
+        } else {
+          console.log('No valid news data in API response, using mock data')
+          setNewsItems(mockNewsItems)
         }
       } catch (error) {
         console.error('Error fetching news:', error)
         // Use mock data as fallback
         setNewsItems(mockNewsItems)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -136,8 +139,14 @@ export function NewsSection() {
           News
         </motion.h2>
 
-        <ul className="space-y-px">
-          {newsItems.slice(0, displayCount).map((item, index) => (
+        {isLoading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading news...</p>
+          </div>
+        ) : (
+          <ul className="space-y-px">
+            {newsItems.slice(0, displayCount).map((item, index) => (
             <motion.li
               key={item.id}
               initial={{ opacity: 0, y: 10 }}
@@ -159,7 +168,8 @@ export function NewsSection() {
               )}
             </motion.li>
           ))}
-        </ul>
+          </ul>
+        )}
 
         <div className="mt-12 text-center">
           {!showAll ? (
