@@ -69,48 +69,6 @@ function extractSkills(content: string | null): string[] {
   return ['演技'];
 }
 
-// Extract birth date from content
-function extractBirthDate(content: string | null): string | undefined {
-  if (!content) return undefined;
-  
-  const birthMatch = content.match(/生年月日[：:]　?([0-9０-９]+[年/][0-9０-９]+[月/][0-9０-９]+)/m);
-  if (birthMatch) {
-    return birthMatch[1];
-  }
-  
-  return undefined;
-}
-
-// Extract height from content
-function extractHeight(content: string | null): string | undefined {
-  if (!content) return undefined;
-  
-  const heightMatch = content.match(/身長.*?[：:]　?([0-9０-９]+)/m);
-  if (heightMatch) {
-    return heightMatch[1] + 'cm';
-  }
-  
-  return undefined;
-}
-
-// Extract blood type from content
-function extractBloodType(content: string | null): string | undefined {
-  if (!content) return undefined;
-  
-  const bloodMatch = content.match(/血液型[：:]　?([ABOＡＢＯ][BＢ]?)/m);
-  if (bloodMatch) {
-    return bloodMatch[1];
-  }
-  
-  // Also check for B/W/H pattern
-  const bwhMatch = content.match(/B.*?[:：]　?([ABO]+)/m);
-  if (bwhMatch) {
-    return bwhMatch[1];
-  }
-  
-  return undefined;
-}
-
 export default function ActorDetailPage() {
   const params = useParams()
   const slug = params.slug as string
