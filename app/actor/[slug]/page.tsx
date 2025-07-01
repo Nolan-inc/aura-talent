@@ -57,7 +57,7 @@ function extractSkills(content: string | null): string[] {
   if (!content) return ['演技'];
   
   const skillsMatch = content.match(/特技[：:]　?(.+)/m);
-  if (skillsMatch) {
+  if (skillsMatch && skillsMatch[1]) {
     return skillsMatch[1]
       .split(/[、、・・]/)
       .map(skill => skill.trim())
