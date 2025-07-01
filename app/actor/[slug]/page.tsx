@@ -37,6 +37,8 @@ interface ApiActor {
   id: string
   title: string
   slug: string
+  content: string | null
+  excerpt: string | null
   thumbnail: {
     url: string
   }
@@ -149,10 +151,7 @@ export default function ActorDetailPage() {
               nameJa: actorData.title,
               slug: actorData.slug.toLowerCase().replace(/ /g, '_'),
               profileImage: actorData.metadata?.images?.[0]?.url || actorData.thumbnail.url,
-              biography: actorData.content || actorData.excerpt || 'AURA所属のタレント。',
-              birthDate: extractBirthDate(actorData.content),
-              height: extractHeight(actorData.content),
-              bloodType: extractBloodType(actorData.content),
+              biography: cleanBiography(actorData.content || actorData.excerpt),
               skills: extractSkills(actorData.content),
               works: []
             })
