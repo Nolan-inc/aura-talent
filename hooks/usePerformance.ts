@@ -48,7 +48,10 @@ export function usePerformance() {
         }
       } catch (e) {
         console.error('Performance monitoring error:', e)
+        return undefined
       }
     }
+    
+    return undefined
   }, [])
 }
