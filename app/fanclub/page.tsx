@@ -19,7 +19,7 @@ interface SpecialContent {
   id: string
   title: string
   type: 'movie' | 'photo' | 'message'
-  actress: string
+  actor: string
   thumbnail: string
   date: string
 }
@@ -74,7 +74,7 @@ const specialContents: SpecialContent[] = [
     id: '1',
     title: '撮影現場の裏側',
     type: 'movie',
-    actress: '白石聖',
+    actor: '白石聖',
     thumbnail: '/talent/acprof_fv_SeiShiraishi202505_02.jpg',
     date: '2025.06.25',
   },
@@ -82,15 +82,15 @@ const specialContents: SpecialContent[] = [
     id: '2',
     title: '特別フォトギャラリー',
     type: 'photo',
-    actress: '有村架純',
-    thumbnail: '/talent/actress_thumb_202410_arimura-1.jpg',
+    actor: '有村架純',
+    thumbnail: '/talent/actor_thumb_202410_arimura-1.jpg',
     date: '2025.06.20',
   },
   {
     id: '3',
     title: 'ファンへのメッセージ',
     type: 'message',
-    actress: '田中みな実',
+    actor: '田中みな実',
     thumbnail: '/aura/top_mv_pc_0002_narumi.jpg',
     date: '2025.06.15',
   },
@@ -100,7 +100,7 @@ export default function FanclubPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 bg-white text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -229,7 +229,7 @@ export default function FanclubPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 text-white">
-                    <p className="text-sm opacity-80">{content.actress}</p>
+                    <p className="text-sm opacity-80">{content.actor}</p>
                     <h3 className="text-lg">{content.title}</h3>
                   </div>
                   {content.type === 'movie' && (

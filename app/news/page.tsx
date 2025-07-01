@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Calendar, Tag } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { fetchWithCache } from '@/lib/cache'
 
 interface NewsItem {
   id: string
@@ -40,15 +41,21 @@ export default function NewsPage() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article'
+        const data = await fetchWithCache<ApiResponse>(
+          'news-list',
+          async () => {
+            const response = await fetch(
+              'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article'
+            )
+
+            if (!response.ok) {
+              throw new Error('Failed to fetch')
+            }
+
+            return response.json()
+          },
+          300 // Cache for 5 minutes
         )
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch')
-        }
-
-        const data: ApiResponse = await response.json()
 
         if (data.success) {
           const mappedNews: NewsItem[] = data.data.map((item) => ({
@@ -79,7 +86,7 @@ export default function NewsPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 bg-white text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -124,7 +131,7 @@ export default function NewsPage() {
               >
                 <div className="flex flex-col lg:flex-row gap-6 p-6 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-300">
                   {item.image && (
-                    <div className="lg:w-48 h-32 lg:h-32 relative overflow-hidden bg-gray-100 flex-shrink-0">
+                    <div className="lg:w-48 h-32 lg:h-32 relative overflow-hidden bg-sky-100 flex-shrink-0">
                       <img
                         src={item.image}
                         alt={item.title}

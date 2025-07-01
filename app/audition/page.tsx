@@ -25,11 +25,11 @@ interface ProcessStep {
 const auditionCategories: AuditionCategory[] = [
   {
     id: '1',
-    title: '女優オーディション',
-    description: 'ドラマ・映画・舞台で活躍する女優を募集しています。',
+    title: '俳優オーディション',
+    description: 'ドラマ・映画・舞台で活躍する俳優を募集しています。',
     icon: <Camera className="w-8 h-8" />,
     requirements: [
-      '15歳〜25歳の女性',
+      '15歳〜25歳の男女',
       '演技経験不問（未経験者歓迎）',
       '東京近郊でのレッスンに通える方',
       '芸能活動に専念できる方',
@@ -107,7 +107,7 @@ export default function AuditionPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 bg-white text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -128,7 +128,7 @@ export default function AuditionPage() {
             className="relative h-[500px] rounded-2xl overflow-hidden"
           >
             <Image
-              src="/aura/top_mv_pc_0001_miyazaki.jpg"
+              src="/aura/aura1010.jpg"
               alt="AURA Audition"
               fill
               className="object-cover"
@@ -271,7 +271,7 @@ export default function AuditionPage() {
                   <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-blue-400 rounded-full flex-shrink-0" />
                   <div>
                     <h4 className="font-medium">A.Kさん（20歳）</h4>
-                    <p className="text-sm text-gray-600">2024年合格・女優部門</p>
+                    <p className="text-sm text-gray-600">2024年合格・俳優部門</p>
                   </div>
                 </div>
                 <p className="text-gray-700 italic">
@@ -382,34 +382,70 @@ export default function AuditionPage() {
           </motion.div>
         </section>
 
-        {/* Decorative bubbles */}
+        {/* Subtle animated decorative bubbles */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={`audition-bubble-${i}`}
-              className="absolute rounded-full"
-              style={{
-                left: `${5 + i * 16}%`,
-                top: `${8 + i * 14}%`,
-                width: 85 + i * 20,
-                height: 85 + i * 20,
-                background: `radial-gradient(circle, rgba(${
-                  i % 2 === 0 ? '56, 189, 248' : '135, 206, 235'
-                }, 0.06) 0%, transparent 70%)`,
-                filter: 'blur(4px)',
-              }}
-              animate={{
-                y: [0, -35, 0],
-                x: [0, 20, 0],
-              }}
-              transition={{
-                duration: 30 + i * 5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: i * 2.8,
-              }}
-            />
-          ))}
+          <motion.div
+            className="absolute rounded-full"
+            style={{
+              left: '15%',
+              top: '20%',
+              width: 200,
+              height: 200,
+              background: 'radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%)',
+              filter: 'blur(6px)',
+            }}
+            animate={{
+              y: [0, -30, 0],
+              x: [0, 15, 0],
+            }}
+            transition={{
+              duration: 40,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+          <motion.div
+            className="absolute rounded-full"
+            style={{
+              left: '75%',
+              top: '60%',
+              width: 250,
+              height: 250,
+              background: 'radial-gradient(circle, rgba(135, 206, 235, 0.15) 0%, transparent 70%)',
+              filter: 'blur(6px)',
+            }}
+            animate={{
+              y: [0, 25, 0],
+              x: [0, -20, 0],
+            }}
+            transition={{
+              duration: 45,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: 3,
+            }}
+          />
+          <motion.div
+            className="absolute rounded-full"
+            style={{
+              left: '45%',
+              top: '80%',
+              width: 180,
+              height: 180,
+              background: 'radial-gradient(circle, rgba(96, 165, 250, 0.12) 0%, transparent 70%)',
+              filter: 'blur(8px)',
+            }}
+            animate={{
+              y: [0, -20, 0],
+              x: [0, 10, 0],
+            }}
+            transition={{
+              duration: 35,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: 5,
+            }}
+          />
         </div>
       </main>
       <Footer />

@@ -10,7 +10,7 @@ interface ScheduleItem {
   date: string
   time?: string
   title: string
-  actress: string
+  actor: string
   type: 'tv' | 'movie' | 'event' | 'radio'
   venue?: string
   channel?: string
@@ -22,7 +22,7 @@ const upcomingSchedule: ScheduleItem[] = [
     date: '2025.07.05',
     time: '21:00',
     title: 'ドラマ「Moonlight Echoes」第1話放送',
-    actress: 'Yuki Tanaka',
+    actor: 'Yuki Tanaka',
     type: 'tv',
     channel: 'NHK Premium',
   },
@@ -31,7 +31,7 @@ const upcomingSchedule: ScheduleItem[] = [
     date: '2025.07.10',
     time: '22:00',
     title: 'Netflix「The Velvet Hour」配信開始',
-    actress: 'Mika Sato',
+    actor: 'Mika Sato',
     type: 'tv',
     channel: 'Netflix',
   },
@@ -40,7 +40,7 @@ const upcomingSchedule: ScheduleItem[] = [
     date: '2025.07.15',
     time: '13:00',
     title: '映画「Summer Dreams」プレミア上映会',
-    actress: 'Rina Hayashi',
+    actor: 'Rina Hayashi',
     type: 'event',
     venue: '六本木ヒルズ アリーナ',
   },
@@ -49,7 +49,7 @@ const upcomingSchedule: ScheduleItem[] = [
     date: '2025.07.18',
     time: '18:00',
     title: 'AURA Showcase 2025',
-    actress: 'All AURA Talents',
+    actor: 'All AURA Talents',
     type: 'event',
     venue: 'Zepp DiverCity Tokyo',
   },
@@ -57,7 +57,7 @@ const upcomingSchedule: ScheduleItem[] = [
     id: '5',
     date: '2025.07.28',
     title: '映画「Azure Sky」全国ロードショー',
-    actress: 'Mai Suzuki',
+    actor: 'Mai Suzuki',
     type: 'movie',
   },
   {
@@ -65,7 +65,7 @@ const upcomingSchedule: ScheduleItem[] = [
     date: '2025.08.03',
     time: '24:00',
     title: 'ラジオ「Midnight Sessions」ゲスト出演',
-    actress: 'Kana Yamamoto',
+    actor: 'Kana Yamamoto',
     type: 'radio',
     channel: 'J-WAVE',
   },
@@ -144,7 +144,7 @@ export function ScheduleSection() {
                     {item.title}
                   </h3>
                   <div className="flex items-center gap-4 text-sm text-gray-600">
-                    <span className="font-medium">{item.actress}</span>
+                    <span className="font-medium">{item.actor}</span>
                     {item.time && (
                       <span className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />

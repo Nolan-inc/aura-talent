@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
 
-interface Actress {
+interface Actor {
   id: string
   name: string
   nameJa: string
@@ -39,7 +40,7 @@ const mobilePositions = [
   { x: 30, y: 70, size: 140, rotate: -2 },
 ]
 
-interface ApiActress {
+interface ApiActor {
   id: string
   title: string
   slug: string
@@ -51,11 +52,11 @@ interface ApiActress {
 
 interface ApiResponse {
   success: boolean
-  data: ApiActress[]
+  data: ApiActor[]
 }
 
-export function ActressMarquee() {
-  const [actresses, setActresses] = useState<Actress[]>([])
+export function ActorMarquee() {
+  const [actors, setActors] = useState<Actor[]>([])
   const [isMobile, setIsMobile] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const displayCount = isMobile ? 5 : 8
@@ -80,20 +81,20 @@ export function ActressMarquee() {
     }
   }, [])
 
-  // Auto-rotate actresses
+  // Auto-rotate actors
   useEffect(() => {
-    if (actresses.length > displayCount) {
+    if (actors.length > displayCount) {
       const interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev + displayCount) % actresses.length)
+        setCurrentIndex((prev) => (prev + displayCount) % actors.length)
       }, 5000) // Change every 5 seconds
       return () => clearInterval(interval)
     }
     return () => {} // Add empty return for the else case
-  }, [actresses.length, displayCount])
+  }, [actors.length, displayCount])
 
   // APIからデータを取得（一度だけ）
   useEffect(() => {
-    const fetchActresses = async () => {
+    const fetchActors = async () => {
       try {
         const response = await fetch(
           'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f'
@@ -106,7 +107,7 @@ export function ActressMarquee() {
         const data: ApiResponse = await response.json()
         
         // デスクトップとモバイルの両方のポジションを含むデータを作成
-        const mappedActresses: Actress[] = data.data.map((item, index) => {
+        const mappedActors: Actor[] = data.data.map((item, index) => {
           // デスクトップポジションをデフォルトとして使用
           const desktopPositionIndex = index % desktopPositions.length
           const desktopPosition = desktopPositions[desktopPositionIndex] || desktopPositions[0] || { x: 10, y: 10, size: 200, rotate: 0 }
@@ -121,14 +122,14 @@ export function ActressMarquee() {
           }
         })
 
-        setActresses(mappedActresses)
+        setActors(mappedActors)
       } catch (error) {
-        console.error('Error fetching actresses:', error)
-        setActresses([])
+        console.error('Error fetching actors:', error)
+        setActors([])
       }
     }
 
-    fetchActresses()
+    fetchActors()
   }, []) // 空の依存配列で一度だけ実行
   return (
     <section className="relative py-20 overflow-hidden">
@@ -147,34 +148,34 @@ export function ActressMarquee() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            ACTRESS
+            ACTOR
           </motion.h2>
 
           {/* Scattered Floating Images */}
           <div className="relative h-[500px] md:h-[600px] lg:h-[800px] max-w-6xl mx-auto">
             <AnimatePresence mode="wait">
-              {/* Get current visible actresses */}
+              {/* Get current visible actors */}
               {(() => {
-              const visibleActresses = []
+              const visibleActors = []
               const positions = isMobile ? mobilePositions : desktopPositions
-              for (let i = 0; i < displayCount && i < actresses.length; i++) {
-                const actressIndex = (currentIndex + i) % actresses.length
+              for (let i = 0; i < displayCount && i < actors.length; i++) {
+                const actorIndex = (currentIndex + i) % actors.length
                 const positionIndex = i % positions.length
-                visibleActresses.push({ 
-                  ...actresses[actressIndex], 
+                visibleActors.push({ 
+                  ...actors[actorIndex], 
                   displayIndex: i,
                   position: positions[positionIndex]
                 })
               }
-              return visibleActresses
-            })().map((actress, index) => (
+              return visibleActors
+            })().map((actor, index) => (
               <motion.div
-                key={`${actress.id}-${currentIndex}`}
+                key={`${actor.id}-${currentIndex}`}
                 className="absolute"
                 style={{
-                  left: `${actress.position?.x || 10}%`,
-                  top: `${actress.position?.y || 10}%`,
-                  width: actress.position?.size || 200,
+                  left: `${actor.position?.x || 10}%`,
+                  top: `${actor.position?.y || 10}%`,
+                  width: actor.position?.size || 200,
                   maxWidth: isMobile ? '45%' : 'none',
                 }}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -186,9 +187,9 @@ export function ActressMarquee() {
                   animate={{
                     y: isMobile ? [0, -10, 0] : [0, -20, 0],
                     rotate: [
-                      actress.position?.rotate || 0, 
-                      (actress.position?.rotate || 0) + (isMobile ? 2 : 5), 
-                      actress.position?.rotate || 0
+                      actor.position?.rotate || 0, 
+                      (actor.position?.rotate || 0) + (isMobile ? 2 : 5), 
+                      actor.position?.rotate || 0
                     ],
                   }}
                   transition={{
@@ -204,14 +205,19 @@ export function ActressMarquee() {
                   className="relative"
                 >
                   <Link
-                    href={`/actress/${actress.slug}`}
+                    href={`/actor/${actor.slug}`}
                     className="block relative group overflow-hidden rounded-xl md:rounded-2xl shadow-md md:shadow-lg hover:shadow-xl md:hover:shadow-2xl transition-shadow duration-300"
                   >
-                    <div className="relative overflow-hidden bg-gray-100">
-                      <img
-                        src={actress.marqueeImage}
-                        alt={actress.nameJa}
-                        className="w-full h-auto object-cover"
+                    <div className="relative overflow-hidden bg-sky-100 aspect-[3/4]">
+                      <Image
+                        src={actor.marqueeImage || '/aura/aura1001.jpg'}
+                        alt={actor.nameJa || 'Actor'}
+                        fill
+                        loading="lazy"
+                        className="object-cover"
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                       />
                       {/* Gradient overlay on hover */}
                       <motion.div
@@ -221,8 +227,8 @@ export function ActressMarquee() {
                       <motion.div
                         className="absolute bottom-0 left-0 right-0 p-3 md:p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
                       >
-                        <p className="text-base md:text-lg font-light">{actress.nameJa}</p>
-                        {!isMobile && <p className="text-sm opacity-80">{actress.name}</p>}
+                        <p className="text-base md:text-lg font-light">{actor.nameJa}</p>
+                        {!isMobile && <p className="text-sm opacity-80">{actor.name}</p>}
                       </motion.div>
                     </div>
                   </Link>
@@ -240,7 +246,7 @@ export function ActressMarquee() {
               viewport={{ once: true }}
             >
               <Link
-                href="/actress"
+                href="/actor"
                 className="inline-flex items-center gap-2 px-8 py-3 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 group"
               >
                 <span className="text-sm tracking-wider">VIEW MORE</span>

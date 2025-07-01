@@ -8,8 +8,9 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Calendar, Film, Tv, Radio, ChevronLeft } from 'lucide-react'
+import { fetchWithCache } from '@/lib/cache'
 
-interface ActressDetail {
+interface ActorDetail {
   id: string
   name: string
   nameJa: string
@@ -32,7 +33,7 @@ interface Work {
 }
 
 // APIレスポンスの型定義
-interface ApiActress {
+interface ApiActor {
   id: string
   title: string
   slug: string
@@ -48,45 +49,116 @@ interface ApiActress {
 
 interface ApiResponse {
   success: boolean
-  data: ApiActress[]
+  data: ApiActor[]
 }
 
-export default function ActressDetailPage() {
+// Extract skills from content text
+function extractSkills(content: string | null): string[] {
+  if (!content) return ['演技'];
+  
+  const skillsMatch = content.match(/特技[：:]　?(.+)/m);
+  if (skillsMatch) {
+    return skillsMatch[1]
+      .split(/[、、・・]/)
+      .map(skill => skill.trim())
+      .filter(skill => skill.length > 0);
+  }
+  
+  return ['演技'];
+}
+
+// Extract birth date from content
+function extractBirthDate(content: string | null): string | undefined {
+  if (!content) return undefined;
+  
+  const birthMatch = content.match(/生年月日[：:]　?([0-9０-９]+[年/][0-9０-９]+[月/][0-9０-９]+)/m);
+  if (birthMatch) {
+    return birthMatch[1];
+  }
+  
+  return undefined;
+}
+
+// Extract height from content
+function extractHeight(content: string | null): string | undefined {
+  if (!content) return undefined;
+  
+  const heightMatch = content.match(/身長.*?[：:]　?([0-9０-９]+)/m);
+  if (heightMatch) {
+    return heightMatch[1] + 'cm';
+  }
+  
+  return undefined;
+}
+
+// Extract blood type from content
+function extractBloodType(content: string | null): string | undefined {
+  if (!content) return undefined;
+  
+  const bloodMatch = content.match(/血液型[：:]　?([ABOＡＢＯ][BＢ]?)/m);
+  if (bloodMatch) {
+    return bloodMatch[1];
+  }
+  
+  // Also check for B/W/H pattern
+  const bwhMatch = content.match(/B.*?[:：]　?([ABO]+)/m);
+  if (bwhMatch) {
+    return bwhMatch[1];
+  }
+  
+  return undefined;
+}
+
+export default function ActorDetailPage() {
   const params = useParams()
   const slug = params.slug as string
-  const [actress, setActress] = useState<ActressDetail | null>(null)
+  const [actor, setActor] = useState<ActorDetail | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchActressDetail = async () => {
+    const fetchActorDetail = async () => {
       try {
         const decodedSlug = decodeURIComponent(slug).toLowerCase().replace(/ /g, '_')
         
-        // Try to fetch from API
-        const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f'
+        // Try to fetch from API with cache
+        const apiData = await fetchWithCache<ApiResponse>(
+          `actor-detail-${decodedSlug}`,
+          async () => {
+            const response = await fetch(
+              'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f'
+            )
+            
+            if (!response.ok) {
+              throw new Error('Failed to fetch')
+            }
+            
+            return response.json()
+          },
+          600 // Cache for 10 minutes
         )
         
-        if (response.ok) {
-          const apiData: ApiResponse = await response.json()
-          const actressData = apiData.data.find(
+        if (apiData) {
+          const actorData = apiData.data.find(
             item => item.slug.toLowerCase().replace(/ /g, '_') === decodedSlug
           )
           
-          if (actressData) {
-            setActress({
-              id: actressData.id,
-              name: actressData.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-              nameJa: actressData.title,
-              slug: actressData.slug.toLowerCase().replace(/ /g, '_'),
-              profileImage: actressData.metadata?.images?.[0]?.url || actressData.thumbnail.url,
-              biography: 'AURA所属のタレント。',
-              skills: ['演技'],
+          if (actorData) {
+            setActor({
+              id: actorData.id,
+              name: actorData.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+              nameJa: actorData.title,
+              slug: actorData.slug.toLowerCase().replace(/ /g, '_'),
+              profileImage: actorData.metadata?.images?.[0]?.url || actorData.thumbnail.url,
+              biography: actorData.content || actorData.excerpt || 'AURA所属のタレント。',
+              birthDate: extractBirthDate(actorData.content),
+              height: extractHeight(actorData.content),
+              bloodType: extractBloodType(actorData.content),
+              skills: extractSkills(actorData.content),
               works: []
             })
           } else {
-            // Create mock data if actress not found
-            setActress({
+            // Create mock data if actor not found
+            setActor({
               id: '999',
               name: decodeURIComponent(slug).replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
               nameJa: 'タレント名',
@@ -99,10 +171,10 @@ export default function ActressDetailPage() {
           }
         }
       } catch (error) {
-        console.error('Error fetching actress detail:', error)
+        console.error('Error fetching actor detail:', error)
         // Fallback to mock data
         const decodedSlug = decodeURIComponent(slug).toLowerCase().replace(/ /g, '_')
-        setActress({
+        setActor({
           id: '999',
           name: decodeURIComponent(slug).replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
           nameJa: 'タレント名',
@@ -117,7 +189,7 @@ export default function ActressDetailPage() {
       }
     }
 
-    fetchActressDetail()
+    fetchActorDetail()
   }, [slug])
 
   if (loading) {
@@ -135,14 +207,14 @@ export default function ActressDetailPage() {
     )
   }
 
-  if (!actress) {
+  if (!actor) {
     return (
       <>
         <Header />
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <p className="text-gray-600">女優が見つかりませんでした</p>
-            <Link href="/actress" className="mt-4 inline-block text-blue-600 hover:underline">
+            <p className="text-gray-600">俳優が見つかりませんでした</p>
+            <Link href="/actor" className="mt-4 inline-block text-blue-600 hover:underline">
               女優一覧に戻る
             </Link>
           </div>
@@ -155,15 +227,15 @@ export default function ActressDetailPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 bg-white text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
         {/* Back Button */}
         <div className="container mx-auto px-4 mb-8">
           <Link 
-            href="/actress"
+            href="/actor"
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
-            <span className="text-sm">女優一覧に戻る</span>
+            <span className="text-sm">俳優一覧に戻る</span>
           </Link>
         </div>
 
@@ -179,8 +251,8 @@ export default function ActressDetailPage() {
               >
                 <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
                   <Image
-                    src={actress.profileImage}
-                    alt={actress.nameJa}
+                    src={actor.profileImage}
+                    alt={actor.nameJa}
                     fill
                     className="object-cover"
                   />
@@ -194,48 +266,27 @@ export default function ActressDetailPage() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="flex flex-col justify-center"
               >
-                <h1 className="text-4xl font-light mb-2">{actress.nameJa}</h1>
-                <p className="text-lg text-gray-600 mb-8">{actress.name}</p>
+                <h1 className="text-4xl font-light mb-2">{actor.nameJa}</h1>
+                <p className="text-lg text-gray-600 mb-8">{actor.name}</p>
 
-                {/* Basic Info */}
-                <div className="space-y-4 mb-8">
-                  {actress.birthDate && (
-                    <div className="flex items-center gap-4">
-                      <Calendar className="w-5 h-5 text-gray-400" />
-                      <span className="text-gray-600">生年月日: {actress.birthDate}</span>
-                    </div>
-                  )}
-                  {actress.bloodType && (
-                    <div className="flex gap-4">
-                      <span className="text-gray-400 w-5">🩸</span>
-                      <span className="text-gray-600">血液型: {actress.bloodType}型</span>
-                    </div>
-                  )}
-                  {actress.height && (
-                    <div className="flex gap-4">
-                      <span className="text-gray-400 w-5">📏</span>
-                      <span className="text-gray-600">身長: {actress.height}</span>
-                    </div>
-                  )}
-                </div>
 
                 {/* Biography */}
-                {actress.biography && (
+                {actor.biography && (
                   <div className="mb-8">
                     <h2 className="text-xl font-light mb-4">Biography</h2>
-                    <p className="text-gray-600 leading-relaxed">{actress.biography}</p>
+                    <p className="text-gray-600 leading-relaxed whitespace-pre-line">{actor.biography}</p>
                   </div>
                 )}
 
                 {/* Skills */}
-                {actress.skills && actress.skills.length > 0 && (
+                {actor.skills && actor.skills.length > 0 && (
                   <div>
                     <h2 className="text-xl font-light mb-4">特技</h2>
                     <div className="flex flex-wrap gap-2">
-                      {actress.skills.map((skill, index) => (
+                      {actor.skills.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-4 py-2 bg-gray-100 rounded-full text-sm"
+                          className="px-4 py-2 bg-sky-100 rounded-full text-sm"
                         >
                           {skill}
                         </span>
@@ -247,7 +298,7 @@ export default function ActressDetailPage() {
             </div>
 
             {/* Works Section */}
-            {actress.works && actress.works.length > 0 && (
+            {actor.works && actor.works.length > 0 && (
               <motion.section
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -256,7 +307,7 @@ export default function ActressDetailPage() {
               >
                 <h2 className="text-3xl font-light text-center mb-12">Works</h2>
                 <div className="space-y-2">
-                  {actress.works.map((work) => (
+                  {actor.works.map((work) => (
                     <div
                       key={work.id}
                       className="flex items-center gap-6 p-4 hover:bg-gray-50 rounded-lg transition-colors"

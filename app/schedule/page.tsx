@@ -11,7 +11,7 @@ interface ScheduleItem {
   date: string
   time?: string
   title: string
-  actress: string
+  actor: string
   type: 'tv' | 'movie' | 'event' | 'radio'
   venue?: string
   channel?: string
@@ -24,7 +24,7 @@ const scheduleItems: ScheduleItem[] = [
     date: '2025.07.05',
     time: '21:00',
     title: 'Moonlight Echoes',
-    actress: 'Yuki Tanaka',
+    actor: 'Yuki Tanaka',
     type: 'tv',
     channel: 'NHK Premium',
     description: '新感覚ドラマシリーズ 第1話',
@@ -34,7 +34,7 @@ const scheduleItems: ScheduleItem[] = [
     date: '2025.07.10',
     time: '22:00',
     title: 'The Velvet Hour',
-    actress: 'Mika Sato',
+    actor: 'Mika Sato',
     type: 'tv',
     channel: 'Netflix',
     description: 'オリジナルシリーズ配信開始',
@@ -44,7 +44,7 @@ const scheduleItems: ScheduleItem[] = [
     date: '2025.07.15',
     time: '13:00',
     title: 'Summer Dreams プレミア上映会',
-    actress: 'Rina Hayashi',
+    actor: 'Rina Hayashi',
     type: 'event',
     venue: '六本木ヒルズ アリーナ',
     description: 'レッドカーペット＆舞台挨拶',
@@ -53,7 +53,7 @@ const scheduleItems: ScheduleItem[] = [
     id: '4',
     date: '2025.07.18',
     title: 'AURA Showcase 2025',
-    actress: 'All AURA Talents',
+    actor: 'All AURA Talents',
     type: 'event',
     venue: 'Zepp DiverCity Tokyo',
     time: '18:00',
@@ -64,7 +64,7 @@ const scheduleItems: ScheduleItem[] = [
     date: '2025.07.22',
     time: '24:00',
     title: 'Midnight Sessions',
-    actress: 'Kana Yamamoto',
+    actor: 'Kana Yamamoto',
     type: 'radio',
     channel: 'J-WAVE',
     description: 'ゲストDJ出演',
@@ -73,7 +73,7 @@ const scheduleItems: ScheduleItem[] = [
     id: '6',
     date: '2025.07.28',
     title: 'Azure Sky',
-    actress: 'Mai Suzuki',
+    actor: 'Mai Suzuki',
     type: 'movie',
     description: '全国ロードショー',
   },
@@ -82,7 +82,7 @@ const scheduleItems: ScheduleItem[] = [
     date: '2025.08.03',
     time: '14:00',
     title: 'AURA FAN MEETING 2025',
-    actress: 'AURA Talents',
+    actor: 'AURA Talents',
     type: 'event',
     venue: '東京国際フォーラム ホールA',
     description: 'ファン感謝祭',
@@ -92,7 +92,7 @@ const scheduleItems: ScheduleItem[] = [
     date: '2025.08.08',
     time: '20:00',
     title: 'Crystal Memories',
-    actress: 'Yui Nakamura',
+    actor: 'Yui Nakamura',
     type: 'tv',
     channel: 'TBS',
     description: 'スペシャルドラマ',
@@ -124,7 +124,7 @@ export default function SchedulePage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 bg-white text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -232,7 +232,7 @@ export default function SchedulePage() {
                         </h2>
                         
                         <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
-                          <span className="font-medium">{item.actress}</span>
+                          <span className="font-medium">{item.actor}</span>
                           {item.time && (
                             <span className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />

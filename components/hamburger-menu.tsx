@@ -10,10 +10,9 @@ export function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false)
 
   const menuItems = [
-    { href: '/actress', label: 'Actress' },
+    { href: '/actor', label: 'Actor' },
     { href: '/news', label: 'News' },
-    { href: '/schedule', label: 'Schedule' },
-    { href: '/fanclub', label: 'Fanclub' },
+      { href: '/fanclub', label: 'Fanclub' },
     { href: '/company-profile', label: 'Company Profile' },
     { href: '/recruit', label: 'Recruit' },
     { href: '/audition', label: 'Audition' },
@@ -98,19 +97,23 @@ export function HamburgerMenu() {
               <div className="w-full max-w-md mx-auto flex flex-col">
                 {/* Logo */}
                 <div className="flex items-center h-[30vh] px-12">
-                  <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  >
-                    <Image
-                      src="/aura_logo.png"
-                      alt="AURA"
-                      width={200}
-                      height={60}
-                      className="h-12 w-auto filter brightness-0 invert"
-                    />
-                  </motion.div>
+                  <Link href="/" onClick={() => setIsOpen(false)}>
+                    <motion.div
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                      whileHover={{ scale: 1.05 }}
+                      className="cursor-pointer"
+                    >
+                      <Image
+                        src="/aura_logo.png"
+                        alt="AURA"
+                        width={200}
+                        height={60}
+                        className="h-12 w-auto filter brightness-0 invert"
+                      />
+                    </motion.div>
+                  </Link>
                 </div>
 
                 {/* Menu Items */}

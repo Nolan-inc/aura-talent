@@ -145,20 +145,22 @@ export function NewsSection() {
 
 function NewsItemContent({ item }: { item: NewsItem }) {
   return (
-    <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-8 group">
-      <motion.time 
-        className="text-sm text-gray-600 transition-colors group-hover:text-gray-900"
-        whileHover={{ x: 5 }}
-      >
-        {item.date}
-      </motion.time>
-      <motion.span 
-        className="text-xs font-medium text-gray-500 px-2 py-1 bg-gray-100 rounded transition-all group-hover:bg-gray-200"
-        whileHover={{ scale: 1.1 }}
-      >
-        {item.category}
-      </motion.span>
-      <h3 className="flex-1 text-lg transition-all duration-300 group-hover:translate-x-2">
+    <div className="flex flex-col gap-2 group">
+      <div className="flex items-center gap-3">
+        <motion.time 
+          className="text-sm text-gray-600 transition-colors group-hover:text-gray-900"
+          whileHover={{ x: 5 }}
+        >
+          {item.date}
+        </motion.time>
+        <motion.span 
+          className="text-xs font-medium text-gray-500 px-2 py-1 bg-sky-100 rounded transition-all group-hover:bg-sky-200"
+          whileHover={{ scale: 1.1 }}
+        >
+          {item.category}
+        </motion.span>
+      </div>
+      <h3 className="text-lg transition-all duration-300 group-hover:translate-x-2 lg:mt-0">
         {item.title}
       </h3>
     </div>
