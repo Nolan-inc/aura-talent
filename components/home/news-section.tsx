@@ -14,39 +14,6 @@ interface NewsItem {
 
 
 
-// Mock news data (fallback)
-const mockNewsItems: NewsItem[] = [
-  {
-    id: '1',
-    date: '2025.06.27',
-    category: 'MEDIA',
-    title: '白石聖 Amazon Originalドラマ「私の夫と結婚して」配信開始',
-  },
-  {
-    id: '2',
-    date: '2025.06.25',
-    category: 'EVENT',
-    title: '宮﨑優 Netflixシリーズ「グラスハート」完成披露試写会',
-  },
-  {
-    id: '3',
-    date: '2025.06.20',
-    category: 'MEDIA',
-    title: '田中みな実 「愛の、がっこう。」制作発表',
-  },
-  {
-    id: '4',
-    date: '2025.06.15',
-    category: 'NEWS',
-    title: '鳴海唯 NHK連続テレビ小説「あんぱん」クランクイン',
-  },
-  {
-    id: '5',
-    date: '2025.06.10',
-    category: 'EVENT',
-    title: '有村架純 映画舞台挨拶登壇',
-  },
-]
 
 export function NewsSection() {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([])
@@ -90,20 +57,20 @@ export function NewsSection() {
                   day: '2-digit',
                 }).replace(/\//g, '.')
               : new Date().toLocaleDateString('ja-JP').replace(/\//g, '.'),
-            category: (item.category || item.type || 'NEWS').toUpperCase(),
+            category: item.category?.name || item.type || 'NEWS',
             title: item.title || 'No title',
-            link: item.link || item.url || undefined,
+            link: `/news/${item.id}`,
           }))
           console.log('Mapped news:', mappedNews)
           setNewsItems(mappedNews)
         } else {
-          console.log('No valid news data in API response, using mock data')
-          setNewsItems(mockNewsItems)
+          console.log('No valid news data in API response')
+          setNewsItems([])
         }
       } catch (error) {
         console.error('Error fetching news:', error)
-        // Use mock data as fallback
-        setNewsItems(mockNewsItems)
+        // Keep empty array on error
+        setNewsItems([])
       } finally {
         setIsLoading(false)
       }
@@ -144,6 +111,10 @@ export function NewsSection() {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading news...</p>
           </div>
+        ) : newsItems.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600">ニュースがありません</p>
+          </div>
         ) : (
           <ul className="space-y-px">
             {newsItems.slice(0, displayCount).map((item, index) => (
@@ -171,8 +142,9 @@ export function NewsSection() {
           </ul>
         )}
 
-        <div className="mt-12 text-center">
-          {!showAll ? (
+        {newsItems.length > 0 && (
+          <div className="mt-12 text-center">
+            {!showAll ? (
             <motion.button
               onClick={handleShowMore}
               className="inline-block px-8 py-3 text-sm font-light tracking-wider border border-gray-800 hover:bg-gray-800 hover:text-white transition-all duration-300 relative overflow-hidden group"
@@ -206,7 +178,8 @@ export function NewsSection() {
               </Link>
             </motion.div>
           )}
-        </div>
+          </div>
+        )}
       </motion.div>
     </section>
   )

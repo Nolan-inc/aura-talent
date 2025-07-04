@@ -8,24 +8,27 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { fetchWithCache } from '@/lib/cache'
 
-interface Actor {
+interface Talent {
   id: string
   name: string
   nameJa: string
   slug: string
   image: string
   profile?: string
+  category: 'actor' | 'idol' | 'artist'
 }
 
 // APIレスポンスの型定義
-interface ApiActor {
+interface ApiTalent {
   id: string
   title: string
   slug: string
+  excerpt: string
   publishedAt: string
   thumbnail: {
     url: string
   }
+  displayOrder?: number
   metadata?: {
     images?: Array<{
       url: string
@@ -36,75 +39,42 @@ interface ApiActor {
 }
 
 interface ApiResponse {
-  data: ApiActor[]
+  data: ApiTalent[]
+}
+
+type TabType = 'actor' | 'idol' | 'artist'
+
+const CATEGORY_IDS = {
+  actor: 'd9ac59d2-4356-4b0f-aa00-8713a909962f',
+  idol: '9696c6f5-e622-4f83-ae67-e1247a0497e5',
+  artist: '2afe4b32-4ba2-4ae1-9185-01142930e2b2',
 }
 
 // 静的データ（フォールバック用）
-const staticActors: Actor[] = [
-  {
-    id: '1',
-    name: 'Sei Shiraishi',
-    nameJa: '白石聖',
-    slug: 'sei_shiraishi',
-    image: '/talent/acprof_fv_SeiShiraishi202505_02.jpg',
-    profile: '1993年8月10日生まれ、神奈川県出身'
-  },
-  {
-    id: '2',
-    name: 'Kasumi Arimura',
-    nameJa: '有村架純',
-    slug: 'kasumi_arimura',
-    image: '/talent/actor_thumb_202410_arimura-1.jpg',
-    profile: '1993年2月13日生まれ、兵庫県出身'
-  },
-  {
-    id: '3',
-    name: 'Eiko Karata',
-    nameJa: '唐田えりか',
-    slug: 'eiko_karata',
-    image: '/talent/marquee_img__0007_karata.jpg',
-    profile: '1997年9月19日生まれ、千葉県出身'
-  },
-  {
-    id: '4',
-    name: 'Han Hyo-joo',
-    nameJa: 'ハン・ヒョジュ',
-    slug: 'han_hyo_joo',
-    image: '/talent/marquee_img__0010_hyo-joo.jpg',
-    profile: '1987年2月22日生まれ、韓国出身'
-  },
-  {
-    id: '5',
-    name: 'Michiko Kichise',
-    nameJa: '吉瀬美智子',
-    slug: 'michiko_kichise',
-    image: '/talent/marquee_img__0013_kichise.jpg',
-    profile: '1975年2月17日生まれ、福岡県出身'
-  },
-  {
-    id: '6',
-    name: 'Erika Toda',
-    nameJa: '戸田恵梨香',
-    slug: 'erika_toda',
-    image: '/talent/marquee_img__0015_toda.jpg',
-    profile: '1988年8月17日生まれ、兵庫県出身'
-  },
-]
+const staticTalents: { [key in TabType]: Talent[] } = {
+  actor: [],
+  idol: [],
+  artist: [],
+}
 
 export default function ActorPage() {
-  const [actors, setActors] = useState<Actor[]>(staticActors)
-  const [isLoading, setIsLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<TabType>('actor')
+  const [talents, setTalents] = useState<{ [key in TabType]: Talent[] }>(staticTalents)
+  const [isLoading, setIsLoading] = useState<{ [key in TabType]: boolean }>({ 
+    actor: true, 
+    idol: true, 
+    artist: true 
+  })
 
   useEffect(() => {
-    // APIからデータを取得
-    const fetchActors = async () => {
+    // 各カテゴリのデータを取得
+    const fetchTalents = async (category: TabType) => {
       try {
-        // Use cache for API data
         const data = await fetchWithCache<ApiResponse>(
-          'actors-list',
+          `${category}-list`,
           async () => {
             const response = await fetch(
-              'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f',
+              `https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=${CATEGORY_IDS[category]}`,
               {
                 method: 'GET',
                 headers: {
@@ -123,30 +93,42 @@ export default function ActorPage() {
         )
         
         // APIデータを既存の構造に変換
-        const apiActors: Actor[] = data.data.map((item) => ({
+        const apiTalents: Talent[] = data.data.map((item) => ({
           id: item.id,
-          name: item.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // slugから英語名を生成
-          nameJa: item.title, // 日本語名としてtitleを使用
-          slug: item.slug.toLowerCase().replace(/ /g, '_'), // slugを正規化
-          // metadata.imagesの2番目の画像を使用、なければthumbnail.urlを使用
+          name: item.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          nameJa: item.title,
+          slug: item.slug.toLowerCase().replace(/ /g, '_'),
           image: item.metadata?.images?.[1]?.url || item.thumbnail.url,
-          profile: new Date(item.publishedAt).toLocaleDateString('ja-JP', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          }) + ' 公開'
+          profile: item.excerpt || '',
+          category
         }))
 
-        setActors(apiActors)
+        // displayOrderで並び替え（displayOrderがない場合は公開日順）
+        const sortedTalents = apiTalents.sort((a, b) => {
+          const aItem = data.data.find(item => item.id === a.id)
+          const bItem = data.data.find(item => item.id === b.id)
+          
+          // displayOrderが両方にある場合は、displayOrderで並び替え
+          if (aItem?.displayOrder !== undefined && bItem?.displayOrder !== undefined) {
+            return aItem.displayOrder - bItem.displayOrder
+          }
+          
+          // displayOrderがない場合は公開日順（新しいものが後ろ）
+          return new Date(aItem?.publishedAt || 0).getTime() - new Date(bItem?.publishedAt || 0).getTime()
+        })
+
+        setTalents(prev => ({ ...prev, [category]: sortedTalents }))
       } catch (error) {
-        console.error('Error fetching actors:', error)
-        // エラー時は静的データを使用（既にセット済み）
+        console.error(`Error fetching ${category}s:`, error)
       } finally {
-        setIsLoading(false)
+        setIsLoading(prev => ({ ...prev, [category]: false }))
       }
     }
 
-    fetchActors()
+    // 全てのカテゴリのデータを取得
+    fetchTalents('actor')
+    fetchTalents('idol')
+    fetchTalents('artist')
   }, [])
   return (
     <>
@@ -159,13 +141,34 @@ export default function ActorPage() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl font-light tracking-widest">ACTOR</h1>
+          <h1 className="text-5xl font-light tracking-widest">TALENT</h1>
           <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
         </motion.div>
 
-        {/* Actor Grid */}
+        {/* Tab Navigation */}
+        <div className="container mx-auto px-4 max-w-7xl mb-12">
+          <div className="flex justify-center">
+            <div className="inline-flex border-b-2 border-gray-200">
+              {(['actor', 'idol', 'artist'] as TabType[]).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-8 py-3 text-lg font-light tracking-wide transition-all duration-300 ${
+                    activeTab === tab
+                      ? 'text-sky-600 border-b-2 border-sky-600 -mb-[2px]'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  {tab.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Talent Grid */}
         <div className="container mx-auto px-4 max-w-7xl">
-          {isLoading ? (
+          {isLoading[activeTab] ? (
             <div className="flex justify-center items-center min-h-[400px]">
               <div className="text-center">
                 <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-sky-600 border-r-transparent mb-4"></div>
@@ -174,20 +177,20 @@ export default function ActorPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {actors.map((actor, index) => (
+              {talents[activeTab].map((talent, index) => (
               <motion.article
-                key={actor.id}
+                key={talent.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 className="group"
               >
-                <Link href={`/actor/${actor.slug}`}>
+                <Link href={`/${activeTab}/${talent.slug}`}>
                   <div className="relative overflow-hidden bg-sky-100 aspect-[3/4]">
                     <Image
-                      src={actor.image}
-                      alt={actor.nameJa}
+                      src={talent.image}
+                      alt={talent.nameJa}
                       fill
                       loading="lazy"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -197,17 +200,17 @@ export default function ActorPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
-                    {/* Hover overlay with actor info */}
+                    {/* Hover overlay with talent info */}
                     <motion.div
                       className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
                     >
-                      <p className="text-sm opacity-80">{actor.profile}</p>
+                      <p className="text-sm opacity-80">{talent.profile}</p>
                     </motion.div>
                   </div>
                   
                   <div className="mt-4 text-center">
-                    <h2 className="text-xl font-light">{actor.nameJa}</h2>
-                    <p className="text-sm text-gray-600 mt-1">{actor.name}</p>
+                    <h2 className="text-xl font-light">{talent.nameJa}</h2>
+                    <p className="text-sm text-gray-600 mt-1">{talent.name}</p>
                   </div>
                 </Link>
               </motion.article>

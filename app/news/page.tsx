@@ -26,6 +26,11 @@ interface ApiNewsItem {
   excerpt: string
   publishedAt: string
   url: string
+  category?: {
+    id: string
+    name: string
+    slug: string
+  }
 }
 
 interface ApiResponse {
@@ -65,10 +70,10 @@ export default function NewsPage() {
               month: '2-digit',
               day: '2-digit',
             }).replace(/\//g, '.'), // YYYY.MM.DD形式に変換
-            category: item.type.toUpperCase(), // typeを大文字に変換
+            category: item.category?.name || item.type.toUpperCase(), // categoryからnameを取得、なければtypeを大文字に変換
             title: item.title,
             excerpt: item.excerpt,
-            link: item.url,
+            link: `/news/${item.id}`,
             // imageはAPIレスポンスにない場合が多いのでundefined
           }))
 

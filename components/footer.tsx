@@ -11,7 +11,7 @@ export function Footer() {
   }
 
   const footerLinks = [
-    { href: '/actor', label: 'Actor' },
+    { href: '/actor', label: 'Talent' },
     { href: '/news', label: 'News' },
       { href: '/fanclub', label: 'Fanclub' },
     { href: '/company-profile', label: 'Company Profile' },
