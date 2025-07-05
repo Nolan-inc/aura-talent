@@ -29,8 +29,7 @@ interface ApiResponse {
 export function Header({ isHomePage = false }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [headerImages, setHeaderImages] = useState<HeaderImage[]>([])
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [, setCurrentImageIndex] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
