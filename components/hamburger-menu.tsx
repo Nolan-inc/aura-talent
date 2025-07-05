@@ -10,7 +10,7 @@ export function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false)
 
   const menuItems = [
-    { href: '/actor', label: 'Actor' },
+    { href: '/talent', label: 'Talent' },
     { href: '/news', label: 'News' },
       { href: '/fanclub', label: 'Fanclub' },
     { href: '/company-profile', label: 'Company Profile' },

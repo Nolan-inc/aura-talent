@@ -48,6 +48,14 @@ interface ApiActor {
     url: string
     alt: string
   }
+  displayOrder?: number
+  metadata?: {
+    images?: Array<{
+      url: string
+      alt: string
+      order: number
+    }>
+  }
 }
 
 interface ApiResponse {
@@ -97,7 +105,7 @@ export function ActorMarquee() {
     const fetchActors = async () => {
       try {
         const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f'
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=d9ac59d2-4356-4b0f-aa00-8713a909962f%2C9696c6f5-e622-4f83-ae67-e1247a0497e5%2C2afe4b32-4ba2-4ae1-9185-01142930e2b2'
         )
         
         if (!response.ok) {
@@ -106,8 +114,13 @@ export function ActorMarquee() {
 
         const data: ApiResponse = await response.json()
         
+        // displayOrderで並び替え
+        const sortedData = data.data.sort((a, b) => 
+          (a.displayOrder ?? Infinity) - (b.displayOrder ?? Infinity)
+        )
+        
         // デスクトップとモバイルの両方のポジションを含むデータを作成
-        const mappedActors: Actor[] = data.data.map((item, index) => {
+        const mappedActors: Actor[] = sortedData.map((item, index) => {
           // デスクトップポジションをデフォルトとして使用
           const desktopPositionIndex = index % desktopPositions.length
           const desktopPosition = desktopPositions[desktopPositionIndex] || desktopPositions[0] || { x: 10, y: 10, size: 200, rotate: 0 }
@@ -117,7 +130,7 @@ export function ActorMarquee() {
             name: item.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
             nameJa: item.title,
             slug: item.slug.toLowerCase().replace(/ /g, '_'),
-            marqueeImage: item.thumbnail.url,
+            marqueeImage: item.metadata?.images?.[0]?.url || item.thumbnail.url,
             position: desktopPosition // デフォルトポジションを設定
           }
         })
@@ -148,7 +161,7 @@ export function ActorMarquee() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            ACTOR
+            TALENT
           </motion.h2>
 
           {/* Scattered Floating Images */}
@@ -205,7 +218,7 @@ export function ActorMarquee() {
                   className="relative"
                 >
                   <Link
-                    href={`/actor/${actor.slug}`}
+                    href={`/talent/${actor.slug}`}
                     className="block relative group overflow-hidden rounded-xl md:rounded-2xl shadow-md md:shadow-lg hover:shadow-xl md:hover:shadow-2xl transition-shadow duration-300"
                   >
                     <div className="relative overflow-hidden bg-sky-100 aspect-[3/4]">
@@ -246,7 +259,7 @@ export function ActorMarquee() {
               viewport={{ once: true }}
             >
               <Link
-                href="/actor"
+                href="/talent"
                 className="inline-flex items-center gap-2 px-8 py-3 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 group"
               >
                 <span className="text-sm tracking-wider">VIEW MORE</span>

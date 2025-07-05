@@ -46,8 +46,8 @@ type TabType = 'actor' | 'idol' | 'artist'
 
 const CATEGORY_IDS = {
   actor: 'd9ac59d2-4356-4b0f-aa00-8713a909962f',
-  idol: '9696c6f5-e622-4f83-ae67-e1247a0497e5',
-  artist: '2afe4b32-4ba2-4ae1-9185-01142930e2b2',
+  idol: '2afe4b32-4ba2-4ae1-9185-01142930e2b2',
+  artist: '9696c6f5-e622-4f83-ae67-e1247a0497e5',
 }
 
 // 静的データ（フォールバック用）
@@ -186,7 +186,7 @@ export default function ActorPage() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <Link href={`/${activeTab}/${talent.slug}`}>
+                <Link href={`/talent/${talent.slug}`}>
                   <div className="relative overflow-hidden bg-sky-100 aspect-[3/4]">
                     <Image
                       src={talent.image}

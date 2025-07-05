@@ -27,7 +27,7 @@ export function NewsSection() {
         // Force fresh fetch without cache for debugging
         console.log('Fetching news from API...')
         const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article',
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=article',
           {
             method: 'GET',
             headers: {

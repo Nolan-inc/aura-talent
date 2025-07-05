@@ -18,9 +18,19 @@ interface Banner {
 interface ApiBanner {
   id: string
   title: string
+  slug: string
   publishedAt: string
   thumbnail: {
     url: string
+    alt: string
+  }
+  displayOrder?: number
+  metadata?: {
+    images?: Array<{
+      url: string
+      alt: string
+      order: number
+    }>
   }
   url?: string
 }
@@ -77,7 +87,7 @@ export function HeroBanner() {
     const fetchBanners = async () => {
       try {
         const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=4008c980-d4ce-4671-a4db-8d119cc7525a'
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=4008c980-d4ce-4671-a4db-8d119cc7525a'
         )
         
         if (!response.ok) {
@@ -87,13 +97,18 @@ export function HeroBanner() {
         const data: ApiResponse = await response.json()
         
         if (data.success && data.data.length > 0) {
+          // displayOrderで並び替え
+          const sortedData = data.data.sort((a, b) => 
+            (a.displayOrder ?? Infinity) - (b.displayOrder ?? Infinity)
+          )
+          
           // APIデータをBanner型にマップ
-          const mappedBanners: Banner[] = data.data.map((item, index) => ({
+          const mappedBanners: Banner[] = sortedData.map((item, index) => ({
             id: index + 1,
             name: item.title.toUpperCase().replace(/ /g, '\n'), // スペースを改行に変換
-            subtitle: new Date(item.publishedAt).toLocaleDateString('ja-JP'),
-            description: `${item.title}\n${new Date(item.publishedAt).toLocaleDateString('ja-JP')}`,
-            imagePC: item.thumbnail.url,
+            subtitle: item.slug || '',
+            description: item.title,
+            imagePC: item.metadata?.images?.[0]?.url || item.thumbnail.url,
             imageSP: item.thumbnail.url,
             link: item.url
           }))
