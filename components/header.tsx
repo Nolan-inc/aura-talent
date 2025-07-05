@@ -85,6 +85,8 @@ export function Header({ isHomePage = false }: HeaderProps) {
 
       return () => clearInterval(interval)
     }
+    // 明示的にundefinedを返す
+    return undefined
   }, [headerImages.length])
 
   const socialLinks = [
