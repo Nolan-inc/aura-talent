@@ -207,7 +207,7 @@ export default function ActorDetailPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <p className="text-gray-600">俳優が見つかりませんでした</p>
-            <Link href="/actor" className="mt-4 inline-block text-blue-600 hover:underline">
+            <Link href="/talent" className="mt-4 inline-block text-blue-600 hover:underline">
               女優一覧に戻る
             </Link>
           </div>
@@ -224,7 +224,7 @@ export default function ActorDetailPage() {
         {/* Back Button */}
         <div className="container mx-auto px-4 mb-8">
           <Link 
-            href="/actor"
+            href="/talent"
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
