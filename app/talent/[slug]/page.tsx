@@ -54,6 +54,12 @@ interface ApiResponse {
   data: ApiActor[]
 }
 
+const CATEGORY_IDS = {
+  actor: 'd9ac59d2-4356-4b0f-aa00-8713a909962f',
+  idol: '2afe4b32-4ba2-4ae1-9185-01142930e2b2',
+  artist: '9696c6f5-e622-4f83-ae67-e1247a0497e5',
+}
+
 // Extract skills from content text
 function extractSkills(content: string | null): string[] {
   if (!content) return ['演技'];
@@ -116,29 +122,46 @@ export default function ActorDetailPage() {
       try {
         const decodedSlug = decodeURIComponent(slug).toLowerCase().replace(/ /g, '_')
         
-        // Try to fetch from API with cache
-        const apiData = await fetchWithCache<ApiResponse>(
-          `actor-detail-${decodedSlug}`,
-          async () => {
-            const response = await fetch(
-              'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=card&category_id=d9ac59d2-4356-4b0f-aa00-8713a909962f'
+        // Try to fetch from all categories
+        let actorData: ApiActor | undefined;
+        
+        // Fetch all categories in parallel
+        const categoryPromises = Object.entries(CATEGORY_IDS).map(async ([category, categoryId]) => {
+          try {
+            const apiData = await fetchWithCache<ApiResponse>(
+              `talent-detail-${category}-${decodedSlug}`,
+              async () => {
+                const response = await fetch(
+                  `https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=${categoryId}`
+                )
+                
+                if (!response.ok) {
+                  throw new Error('Failed to fetch')
+                }
+                
+                return response.json()
+              },
+              600 // Cache for 10 minutes
             )
             
-            if (!response.ok) {
-              throw new Error('Failed to fetch')
+            if (apiData?.data) {
+              const found = apiData.data.find(
+                item => item.slug.toLowerCase().replace(/ /g, '_') === decodedSlug
+              )
+              if (found) {
+                actorData = found
+                return true
+              }
             }
-            
-            return response.json()
-          },
-          600 // Cache for 10 minutes
-        )
+          } catch (error) {
+            console.error(`Error fetching ${category} data:`, error)
+          }
+          return false
+        })
         
-        if (apiData) {
-          const actorData = apiData.data.find(
-            item => item.slug.toLowerCase().replace(/ /g, '_') === decodedSlug
-          )
-          
-          if (actorData) {
+        await Promise.all(categoryPromises)
+        
+        if (actorData) {
             setActor({
               id: actorData.id,
               name: actorData.slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
@@ -149,19 +172,18 @@ export default function ActorDetailPage() {
               skills: extractSkills(actorData.content),
               works: []
             })
-          } else {
-            // Create mock data if actor not found
-            setActor({
-              id: '999',
-              name: decodeURIComponent(slug).replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-              nameJa: 'タレント名',
-              slug: decodedSlug,
-              profileImage: '/aura/aura1001.jpg',
-              biography: 'AURA所属のタレント。',
-              skills: ['演技'],
-              works: []
-            })
-          }
+        } else {
+          // Create mock data if actor not found
+          setActor({
+            id: '999',
+            name: decodeURIComponent(slug).replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            nameJa: 'タレント名',
+            slug: decodedSlug,
+            profileImage: '/aura/aura1001.jpg',
+            biography: 'AURA所属のタレント。',
+            skills: ['演技'],
+            works: []
+          })
         }
       } catch (error) {
         console.error('Error fetching actor detail:', error)
