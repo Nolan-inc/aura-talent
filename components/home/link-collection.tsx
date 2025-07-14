@@ -18,14 +18,14 @@ const linkItems: LinkItem[] = [
     subtitle: '会員制有料公式デジタルファンサイト',
     description: '舞台裏の様子や撮影現場の独占映像、\n特別インタビューなど\n限定コンテンツが満載',
     href: 'https://aurapress.com/',
-    accent: 'from-sky-400 to-blue-500'
+    accent: 'from-tiffany-400 to-tiffany-600'
   },
   {
     title: 'AURA Mail Order',
     subtitle: 'オフィシャルオンラインショップ',
     description: 'オリジナルグッズや出演作品、\n限定特典付きアイテムを\n取り揃えています',
     href: 'https://aura-mailorder.com/',
-    accent: 'from-blue-400 to-sky-500'
+    accent: 'from-tiffany-500 to-tiffany-400'
   }
 ]
 
@@ -34,8 +34,8 @@ export function LinkCollection() {
     <section className="py-24 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-sky-300 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-300 rounded-full filter blur-3xl" />
+        <div className="absolute top-0 left-0 w-96 h-96 bg-tiffany-300 rounded-full filter blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-tiffany-300 rounded-full filter blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
@@ -80,7 +80,7 @@ export function LinkCollection() {
                           {item.subtitle}
                         </p>
                       )}
-                      <h3 className="text-3xl font-light tracking-wider group-hover:text-sky-600 transition-colors duration-300">
+                      <h3 className="text-3xl font-light tracking-wider group-hover:text-tiffany-600 transition-colors duration-300">
                         {item.title}
                       </h3>
                     </div>
@@ -97,7 +97,7 @@ export function LinkCollection() {
                       詳しく見る
                     </span>
                     <motion.div
-                      className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-800 text-white group-hover:bg-sky-600 transition-colors duration-300"
+                      className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-800 text-white group-hover:bg-tiffany-600 transition-colors duration-300"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -108,7 +108,7 @@ export function LinkCollection() {
 
                 {/* Decorative Elements */}
                 <motion.div
-                  className="absolute -bottom-20 -right-20 w-40 h-40 bg-sky-200 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-700"
+                  className="absolute -bottom-20 -right-20 w-40 h-40 bg-tiffany-200 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-700"
                   animate={{
                     scale: [1, 1.2, 1],
                   }}
@@ -119,7 +119,7 @@ export function LinkCollection() {
                   }}
                 />
                 <motion.div
-                  className="absolute -top-10 -left-10 w-24 h-24 bg-blue-200 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-700"
+                  className="absolute -top-10 -left-10 w-24 h-24 bg-tiffany-200 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-700"
                   animate={{
                     scale: [1, 1.3, 1],
                   }}

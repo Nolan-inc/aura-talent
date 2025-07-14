@@ -64,36 +64,13 @@ const fanclubTiers: FanclubTier[] = [
       '誕生日プレゼント',
       '年末特別イベント招待',
     ],
-    color: 'from-sky-400 to-sky-700',
+    color: 'from-tiffany-400 to-tiffany-700',
     icon: <Gift className="w-8 h-8" />,
   },
 ]
 
 const specialContents: SpecialContent[] = [
-  {
-    id: '1',
-    title: '撮影現場の裏側',
-    type: 'movie',
-    actor: '白石聖',
-    thumbnail: '/talent/acprof_fv_SeiShiraishi202505_02.jpg',
-    date: '2025.06.25',
-  },
-  {
-    id: '2',
-    title: '特別フォトギャラリー',
-    type: 'photo',
-    actor: '有村架純',
-    thumbnail: '/talent/actor_thumb_202410_arimura-1.jpg',
-    date: '2025.06.20',
-  },
-  {
-    id: '3',
-    title: 'ファンへのメッセージ',
-    type: 'message',
-    actor: '田中みな実',
-    thumbnail: '/aura/top_mv_pc_0002_narumi.jpg',
-    date: '2025.06.15',
-  },
+
 ]
 
 export default function FanclubPage() {
@@ -120,7 +97,7 @@ export default function FanclubPage() {
           className="container mx-auto px-4 max-w-6xl mb-20"
         >
           <div className="relative h-[400px] rounded-2xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-sky-600" />
+            <div className="absolute inset-0 bg-gradient-to-r from-tiffany-600 to-tiffany-500" />
             <div className="absolute inset-0 bg-black/30" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
               <motion.div
@@ -250,7 +227,7 @@ export default function FanclubPage() {
             viewport={{ once: true }}
             className="text-center mt-10"
           >
-            <button className="inline-flex items-center gap-2 px-6 py-3 text-blue-600 hover:text-blue-800 transition-colors">
+            <button className="inline-flex items-center gap-2 px-6 py-3 text-tiffany-600 hover:text-tiffany-800 transition-colors">
               もっと見る
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -264,15 +241,15 @@ export default function FanclubPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-r from-blue-50 to-sky-50 rounded-2xl p-12 text-center"
+            className="bg-gradient-to-r from-tiffany-50 to-tiffany-100 rounded-2xl p-12 text-center"
           >
-            <Calendar className="w-12 h-12 mx-auto mb-4 text-sky-600" />
+            <Calendar className="w-12 h-12 mx-auto mb-4 text-tiffany-600" />
             <h2 className="text-3xl mb-4">会員限定イベント</h2>
             <p className="text-gray-700 mb-8 max-w-2xl mx-auto">
               ファンミーティング、オンライントークイベント、舞台挨拶優先予約など、
               会員だけの特別なイベントを定期的に開催しています。
             </p>
-            <button className="px-8 py-3 bg-sky-600 text-white rounded-full hover:bg-sky-700 transition-colors">
+            <button className="px-8 py-3 bg-tiffany-600 text-white rounded-full hover:bg-tiffany-700 transition-colors">
               イベントカレンダーを見る
             </button>
           </motion.div>
@@ -289,7 +266,7 @@ export default function FanclubPage() {
                 top: `${18 + i * 16}%`,
                 width: 90 + i * 18,
                 height: 90 + i * 18,
-                background: 'radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(10, 186, 181, 0.05) 0%, transparent 70%)',
                 filter: 'blur(3px)',
               }}
               animate={{

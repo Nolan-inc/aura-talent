@@ -160,9 +160,9 @@ export default function AuditionPage() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div className="bg-white border-2 border-gray-200 rounded-xl p-6 h-full hover:border-sky-300 hover:shadow-xl transition-all duration-300">
+                <div className="bg-white border-2 border-gray-200 rounded-xl p-6 h-full hover:border-tiffany-300 hover:shadow-xl transition-all duration-300">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="p-3 bg-gradient-to-br from-sky-100 to-blue-100 rounded-full text-sky-600 group-hover:scale-110 transition-transform">
+                    <div className="p-3 bg-gradient-to-br from-tiffany-100 to-tiffany-200 rounded-full text-tiffany-600 group-hover:scale-110 transition-transform">
                       {category.icon}
                     </div>
                     <span className="text-sm text-gray-600 flex items-center gap-1">
@@ -171,7 +171,7 @@ export default function AuditionPage() {
                     </span>
                   </div>
                   
-                  <h3 className="text-2xl mb-3 group-hover:text-sky-600 transition-colors">
+                  <h3 className="text-2xl mb-3 group-hover:text-tiffany-600 transition-colors">
                     {category.title}
                   </h3>
                   
@@ -191,7 +191,7 @@ export default function AuditionPage() {
                     </ul>
                   </div>
                   
-                  <button className="w-full py-2 border-2 border-sky-600 text-sky-600 rounded-lg hover:bg-sky-600 hover:text-white transition-all duration-300">
+                  <button className="w-full py-2 border-2 border-tiffany-600 text-tiffany-600 rounded-lg hover:bg-tiffany-600 hover:text-white transition-all duration-300">
                     詳細・応募
                   </button>
                 </div>
@@ -222,14 +222,14 @@ export default function AuditionPage() {
                 viewport={{ once: true }}
                 className="relative"
               >
-                <div className="bg-gray-50 rounded-lg p-6 h-full hover:bg-sky-50 transition-colors group">
+                <div className="bg-gray-50 rounded-lg p-6 h-full hover:bg-tiffany-50 transition-colors group">
                   <div className="flex items-start gap-4">
-                    <div className="text-3xl font-light text-sky-600">
+                    <div className="text-3xl font-light text-tiffany-600">
                       {step.number}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="text-sky-600">
+                        <div className="text-tiffany-600">
                           {step.icon}
                         </div>
                         <h3 className="text-lg font-medium">
@@ -245,7 +245,7 @@ export default function AuditionPage() {
                 
                 {/* Connection line */}
                 {index < processSteps.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-sky-300" />
+                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-tiffany-300" />
                 )}
               </motion.div>
             ))}
@@ -259,7 +259,7 @@ export default function AuditionPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl p-12"
+            className="bg-gradient-to-r from-tiffany-50 to-tiffany-100 rounded-2xl p-12"
           >
             <h2 className="text-3xl text-center mb-8">
               オーディション合格者の声
@@ -268,7 +268,7 @@ export default function AuditionPage() {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="bg-white rounded-lg p-6">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-blue-400 rounded-full flex-shrink-0" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-tiffany-400 to-tiffany-500 rounded-full flex-shrink-0" />
                   <div>
                     <h4 className="font-medium">A.Kさん（20歳）</h4>
                     <p className="text-sm text-gray-600">2024年合格・俳優部門</p>
@@ -282,7 +282,7 @@ export default function AuditionPage() {
               
               <div className="bg-white rounded-lg p-6">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-sky-400 rounded-full flex-shrink-0" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-tiffany-500 to-tiffany-400 rounded-full flex-shrink-0" />
                   <div>
                     <h4 className="font-medium">M.Tさん（18歳）</h4>
                     <p className="text-sm text-gray-600">2024年合格・新人部門</p>
@@ -372,10 +372,10 @@ export default function AuditionPage() {
               まずは気軽にご応募ください。
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-3 bg-sky-600 text-white rounded-full hover:bg-sky-700 transition-colors">
+              <button className="px-8 py-3 bg-tiffany-600 text-white rounded-full hover:bg-tiffany-700 transition-colors">
                 オンライン応募
               </button>
-              <button className="px-8 py-3 border-2 border-sky-600 text-sky-600 rounded-full hover:bg-sky-50 transition-colors">
+              <button className="px-8 py-3 border-2 border-tiffany-600 text-tiffany-600 rounded-full hover:bg-tiffany-50 transition-colors">
                 資料請求
               </button>
             </div>
@@ -391,7 +391,7 @@ export default function AuditionPage() {
               top: '20%',
               width: 200,
               height: 200,
-              background: 'radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(10, 186, 181, 0.15) 0%, transparent 70%)',
               filter: 'blur(6px)',
             }}
             animate={{
@@ -411,7 +411,7 @@ export default function AuditionPage() {
               top: '60%',
               width: 250,
               height: 250,
-              background: 'radial-gradient(circle, rgba(135, 206, 235, 0.15) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(10, 186, 181, 0.15) 0%, transparent 70%)',
               filter: 'blur(6px)',
             }}
             animate={{

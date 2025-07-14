@@ -196,7 +196,7 @@ function NewsItemContent({ item }: { item: NewsItem }) {
           {item.date}
         </motion.time>
         <motion.span 
-          className="text-xs font-medium text-gray-500 px-2 py-1 bg-sky-100 rounded transition-all group-hover:bg-sky-200"
+          className="text-xs font-medium text-gray-500 px-2 py-1 bg-tiffany-100 rounded transition-all group-hover:bg-tiffany-200"
           whileHover={{ scale: 1.1 }}
         >
           {item.category}

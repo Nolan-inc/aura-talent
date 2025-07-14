@@ -89,12 +89,6 @@ export function Header({ isHomePage = false }: HeaderProps) {
     return undefined
   }, [headerImages.length])
 
-  const socialLinks = [
-    { href: 'https://twitter.com/FLaMme_ject/', icon: 'X', label: 'X (Twitter)' },
-    { href: 'https://www.instagram.com/flamme_official_film/', icon: 'Instagram', label: 'Instagram' },
-    { href: 'https://www.youtube.com/user/FLaMmeject', icon: 'YouTube', label: 'YouTube' },
-  ]
-
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -111,25 +105,8 @@ export function Header({ isHomePage = false }: HeaderProps) {
     >
       <div className="container mx-auto px-4">
         <div className="relative flex items-center justify-between h-16">
-          {/* Left side - Social Links on desktop, empty space on mobile */}
-          <div className="flex items-center">
-            <ul className="hidden items-center gap-4 lg:flex">
-              {socialLinks.map((social) => (
-                <li key={social.label}>
-                  <a
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                    aria-label={social.label}
-                  >
-                    {social.icon}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <div className="w-12 h-12 lg:hidden" /> {/* Spacer for mobile */}
-          </div>
+          {/* Left side - Empty space for balance */}
+          <div className="w-12 h-12" />
 
           {/* Center - Logo */}
           <Link

@@ -155,7 +155,7 @@ export default function ActorPage() {
                   onClick={() => setActiveTab(tab)}
                   className={`px-8 py-3 text-lg font-light tracking-wide transition-all duration-300 ${
                     activeTab === tab
-                      ? 'text-sky-600 border-b-2 border-sky-600 -mb-[2px]'
+                      ? 'text-tiffany-600 border-b-2 border-tiffany-600 -mb-[2px]'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
@@ -171,7 +171,7 @@ export default function ActorPage() {
           {isLoading[activeTab] ? (
             <div className="flex justify-center items-center min-h-[400px]">
               <div className="text-center">
-                <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-sky-600 border-r-transparent mb-4"></div>
+                <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-tiffany-600 border-r-transparent mb-4"></div>
                 <p className="text-gray-600">Loading...</p>
               </div>
             </div>
@@ -187,7 +187,7 @@ export default function ActorPage() {
                 className="group"
               >
                 <Link href={`/talent/${talent.slug}`}>
-                  <div className="relative overflow-hidden bg-sky-100 aspect-[3/4]">
+                  <div className={`relative overflow-hidden bg-tiffany-100 ${activeTab === 'idol' ? 'aspect-[16/9]' : 'aspect-[3/4]'}`}>
                     <Image
                       src={talent.image}
                       alt={talent.nameJa}
@@ -228,7 +228,7 @@ export default function ActorPage() {
               top: '25%',
               width: 180,
               height: 180,
-              background: 'radial-gradient(circle, rgba(135, 206, 235, 0.15) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(10, 186, 181, 0.15) 0%, transparent 70%)',
               filter: 'blur(5px)',
             }}
             animate={{
@@ -249,7 +249,7 @@ export default function ActorPage() {
               top: '70%',
               width: 200,
               height: 200,
-              background: 'radial-gradient(circle, rgba(135, 206, 235, 0.15) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(10, 186, 181, 0.15) 0%, transparent 70%)',
               filter: 'blur(5px)',
             }}
             animate={{
@@ -271,7 +271,7 @@ export default function ActorPage() {
               top: '10%',
               width: 160,
               height: 160,
-              background: 'radial-gradient(circle, rgba(165, 218, 248, 0.12) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(10, 186, 181, 0.12) 0%, transparent 70%)',
               filter: 'blur(7px)',
             }}
             animate={{

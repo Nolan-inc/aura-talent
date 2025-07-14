@@ -45,7 +45,7 @@ export default function NewsDetailClient({ news }: { news: NewsDetail }) {
           </Link>
           
           <div className="mb-6">
-            <span className="inline-block px-3 py-1 text-xs font-medium text-gray-600 bg-sky-100 rounded-full mb-4">
+            <span className="inline-block px-3 py-1 text-xs font-medium text-gray-600 bg-tiffany-100 rounded-full mb-4">
               {news.category.name}
             </span>
             <h1 className="text-3xl md:text-4xl font-light mb-4">{news.title}</h1>
@@ -76,7 +76,7 @@ export default function NewsDetailClient({ news }: { news: NewsDetail }) {
                 href={news.externalLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors"
+                className="inline-flex items-center text-tiffany-600 hover:text-tiffany-700 transition-colors"
               >
                 外部リンクで詳細を見る →
               </a>

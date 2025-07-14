@@ -37,7 +37,7 @@ export function LoadingAnimation() {
           {/* Background animation */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-sky-100 rounded-full"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-tiffany-100 rounded-full"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ 
                 scale: [0, 1.5, 2],
@@ -50,7 +50,7 @@ export function LoadingAnimation() {
               }}
             />
             <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-100 rounded-full"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-tiffany-100 rounded-full"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ 
                 scale: [0, 1.5, 2],
@@ -121,7 +121,7 @@ export function LoadingAnimation() {
                 {[0, 1, 2].map((index) => (
                   <motion.div
                     key={index}
-                    className="w-2 h-2 bg-sky-500 rounded-full"
+                    className="w-2 h-2 bg-tiffany-500 rounded-full"
                     animate={{
                       scale: [1, 1.5, 1],
                       opacity: [0.3, 1, 0.3],
@@ -139,7 +139,7 @@ export function LoadingAnimation() {
 
           {/* Progress bar */}
           <motion.div
-            className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-sky-400 to-blue-500"
+            className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-tiffany-400 to-tiffany-600"
             initial={{ width: '0%' }}
             animate={{ width: '100%' }}
             transition={{ duration: 2.5, ease: 'easeInOut' }}

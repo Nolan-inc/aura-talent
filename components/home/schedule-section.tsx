@@ -16,60 +16,7 @@ interface ScheduleItem {
   channel?: string
 }
 
-const upcomingSchedule: ScheduleItem[] = [
-  {
-    id: '1',
-    date: '2025.07.05',
-    time: '21:00',
-    title: 'ドラマ「Moonlight Echoes」第1話放送',
-    actor: 'Yuki Tanaka',
-    type: 'tv',
-    channel: 'NHK Premium',
-  },
-  {
-    id: '2',
-    date: '2025.07.10',
-    time: '22:00',
-    title: 'Netflix「The Velvet Hour」配信開始',
-    actor: 'Mika Sato',
-    type: 'tv',
-    channel: 'Netflix',
-  },
-  {
-    id: '3',
-    date: '2025.07.15',
-    time: '13:00',
-    title: '映画「Summer Dreams」プレミア上映会',
-    actor: 'Rina Hayashi',
-    type: 'event',
-    venue: '六本木ヒルズ アリーナ',
-  },
-  {
-    id: '4',
-    date: '2025.07.18',
-    time: '18:00',
-    title: 'AURA Showcase 2025',
-    actor: 'All AURA Talents',
-    type: 'event',
-    venue: 'Zepp DiverCity Tokyo',
-  },
-  {
-    id: '5',
-    date: '2025.07.28',
-    title: '映画「Azure Sky」全国ロードショー',
-    actor: 'Mai Suzuki',
-    type: 'movie',
-  },
-  {
-    id: '6',
-    date: '2025.08.03',
-    time: '24:00',
-    title: 'ラジオ「Midnight Sessions」ゲスト出演',
-    actor: 'Kana Yamamoto',
-    type: 'radio',
-    channel: 'J-WAVE',
-  },
-]
+const upcomingSchedule: ScheduleItem[] = []
 
 const getTypeLabel = (type: string) => {
   switch (type) {

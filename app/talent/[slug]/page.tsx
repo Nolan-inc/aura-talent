@@ -229,7 +229,7 @@ export default function ActorDetailPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <p className="text-gray-600">俳優が見つかりませんでした</p>
-            <Link href="/talent" className="mt-4 inline-block text-blue-600 hover:underline">
+            <Link href="/talent" className="mt-4 inline-block text-tiffany-600 hover:underline">
               女優一覧に戻る
             </Link>
           </div>
@@ -301,7 +301,7 @@ export default function ActorDetailPage() {
                       {actor.skills.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-4 py-2 bg-sky-100 rounded-full text-sm"
+                          className="px-4 py-2 bg-tiffany-100 rounded-full text-sm"
                         >
                           {skill}
                         </span>

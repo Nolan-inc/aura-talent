@@ -18,86 +18,7 @@ interface ScheduleItem {
   description?: string
 }
 
-const scheduleItems: ScheduleItem[] = [
-  {
-    id: '1',
-    date: '2025.07.05',
-    time: '21:00',
-    title: 'Moonlight Echoes',
-    actor: 'Yuki Tanaka',
-    type: 'tv',
-    channel: 'NHK Premium',
-    description: '新感覚ドラマシリーズ 第1話',
-  },
-  {
-    id: '2',
-    date: '2025.07.10',
-    time: '22:00',
-    title: 'The Velvet Hour',
-    actor: 'Mika Sato',
-    type: 'tv',
-    channel: 'Netflix',
-    description: 'オリジナルシリーズ配信開始',
-  },
-  {
-    id: '3',
-    date: '2025.07.15',
-    time: '13:00',
-    title: 'Summer Dreams プレミア上映会',
-    actor: 'Rina Hayashi',
-    type: 'event',
-    venue: '六本木ヒルズ アリーナ',
-    description: 'レッドカーペット＆舞台挨拶',
-  },
-  {
-    id: '4',
-    date: '2025.07.18',
-    title: 'AURA Showcase 2025',
-    actor: 'All AURA Talents',
-    type: 'event',
-    venue: 'Zepp DiverCity Tokyo',
-    time: '18:00',
-    description: '所属タレント総出演スペシャルイベント',
-  },
-  {
-    id: '5',
-    date: '2025.07.22',
-    time: '24:00',
-    title: 'Midnight Sessions',
-    actor: 'Kana Yamamoto',
-    type: 'radio',
-    channel: 'J-WAVE',
-    description: 'ゲストDJ出演',
-  },
-  {
-    id: '6',
-    date: '2025.07.28',
-    title: 'Azure Sky',
-    actor: 'Mai Suzuki',
-    type: 'movie',
-    description: '全国ロードショー',
-  },
-  {
-    id: '7',
-    date: '2025.08.03',
-    time: '14:00',
-    title: 'AURA FAN MEETING 2025',
-    actor: 'AURA Talents',
-    type: 'event',
-    venue: '東京国際フォーラム ホールA',
-    description: 'ファン感謝祭',
-  },
-  {
-    id: '8',
-    date: '2025.08.08',
-    time: '20:00',
-    title: 'Crystal Memories',
-    actor: 'Yui Nakamura',
-    type: 'tv',
-    channel: 'TBS',
-    description: 'スペシャルドラマ',
-  },
-]
+const scheduleItems: ScheduleItem[] = []
 
 const getTypeLabel = (type: string) => {
   switch (type) {
@@ -227,7 +148,7 @@ export default function SchedulePage() {
 
                   {/* Content */}
                   <div className="flex-1">
-                        <h2 className="text-xl mb-3 group-hover:text-blue-600 transition-colors">
+                        <h2 className="text-xl mb-3 group-hover:text-tiffany-600 transition-colors">
                           {item.title}
                         </h2>
                         
@@ -284,7 +205,7 @@ export default function SchedulePage() {
                 top: `${30 + i * 25}%`,
                 width: 60 + i * 20,
                 height: 60 + i * 20,
-                background: 'radial-gradient(circle, rgba(135, 206, 235, 0.08) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(10, 186, 181, 0.08) 0%, transparent 70%)',
               }}
               animate={{
                 y: [0, -20, 0],

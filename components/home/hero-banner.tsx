@@ -133,7 +133,7 @@ export function HeroBanner() {
   }, [banners.length])
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section className="relative h-[65vh] md:h-screen w-full overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
@@ -143,18 +143,7 @@ export function HeroBanner() {
           transition={{ duration: 1 }}
           className="absolute inset-0"
         >
-          {banners[currentIndex]?.link ? (
-            <a
-              href={banners[currentIndex].link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block h-full w-full"
-            >
-              <BannerContent banner={banners[currentIndex]!} />
-            </a>
-          ) : (
-            <BannerContent banner={banners[currentIndex]!} />
-          )}
+          <BannerContent banner={banners[currentIndex]!} />
         </motion.div>
       </AnimatePresence>
 
@@ -212,14 +201,16 @@ function BannerContent({ banner }: { banner: Banner }) {
         >
           {banner.name}
         </motion.h1>
-        <motion.p 
-          className="mt-4 whitespace-pre-line text-sm lg:text-base drop-shadow-lg"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
-        >
-          {banner.description}
-        </motion.p>
+        {banner.subtitle && (
+          <motion.p 
+            className="mt-2 text-xl lg:text-2xl font-light tracking-wide drop-shadow-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 1, ease: "easeOut" }}
+          >
+            {banner.subtitle}
+          </motion.p>
+        )}
       </div>
     </JQueryRipple>
   )

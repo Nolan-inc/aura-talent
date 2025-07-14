@@ -119,8 +119,13 @@ export function ActorMarquee() {
           (a.displayOrder ?? Infinity) - (b.displayOrder ?? Infinity)
         )
         
+        // displayOrderが5未満のタレントのみをフィルタリング
+        const filteredData = sortedData.filter(item => 
+          item.displayOrder !== undefined && item.displayOrder < 5
+        )
+        
         // デスクトップとモバイルの両方のポジションを含むデータを作成
-        const mappedActors: Actor[] = sortedData.map((item, index) => {
+        const mappedActors: Actor[] = filteredData.map((item, index) => {
           // デスクトップポジションをデフォルトとして使用
           const desktopPositionIndex = index % desktopPositions.length
           const desktopPosition = desktopPositions[desktopPositionIndex] || desktopPositions[0] || { x: 10, y: 10, size: 200, rotate: 0 }
@@ -221,7 +226,7 @@ export function ActorMarquee() {
                     href={`/talent/${actor.slug}`}
                     className="block relative group overflow-hidden rounded-xl md:rounded-2xl shadow-md md:shadow-lg hover:shadow-xl md:hover:shadow-2xl transition-shadow duration-300"
                   >
-                    <div className="relative overflow-hidden bg-sky-100 aspect-[3/4]">
+                    <div className="relative overflow-hidden bg-tiffany-100 aspect-[3/4]">
                       <Image
                         src={actor.marqueeImage || '/aura/aura1001.jpg'}
                         alt={actor.nameJa || 'Actor'}
@@ -278,8 +283,8 @@ export function ActorMarquee() {
 
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-sky-100 rounded-full opacity-20 blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-100 rounded-full opacity-20 blur-3xl" />
+        <div className="absolute top-20 left-10 w-64 h-64 bg-tiffany-100 rounded-full opacity-20 blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-tiffany-100 rounded-full opacity-20 blur-3xl" />
       </div>
     </section>
   )

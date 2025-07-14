@@ -75,15 +75,15 @@ export function BubbleBackground() {
             height: bubble.size,
             background: `
               radial-gradient(circle at 30% 30%, 
-                rgba(147, 197, 253, 0.25) 0%,
-                rgba(186, 230, 253, 0.15) 30%, 
-                rgba(224, 242, 254, 0.08) 60%, 
+                rgba(10, 186, 181, 0.25) 0%,
+                rgba(10, 186, 181, 0.15) 30%, 
+                rgba(10, 186, 181, 0.08) 60%, 
                 transparent 80%
               )
             `,
             boxShadow: `
-              inset 0 0 30px rgba(147, 197, 253, 0.15),
-              0 0 60px rgba(147, 197, 253, 0.1)
+              inset 0 0 30px rgba(10, 186, 181, 0.15),
+              0 0 60px rgba(10, 186, 181, 0.1)
             `,
             filter: `blur(${bubble.blur}px)`,
           }}
@@ -109,7 +109,7 @@ export function BubbleBackground() {
           top: '35%',
           width: 350,
           height: 350,
-          background: 'radial-gradient(circle, rgba(186, 230, 253, 0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(10, 186, 181, 0.12) 0%, transparent 70%)',
           filter: 'blur(8px)',
         }}
         animate={isVisible ? {
@@ -129,7 +129,7 @@ export function BubbleBackground() {
           top: '55%',
           width: 300,
           height: 300,
-          background: 'radial-gradient(circle, rgba(165, 218, 248, 0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(10, 186, 181, 0.12) 0%, transparent 70%)',
           filter: 'blur(8px)',
         }}
         animate={isVisible ? {

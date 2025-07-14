@@ -136,7 +136,7 @@ export default function NewsPage() {
               >
                 <div className="flex flex-col lg:flex-row gap-6 p-6 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-300">
                   {item.image && (
-                    <div className="lg:w-48 h-32 lg:h-32 relative overflow-hidden bg-sky-100 flex-shrink-0">
+                    <div className="lg:w-48 h-32 lg:h-32 relative overflow-hidden bg-tiffany-100 flex-shrink-0">
                       <img
                         src={item.image}
                         alt={item.title}
@@ -157,7 +157,7 @@ export default function NewsPage() {
                       </span>
                     </div>
                     
-                    <h2 className="text-xl mb-2 group-hover:text-blue-600 transition-colors">
+                    <h2 className="text-xl mb-2 group-hover:text-tiffany-600 transition-colors">
                       {item.title}
                     </h2>
                     
@@ -168,7 +168,7 @@ export default function NewsPage() {
                     {item.link && (
                       <Link
                         href={item.link}
-                        className="inline-block mt-4 text-sm text-blue-600 hover:underline"
+                        className="inline-block mt-4 text-sm text-tiffany-600 hover:underline"
                       >
                         続きを読む →
                       </Link>
@@ -204,7 +204,7 @@ export default function NewsPage() {
                 top: `${30 + i * 25}%`,
                 width: 60 + i * 20,
                 height: 60 + i * 20,
-                background: 'radial-gradient(circle, rgba(135, 206, 235, 0.08) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(10, 186, 181, 0.08) 0%, transparent 70%)',
               }}
               animate={{
                 y: [0, -20, 0],

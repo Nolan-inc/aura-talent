@@ -20,11 +20,6 @@ export function Footer() {
     { href: 'https://aura-mailorder.com/', label: 'Mail Order', external: true },
   ]
 
-  const socialLinks = [
-    { href: 'https://twitter.com/FLaMme_ject/', icon: 'X', label: 'X (Twitter)' },
-    { href: 'https://www.instagram.com/flamme_official_film/', icon: 'Instagram', label: 'Instagram' },
-    { href: 'https://www.youtube.com/user/FLaMmeject', icon: 'YouTube', label: 'YouTube' },
-  ]
 
   return (
     <motion.footer 
@@ -111,36 +106,6 @@ export function Footer() {
           ))}
         </motion.ul>
 
-        {/* Social Links */}
-        <motion.ul 
-          className="flex justify-center gap-6 mb-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          viewport={{ once: true }}
-        >
-          {socialLinks.map((social, index) => (
-            <motion.li 
-              key={social.label}
-              initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <motion.a
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 hover:text-gray-900 transition-colors inline-block"
-                aria-label={social.label}
-                whileHover={{ scale: 1.2, rotate: 10 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                {social.icon}
-              </motion.a>
-            </motion.li>
-          ))}
-        </motion.ul>
 
         {/* Copyright */}
         <motion.p 
