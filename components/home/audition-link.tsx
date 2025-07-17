@@ -13,7 +13,7 @@ export function AuditionLink() {
     >
       <Link
         href="/audition"
-        className="block bg-gray-900 text-white py-4 px-2 writing-mode-vertical hover:bg-gray-700 transition-colors"
+        className="block bg-gray-900 text-white writing-mode-vertical hover:bg-gray-700 transition-colors w-12 h-24 flex items-center justify-center"
       >
         <span className="text-sm tracking-wider relative -left-1 font-gesta">AUDITION</span>
       </Link>

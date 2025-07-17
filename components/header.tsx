@@ -99,16 +99,16 @@ export function Header({ isHomePage = false }: HeaderProps) {
         isHomePage && !isScrolled
           ? 'bg-transparent'
           : 'bg-white/95 backdrop-blur-md shadow-sm',
-        isScrolled && 'py-2',
-        !isScrolled && 'py-4'
+        isScrolled && 'py-1',
+        !isScrolled && 'py-2'
       )}
     >
       <div className="container mx-auto px-4">
-        <div className="relative flex items-center justify-between h-16">
+        <div className="relative flex items-center justify-between h-8">
           {/* Left side - Logo */}
           <Link
             href="/"
-            className="flex items-center ml-4"
+            className="flex items-start ml-0 mt-0"
           >
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
