@@ -194,7 +194,7 @@ function BannerContent({ banner }: { banner: Banner }) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       <div className="absolute bottom-24 left-8 text-white lg:bottom-32 lg:left-16 z-10">
         <motion.h1 
-          className="whitespace-pre-line text-5xl font-light tracking-wider lg:text-7xl drop-shadow-2xl"
+          className="whitespace-pre-line text-4xl font-light tracking-wider lg:text-6xl drop-shadow-2xl"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }}
