@@ -111,7 +111,7 @@ export function Header({ isHomePage = false }: HeaderProps) {
           {/* Center - Logo */}
           <Link
             href="/"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+            className="absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 transform"
           >
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
