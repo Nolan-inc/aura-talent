@@ -192,7 +192,7 @@ function BannerContent({ banner }: { banner: Banner }) {
   return (
     <JQueryRipple imageUrl={isMobile ? banner.imageSP : banner.imagePC}>
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-      <div className="absolute bottom-24 left-8 text-white lg:bottom-32 lg:left-16 z-10">
+      <div className="absolute bottom-16 left-8 text-white lg:bottom-24 lg:left-16 z-10">
         <motion.h1 
           className="whitespace-pre-line text-4xl font-light tracking-wider lg:text-6xl drop-shadow-2xl"
           initial={{ opacity: 0, y: 30 }}
