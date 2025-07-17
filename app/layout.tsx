@@ -43,6 +43,7 @@ export default function RootLayout({
     <html lang="ja" className="light">
       <head>
         <meta name="color-scheme" content="light only" />
+        <link rel="stylesheet" href="https://use.typekit.net/khl1njd.css" />
       </head>
       <body className={`${shipporiMincho.variable} antialiased bg-white text-gray-900`}>
         <LoadingAnimation />

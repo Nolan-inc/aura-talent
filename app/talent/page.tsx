@@ -141,7 +141,7 @@ export default function ActorPage() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl font-light tracking-widest">TALENT</h1>
+          <h1 className="text-5xl font-light tracking-widest font-gesta">TALENT</h1>
           <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
         </motion.div>
 

@@ -115,7 +115,7 @@ export default function AuditionPage() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl font-light tracking-widest">AUDITION</h1>
+          <h1 className="text-4xl font-light tracking-widest font-gesta">AUDITION</h1>
           <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
         </motion.div>
 

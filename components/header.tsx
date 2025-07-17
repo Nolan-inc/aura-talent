@@ -105,13 +105,10 @@ export function Header({ isHomePage = false }: HeaderProps) {
     >
       <div className="container mx-auto px-4">
         <div className="relative flex items-center justify-between h-16">
-          {/* Left side - Empty space for balance */}
-          <div className="w-12 h-12" />
-
-          {/* Center - Logo */}
+          {/* Left side - Logo */}
           <Link
             href="/"
-            className="absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 transform"
+            className="flex items-center ml-4"
           >
             <motion.div
               initial={{ scale: 0, rotate: -180 }}

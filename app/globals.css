@@ -31,9 +31,14 @@ body {
   display: block !important;
 }
 
-/* Apply Shippori Mincho to all elements */
+/* Apply fonts to elements */
 * {
   font-family: "Shippori Mincho", serif !important;
+}
+
+/* Apply Gesta to English text */
+*[lang="en"], .font-gesta {
+  font-family: "gesta", sans-serif !important;
 }
 
 

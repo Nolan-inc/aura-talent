@@ -194,7 +194,7 @@ function BannerContent({ banner }: { banner: Banner }) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       <div className="absolute bottom-16 left-8 text-white lg:bottom-24 lg:left-16 z-10">
         <motion.h1 
-          className="whitespace-pre-line text-4xl font-light tracking-wider lg:text-6xl drop-shadow-2xl"
+          className="whitespace-pre-line text-4xl font-light tracking-wider lg:text-6xl drop-shadow-2xl font-gesta"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }}
@@ -203,7 +203,7 @@ function BannerContent({ banner }: { banner: Banner }) {
         </motion.h1>
         {banner.subtitle && (
           <motion.p 
-            className="mt-2 text-xl lg:text-2xl font-light tracking-wide drop-shadow-lg"
+            className="mt-2 text-xl lg:text-2xl font-light tracking-wide drop-shadow-lg font-gesta"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 1, ease: "easeOut" }}
