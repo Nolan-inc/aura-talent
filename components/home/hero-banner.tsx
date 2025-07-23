@@ -33,6 +33,10 @@ interface ApiBanner {
     }>
   }
   url?: string
+  category?: {
+    slug: string
+    name?: string
+  }
 }
 
 interface ApiResponse {
