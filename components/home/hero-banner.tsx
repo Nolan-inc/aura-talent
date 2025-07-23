@@ -87,7 +87,7 @@ export function HeroBanner() {
     const fetchBanners = async () => {
       try {
         const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=4008c980-d4ce-4671-a4db-8d119cc7525a'
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card'
         )
         
         if (!response.ok) {
@@ -96,24 +96,35 @@ export function HeroBanner() {
 
         const data: ApiResponse = await response.json()
         
-        if (data.success && data.data.length > 0) {
-          // displayOrderで並び替え
-          const sortedData = data.data.sort((a, b) => 
-            (a.displayOrder ?? Infinity) - (b.displayOrder ?? Infinity)
+        if (data.success && data.data) {
+          // デバイスに応じてカテゴリを判定
+          const isMobile = window.innerWidth < 768
+          const targetCategory = isMobile ? 'header-mobile' : 'header'
+          
+          // カテゴリでフィルタリング
+          const filteredData = data.data.filter(item => 
+            item.category?.slug === targetCategory
           )
           
-          // APIデータをBanner型にマップ
-          const mappedBanners: Banner[] = sortedData.map((item, index) => ({
-            id: index + 1,
-            name: item.title.toUpperCase().replace(/ /g, '\n'), // スペースを改行に変換
-            subtitle: item.slug || '',
-            description: item.title,
-            imagePC: item.metadata?.images?.[0]?.url || item.thumbnail.url,
-            imageSP: item.thumbnail.url,
-            link: item.url
-          }))
-          
-          setBanners(mappedBanners)
+          if (filteredData.length > 0) {
+            // displayOrderで並び替え
+            const sortedData = filteredData.sort((a, b) => 
+              (a.displayOrder ?? Infinity) - (b.displayOrder ?? Infinity)
+            )
+            
+            // APIデータをBanner型にマップ
+            const mappedBanners: Banner[] = sortedData.map((item, index) => ({
+              id: index + 1,
+              name: item.title.toUpperCase().replace(/ /g, '\n'), // スペースを改行に変換
+              subtitle: item.slug || '',
+              description: item.title,
+              imagePC: item.metadata?.images?.[0]?.url || item.thumbnail.url,
+              imageSP: item.thumbnail.url,
+              link: item.url
+            }))
+            
+            setBanners(mappedBanners)
+          }
         }
       } catch (error) {
         console.error('Error fetching banners:', error)
@@ -122,12 +133,20 @@ export function HeroBanner() {
     }
 
     fetchBanners()
+    
+    // ウィンドウリサイズ時に再取得
+    const handleResize = () => {
+      fetchBanners()
+    }
+    
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % banners.length)
-    }, 5000)
+    }, 7000) // アニメーション時間を考慮して長めに設定
 
     return () => clearInterval(timer)
   }, [banners.length])
@@ -140,7 +159,10 @@ export function HeroBanner() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ 
+            duration: 2,
+            ease: "easeInOut"
+          }}
           className="absolute inset-0"
         >
           <BannerContent banner={banners[currentIndex]!} />

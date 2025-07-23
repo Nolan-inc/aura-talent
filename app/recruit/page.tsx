@@ -4,6 +4,30 @@ import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import { Users, Heart, TrendingUp, Award } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
+interface ApiArticle {
+  id: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  publishedAt: string
+  type: string
+  category?: {
+    id: string
+    name: string
+    slug: string
+  }
+  metadata?: {
+    [key: string]: any
+  }
+}
+
+interface ApiResponse {
+  success: boolean
+  data: ApiArticle[]
+}
 
 interface JobPosition {
   id: string
@@ -13,6 +37,7 @@ interface JobPosition {
   location: string
   description: string
   requirements: string[]
+  isFromApi?: boolean
 }
 
 interface Benefit {
@@ -21,21 +46,7 @@ interface Benefit {
   description: string
 }
 
-const jobPositions: JobPosition[] = [
-  {
-    id: '1',
-    title: 'タレントマネージャー',
-    department: 'マネジメント部',
-    type: '正社員',
-    location: '東京',
-    description: '所属タレントのスケジュール管理、現場対応、キャリアプランニングなどを担当していただきます。',
-    requirements: [
-      '大卒以上',
-      'コミュニケーション能力に優れた方',
-      '普通自動車免許（AT限定可）',
-      'エンターテインメント業界への情熱がある方',
-    ],
-  },
+const staticJobPositions: JobPosition[] = [
   {
     id: '2',
     title: 'プロデューサー',
@@ -104,6 +115,59 @@ const benefits: Benefit[] = [
 ]
 
 export default function RecruitPage() {
+  const [jobPositions, setJobPositions] = useState<JobPosition[]>(staticJobPositions)
+
+  useEffect(() => {
+    const fetchRecruitData = async () => {
+      try {
+        const response = await fetch(
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=article,event,card'
+        )
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch recruit data')
+        }
+
+        const data: ApiResponse = await response.json()
+        
+        if (data.success && data.data) {
+          // 求人関連の記事を抽出
+          const recruitArticles = data.data.filter(
+            item => item.type === 'article' && 
+            (item.title.includes('募集') || item.title.includes('マネージャー') || 
+             item.title.includes('採用') || item.title.includes('求人'))
+          )
+
+          if (recruitArticles.length > 0) {
+            const apiJobs: JobPosition[] = recruitArticles.map(article => ({
+              id: article.id,
+              title: article.title.replace('総合職（', '').replace('）', ''),
+              department: 'マネジメント部',
+              type: '正社員',
+              location: '東京（港区・渋谷区）',
+              description: article.excerpt || '詳細は募集要項をご確認ください。',
+              requirements: [
+                '社会人経験3年以上',
+                'コミュニケーション能力に優れた方',
+                'エンターテインメント業界への情熱がある方',
+                '未経験者歓迎',
+              ],
+              isFromApi: true,
+            }))
+
+            // APIからのデータを先頭に、静的データを後ろに結合
+            setJobPositions([...apiJobs, ...staticJobPositions])
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching recruit data:', error)
+        // エラー時は静的データをそのまま使用
+      }
+    }
+
+    fetchRecruitData()
+  }, [])
+
   return (
     <>
       <Header />
@@ -115,7 +179,7 @@ export default function RecruitPage() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl font-light tracking-widest">RECRUIT</h1>
+          <h1 className="text-5xl font-light tracking-widest font-gesta">RECRUIT</h1>
           <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
         </motion.div>
 
@@ -170,7 +234,7 @@ export default function RecruitPage() {
                 viewport={{ once: true }}
                 className="text-center group"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 text-gray-700 mb-4 group-hover:scale-110 transition-transform">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-tiffany-100 text-tiffany-600 mb-4 group-hover:scale-110 transition-transform">
                   {benefit.icon}
                 </div>
                 <h3 className="text-xl mb-3">{benefit.title}</h3>
@@ -202,26 +266,31 @@ export default function RecruitPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow group"
+                className={`${position.isFromApi ? 'bg-tiffany-50 border-2 border-tiffany-200' : 'bg-gray-50'} rounded-lg p-6 hover:shadow-md transition-shadow group`}
               >
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
                   <div>
-                    <h3 className="text-2xl mb-2 group-hover:text-gray-600 transition-colors">
+                    <h3 className="text-2xl mb-2 group-hover:text-tiffany-600 transition-colors">
                       {position.title}
                     </h3>
                     <div className="flex flex-wrap gap-2 text-sm">
-                      <span className="px-3 py-1 bg-gray-100 rounded-full">
+                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-tiffany-100' : 'bg-gray-100'} rounded-full`}>
                         {position.department}
                       </span>
-                      <span className="px-3 py-1 bg-gray-100 rounded-full">
+                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-tiffany-100' : 'bg-gray-100'} rounded-full`}>
                         {position.type}
                       </span>
-                      <span className="px-3 py-1 bg-gray-100 rounded-full">
+                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-tiffany-100' : 'bg-gray-100'} rounded-full`}>
                         {position.location}
                       </span>
+                      {position.isFromApi && (
+                        <span className="px-3 py-1 bg-tiffany-500 text-white rounded-full text-xs">
+                          NEW
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <button className="mt-4 lg:mt-0 px-6 py-2 border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition-all">
+                  <button className="mt-4 lg:mt-0 px-6 py-2 border border-tiffany-600 text-tiffany-600 hover:bg-tiffany-600 hover:text-white transition-all">
                     詳細を見る
                   </button>
                 </div>
@@ -254,25 +323,40 @@ export default function RecruitPage() {
           </motion.h2>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
+            {[
+              {
+                name: '田中 花子',
+                department: 'マネジメント部',
+                message: 'AURAでの仕事は毎日が刺激的です。タレントの成長を間近で見守り、共に成功を分かち合える喜びは、他では味わえない経験です。'
+              },
+              {
+                name: '山田 太郎',
+                department: '制作部',
+                message: 'クリエイティブな環境で、自分のアイデアを形にできる。チームワークも素晴らしく、毎日の仕事にやりがいを感じています。'
+              },
+              {
+                name: '鈴木 美咲',
+                department: 'マーケティング部',
+                message: '最新のデジタルマーケティングに挑戦できる環境。データを活用した戦略立案から実行まで、幅広い経験を積めています。'
+              }
+            ].map((employee, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-gray-50 rounded-lg p-6"
+                className="bg-tiffany-50 rounded-lg p-6"
               >
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-gray-300 rounded-full mr-4" />
+                  <div className="w-12 h-12 bg-tiffany-300 rounded-full mr-4" />
                   <div>
-                    <h4 className="font-medium">社員 {i}</h4>
-                    <p className="text-sm text-gray-600">マネジメント部</p>
+                    <h4 className="font-medium">{employee.name}</h4>
+                    <p className="text-sm text-gray-600">{employee.department}</p>
                   </div>
                 </div>
                 <p className="text-gray-700 italic">
-                  "AURAでの仕事は毎日が刺激的です。タレントの成長を間近で見守り、
-                  共に成功を分かち合える喜びは、他では味わえない経験です。"
+                  "{employee.message}"
                 </p>
               </motion.div>
             ))}
@@ -286,7 +370,7 @@ export default function RecruitPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-gray-50 rounded-lg p-12"
+            className="bg-tiffany-50 rounded-lg p-12"
           >
             <h2 className="text-3xl text-center mb-8">選考プロセス</h2>
             
@@ -300,7 +384,7 @@ export default function RecruitPage() {
                   viewport={{ once: true }}
                   className="flex items-center"
                 >
-                  <div className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center font-medium mr-4">
+                  <div className="w-10 h-10 bg-tiffany-600 text-white rounded-full flex items-center justify-center font-medium mr-4">
                     {index + 1}
                   </div>
                   <span className="text-lg">{step}</span>
@@ -309,7 +393,7 @@ export default function RecruitPage() {
             </div>
 
             <div className="text-center mt-8">
-              <button className="px-8 py-3 bg-gray-800 text-white hover:bg-gray-700 transition-colors">
+              <button className="px-8 py-3 bg-tiffany-600 text-white hover:bg-tiffany-700 transition-colors">
                 応募フォームへ
               </button>
             </div>
@@ -327,7 +411,7 @@ export default function RecruitPage() {
                 top: `${12 + i * 17}%`,
                 width: 75 + i * 25,
                 height: 75 + i * 25,
-                background: 'radial-gradient(circle, rgba(156, 163, 175, 0.06) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(75, 163, 163, 0.1) 0%, transparent 70%)',
                 filter: 'blur(3px)',
               }}
               animate={{

@@ -5,21 +5,24 @@ import { NewsSection } from '@/components/home/news-section'
 import { ActorMarquee } from '@/components/home/actor-marquee'
 import { AuditionLink } from '@/components/home/audition-link'
 import { LinkCollection } from '@/components/home/link-collection'
+import { FullPageRipple } from '@/components/home/full-page-ripple'
 
 export default function Home() {
   return (
     <>
       <Header isHomePage />
       <AuditionLink />
-      <main className="relative text-gray-900">
-        <HeroBanner />
-        <div className="relative">
-          <NewsSection />
-            </div>
-        <ActorMarquee />
-        <LinkCollection />
-      </main>
-      <Footer />
+      <FullPageRipple>
+        <main className="relative text-gray-900">
+          <HeroBanner />
+          <div className="relative">
+            <NewsSection />
+          </div>
+          <ActorMarquee />
+          <LinkCollection />
+        </main>
+        <Footer />
+      </FullPageRipple>
     </>
   )
 }

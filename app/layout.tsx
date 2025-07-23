@@ -1,16 +1,9 @@
 import type { Metadata } from "next"
-import { Shippori_Mincho } from "next/font/google"
 import "./globals.css"
 import { CustomCursor } from "@/components/custom-cursor"
 import { BubbleBackground } from "@/components/bubble-background"
 import { LoadingAnimation } from "@/components/loading-animation"
 import { HamburgerMenu } from "@/components/hamburger-menu"
-
-const shipporiMincho = Shippori_Mincho({
-  variable: "--font-shippori-mincho",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-})
 
 export const metadata: Metadata = {
   title: "AURA official website",
@@ -45,7 +38,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="light only" />
         <link rel="stylesheet" href="https://use.typekit.net/khl1njd.css" />
       </head>
-      <body className={`${shipporiMincho.variable} antialiased bg-white text-gray-900`}>
+      <body className={`antialiased bg-white text-gray-900`}>
         <LoadingAnimation />
         <CustomCursor />
         <BubbleBackground />

@@ -27,18 +27,18 @@ html {
 body {
   background: #ffffff !important;
   color: #171717 !important;
-  font-family: "Shippori Mincho", serif !important;
+  font-family: "cyrene-regular-advanced", sans-serif !important;
   display: block !important;
 }
 
 /* Apply fonts to elements */
 * {
-  font-family: "Shippori Mincho", serif !important;
+  font-family: "cyrene-regular-advanced", sans-serif !important;
 }
 
-/* Apply Gesta to English text */
+/* Apply cyrene to English text */
 *[lang="en"], .font-gesta {
-  font-family: "gesta", sans-serif !important;
+  font-family: "cyrene-regular-advanced", sans-serif !important;
 }
 
 

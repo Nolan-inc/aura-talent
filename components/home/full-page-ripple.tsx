@@ -3,9 +3,8 @@
 import { useEffect, useRef } from 'react'
 import Script from 'next/script'
 
-interface JQueryRippleProps {
+interface FullPageRippleProps {
   children: React.ReactNode
-  imageUrl: string
 }
 
 declare global {
@@ -15,7 +14,7 @@ declare global {
   }
 }
 
-export function JQueryRipple({ children, imageUrl }: JQueryRippleProps) {
+export function FullPageRipple({ children }: FullPageRippleProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInitialized = useRef(false)
 
@@ -30,9 +29,9 @@ export function JQueryRipple({ children, imageUrl }: JQueryRippleProps) {
       if (typeof $container.ripples === 'function') {
         try {
           $container.ripples({
-            resolution: 256, // 解像度を下げてパフォーマンス向上
+            resolution: 512,
             dropRadius: 30,
-            perturbance: 0.04, // 揺らぎを弱めて安定性向上
+            perturbance: 0.08,
             interactive: true
           })
           isInitialized.current = true
@@ -80,9 +79,9 @@ export function JQueryRipple({ children, imageUrl }: JQueryRippleProps) {
             if (typeof $container.ripples === 'function') {
               try {
                 $container.ripples({
-                  resolution: 256, // 解像度を下げてパフォーマンス向上
+                  resolution: 512,
                   dropRadius: 30,
-                  perturbance: 0.04, // 揺らぎを弱めて安定性向上
+                  perturbance: 0.08,
                   interactive: true
                 })
                 isInitialized.current = true
@@ -95,11 +94,10 @@ export function JQueryRipple({ children, imageUrl }: JQueryRippleProps) {
       />
       <div 
         ref={containerRef} 
-        className="relative w-full h-full overflow-hidden"
+        className="relative min-h-screen"
         style={{
-          backgroundImage: `url(${imageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundColor: '#f0f8f8', // 薄いターコイズ色の背景
+          backgroundImage: 'linear-gradient(135deg, rgba(75, 163, 163, 0.1) 0%, rgba(75, 163, 163, 0.05) 100%)',
         }}
       >
         {children}

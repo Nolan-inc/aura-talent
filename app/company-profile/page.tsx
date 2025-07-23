@@ -32,11 +32,11 @@ export default function CompanyProfilePage() {
             className="text-center mb-16"
           >
             <Building2 className="w-16 h-16 mx-auto mb-6 text-gray-700" />
-            <h2 className="text-3xl mb-6">株式会社AURA</h2>
+            <h2 className="text-3xl mb-6">AURA合同会社</h2>
             <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
               私たちAURAは、日本のエンターテインメント業界をリードする総合芸能プロダクションです。
-              所属タレントの個性と才能を最大限に引き出し、映画・テレビ・舞台・配信など
-              あらゆるメディアで活躍の場を提供しています。
+              タレントマネジメントからイベント企画・制作、メディア運営まで幅広く手がけ、
+              SNS総合サポートやライブ配信サポートを通じて新しいエンターテインメントの形を創造しています。
             </p>
           </motion.div>
 
@@ -52,39 +52,32 @@ export default function CompanyProfilePage() {
             <dl className="space-y-4">
               <div className="flex flex-col sm:flex-row">
                 <dt className="sm:w-1/3 font-medium text-gray-700">会社名</dt>
-                <dd className="sm:w-2/3">株式会社AURA (AURA Inc.)</dd>
-              </div>
-              <div className="flex flex-col sm:flex-row">
-                <dt className="sm:w-1/3 font-medium text-gray-700">設立</dt>
-                <dd className="sm:w-2/3">年月日</dd>
-              </div>
-              <div className="flex flex-col sm:flex-row">
-                <dt className="sm:w-1/3 font-medium text-gray-700">資本金</dt>
-                <dd className="sm:w-2/3">円</dd>
-              </div>
-              <div className="flex flex-col sm:flex-row">
-                <dt className="sm:w-1/3 font-medium text-gray-700">代表取締役</dt>
-                <dd className="sm:w-2/3"></dd>
-              </div>
-              <div className="flex flex-col sm:flex-row">
-                <dt className="sm:w-1/3 font-medium text-gray-700">従業員数</dt>
-                <dd className="sm:w-2/3">0名（2025年6月現在）</dd>
+                <dd className="sm:w-2/3">AURA合同会社</dd>
               </div>
               <div className="flex flex-col sm:flex-row">
                 <dt className="sm:w-1/3 font-medium text-gray-700">所在地</dt>
                 <dd className="sm:w-2/3">
-                  〒150-0001<br />
-                  東京都渋谷区神宮前1-2-3
+                  〒106-0044<br />
+                  東京都港区東麻布1-9-15 東麻布1丁目ビル6階
                 </dd>
+              </div>
+              <div className="flex flex-col sm:flex-row">
+                <dt className="sm:w-1/3 font-medium text-gray-700">設立年月日</dt>
+                <dd className="sm:w-2/3">2023年6月19日</dd>
+              </div>
+              <div className="flex flex-col sm:flex-row">
+                <dt className="sm:w-1/3 font-medium text-gray-700">代表社員社長</dt>
+                <dd className="sm:w-2/3">瀧藤 雅朝</dd>
+              </div>
+              <div className="flex flex-col sm:flex-row">
+                <dt className="sm:w-1/3 font-medium text-gray-700">取締役</dt>
+                <dd className="sm:w-2/3">南 類</dd>
               </div>
               <div className="flex flex-col sm:flex-row">
                 <dt className="sm:w-1/3 font-medium text-gray-700">事業内容</dt>
                 <dd className="sm:w-2/3">
-                  タレントマネジメント事業<br />
-                  映像制作事業<br />
-                  音楽制作事業<br />
-                  デジタルコンテンツ事業<br />
-                  ライセンス事業
+                  タレントマネジメントおよびイベントの企画・制作、メディア運営<br />
+                  SNS総合サポート・ライブ配信サポート
                 </dd>
               </div>
             </dl>
