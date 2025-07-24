@@ -16,7 +16,7 @@ export function HamburgerMenu() {
     { href: '/company-profile', label: 'Company Profile' },
     { href: '/recruit', label: 'Recruit' },
     { href: '/audition', label: 'Audition' },
-    { href: 'https://aura-mailorder.com/', label: 'Mail Order', external: true },
+    { href: '/contact', label: 'Contact' },
   ]
 
 

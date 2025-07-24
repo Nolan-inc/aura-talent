@@ -43,9 +43,14 @@ export default function FanclubPage() {
                   AURA所属タレントをもっと身近に感じられる特別な空間へようこそ。
                   限定コンテンツや特別なイベントで、あなたの推しをもっと応援しませんか？
                 </p>
-                <button className="px-8 py-3 bg-white text-gray-800 rounded-full hover:bg-gray-100 transition-colors">
+                <a 
+                  href="https://pastel.utoniq.com/artist"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block px-8 py-3 bg-white text-gray-800 rounded-full hover:bg-gray-100 transition-colors"
+                >
                   今すぐ入会する
-                </button>
+                </a>
               </motion.div>
             </div>
           </div>
