@@ -23,7 +23,7 @@ export function Footer() {
 
   return (
     <motion.footer 
-      className="relative bg-white/90 backdrop-blur-sm text-gray-800 pt-16 pb-8 rounded-t-3xl"
+      className="relative text-white pt-16 pb-8"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -62,7 +62,7 @@ export function Footer() {
                 alt="AURA"
                 width={150}
                 height={50}
-                className="h-10 w-auto"
+                className="h-10 w-auto filter brightness-0 invert"
               />
             </motion.div>
           </Link>
@@ -109,7 +109,7 @@ export function Footer() {
 
         {/* Copyright */}
         <motion.p 
-          className="text-sm text-gray-600"
+          className="text-sm text-white/70"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.7 }}

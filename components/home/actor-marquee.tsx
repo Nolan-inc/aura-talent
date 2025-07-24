@@ -150,7 +150,7 @@ export function ActorMarquee() {
     fetchActors()
   }, []) // 空の依存配列で一度だけ実行
   return (
-    <section className="relative py-20 overflow-hidden bg-white/90 backdrop-blur-sm rounded-3xl mx-4 my-8">
+    <section className="relative py-20 overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -160,7 +160,7 @@ export function ActorMarquee() {
         >
           {/* Section Title */}
           <motion.h2 
-            className="mb-16 text-center text-4xl font-light tracking-wider"
+            className="mb-16 text-center text-4xl font-light tracking-wider text-white"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}

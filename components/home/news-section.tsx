@@ -88,7 +88,7 @@ export function NewsSection() {
   }
 
   return (
-    <section className="py-20 px-4 bg-white/90 backdrop-blur-sm rounded-3xl mx-4 my-8">
+    <section className="py-20 px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -97,7 +97,7 @@ export function NewsSection() {
         className="container mx-auto max-w-4xl"
       >
         <motion.h2 
-          className="mb-12 text-center text-3xl font-light tracking-wider"
+          className="mb-12 text-center text-3xl font-light tracking-wider text-white"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -109,11 +109,11 @@ export function NewsSection() {
         {isLoading ? (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-tiffany-400 mx-auto"></div>
-            <p className="mt-4 text-gray-700">Loading news...</p>
+            <p className="mt-4 text-white/80">Loading news...</p>
           </div>
         ) : newsItems.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600">ニュースがありません</p>
+            <p className="text-white/80">ニュースがありません</p>
           </div>
         ) : (
           <ul className="space-y-px">
@@ -128,12 +128,12 @@ export function NewsSection() {
               {item.link ? (
                 <Link
                   href={item.link}
-                  className="block border-t border-gray-200 py-6 transition-all duration-300 hover:bg-tiffany-400/10 hover:pl-4"
+                  className="block border-t border-white/20 py-6 transition-all duration-300 hover:bg-white/10 hover:pl-4"
                 >
                   <NewsItemContent item={item} />
                 </Link>
               ) : (
-                <div className="block border-t border-gray-200 py-6 transition-all duration-300 hover:bg-tiffany-400/10 hover:pl-4">
+                <div className="block border-t border-white/20 py-6 transition-all duration-300 hover:bg-white/10 hover:pl-4">
                   <NewsItemContent item={item} />
                 </div>
               )}
@@ -147,7 +147,7 @@ export function NewsSection() {
             {!showAll ? (
             <motion.button
               onClick={handleShowMore}
-              className="inline-block px-8 py-3 text-sm font-light tracking-wider border border-tiffany-400 text-gray-800 hover:bg-tiffany-400 hover:text-white transition-all duration-300 relative overflow-hidden group"
+              className="inline-block px-8 py-3 text-sm font-light tracking-wider border border-white text-white hover:bg-white hover:text-tiffany-400 transition-all duration-300 relative overflow-hidden group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -166,7 +166,7 @@ export function NewsSection() {
             >
               <Link
                 href="/news"
-                className="inline-block px-8 py-3 text-sm font-light tracking-wider border border-tiffany-400 text-gray-800 hover:bg-tiffany-400 hover:text-white transition-all duration-300 relative overflow-hidden group"
+                className="inline-block px-8 py-3 text-sm font-light tracking-wider border border-white text-white hover:bg-white hover:text-tiffany-400 transition-all duration-300 relative overflow-hidden group"
               >
                 <span className="relative z-10">View all →</span>
                 <motion.span
@@ -190,19 +190,19 @@ function NewsItemContent({ item }: { item: NewsItem }) {
     <div className="flex flex-col gap-2 group">
       <div className="flex items-center gap-3">
         <motion.time 
-          className="text-sm text-gray-600 transition-colors group-hover:text-gray-900"
+          className="text-sm text-white/70 transition-colors group-hover:text-white"
           whileHover={{ x: 5 }}
         >
           {item.date}
         </motion.time>
         <motion.span 
-          className="text-xs font-medium text-gray-500 px-2 py-1 bg-tiffany-100 rounded transition-all group-hover:bg-tiffany-200"
+          className="text-xs font-medium text-tiffany-600 px-2 py-1 bg-white/80 rounded transition-all group-hover:bg-white"
           whileHover={{ scale: 1.1 }}
         >
           {item.category}
         </motion.span>
       </div>
-      <h3 className="text-lg transition-all duration-300 group-hover:translate-x-2 lg:mt-0">
+      <h3 className="text-lg text-white transition-all duration-300 group-hover:translate-x-2 lg:mt-0">
         {item.title}
       </h3>
     </div>
