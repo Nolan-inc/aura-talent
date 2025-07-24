@@ -38,7 +38,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="light only" />
         <link rel="stylesheet" href="https://use.typekit.net/khl1njd.css" />
       </head>
-      <body className={`antialiased bg-white text-gray-900`}>
+      <body className={`antialiased bg-[#2eb3bf] text-gray-900`}>
         <LoadingAnimation />
         <CustomCursor />
         <BubbleBackground />
