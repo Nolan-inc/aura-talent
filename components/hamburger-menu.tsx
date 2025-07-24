@@ -40,20 +40,20 @@ export function HamburgerMenu() {
           console.log('Hamburger clicked, current state:', isOpen)
           setIsOpen(!isOpen)
         }}
-        className="flex flex-col items-center justify-center w-12 h-12 space-y-1.5 focus:outline-none relative z-[100000] bg-black/20 backdrop-blur-sm rounded-full"
+        className="flex flex-col items-center justify-center w-12 h-12 space-y-1.5 focus:outline-none relative z-[100000] bg-white/30 backdrop-blur-sm rounded-full shadow-lg"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
         <span
-          className="block w-7 rounded-full origin-center bg-white shadow-sm"
+          className="block w-7 rounded-full origin-center bg-gray-800"
           style={{ height: '2px' }}
         />
         <span
-          className="block w-7 rounded-full origin-center bg-white shadow-sm"
+          className="block w-7 rounded-full origin-center bg-gray-800"
           style={{ height: '2px' }}
         />
         <span
-          className="block w-7 rounded-full origin-center bg-white shadow-sm"
+          className="block w-7 rounded-full origin-center bg-gray-800"
           style={{ height: '2px' }}
         />
       </motion.button>

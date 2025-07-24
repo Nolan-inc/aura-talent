@@ -22,6 +22,7 @@ interface ActorDetail {
   biography?: string
   skills?: string[]
   works?: Work[]
+  category?: 'actor' | 'idol' | 'artist'
 }
 
 interface Work {
@@ -46,6 +47,11 @@ interface ApiActor {
     images?: Array<{
       url: string
     }>
+  }
+  category?: {
+    id: string
+    name: string
+    slug: string
   }
 }
 
@@ -124,6 +130,7 @@ export default function ActorDetailPage() {
         
         // Try to fetch from all categories
         let actorData: ApiActor | undefined;
+        let foundCategory: 'actor' | 'idol' | 'artist' | undefined;
         
         // Fetch all categories in parallel
         const categoryPromises = Object.entries(CATEGORY_IDS).map(async ([category, categoryId]) => {
@@ -150,6 +157,7 @@ export default function ActorDetailPage() {
               )
               if (found) {
                 actorData = found
+                foundCategory = category as 'actor' | 'idol' | 'artist'
                 return true
               }
             }
@@ -170,7 +178,8 @@ export default function ActorDetailPage() {
               profileImage: actorData.metadata?.images?.[0]?.url || actorData.thumbnail.url,
               biography: cleanBiography(actorData.content || actorData.excerpt),
               skills: extractSkills(actorData.content),
-              works: []
+              works: [],
+              category: foundCategory || (actorData.category?.slug as 'actor' | 'idol' | 'artist')
             })
         } else {
           // Create mock data if actor not found
@@ -264,7 +273,7 @@ export default function ActorDetailPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
+                <div className={`relative ${actor.category === 'idol' ? 'aspect-[16/9]' : 'aspect-[3/4]'} rounded-2xl overflow-hidden shadow-2xl`}>
                   <Image
                     src={actor.profileImage}
                     alt={actor.nameJa}
