@@ -9,7 +9,7 @@ import { SparkleBackground } from '@/components/sparkle-background'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-tiffany-400 relative">
+    <div className="min-h-screen bg-[#2eb3bf] relative">
       <SparkleBackground />
       <div className="relative z-10">
         <Header isHomePage />
