@@ -120,6 +120,11 @@ export function HeroBanner() {
     return () => clearInterval(timer)
   }, [banners.length])
 
+  // バナーがない場合は何も表示しない
+  if (banners.length === 0) {
+    return null
+  }
+
   return (
     <section className="relative h-[65vh] md:h-screen w-full overflow-hidden">
       <AnimatePresence mode="wait">
