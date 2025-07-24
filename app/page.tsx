@@ -4,7 +4,6 @@ import { HeroBanner } from '@/components/home/hero-banner'
 import { NewsSection } from '@/components/home/news-section'
 import { ActorMarquee } from '@/components/home/actor-marquee'
 import { AuditionLink } from '@/components/home/audition-link'
-import { LinkCollection } from '@/components/home/link-collection'
 import { FullPageRipple } from '@/components/home/full-page-ripple'
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
             <NewsSection />
           </div>
           <ActorMarquee />
-          <LinkCollection />
         </main>
         <Footer />
       </FullPageRipple>
