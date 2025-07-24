@@ -32,7 +32,7 @@ export function Footer() {
       {/* Back to Top Button */}
       <motion.button
         onClick={scrollToTop}
-        className="absolute -top-6 right-8 flex h-12 w-12 items-center justify-center rounded-full bg-[#4BA3A3] text-white hover:bg-[#3a8282] transition-colors shadow-lg"
+        className="absolute -top-6 right-8 flex h-12 w-12 items-center justify-center rounded-full bg-tiffany-400 text-white hover:bg-tiffany-500 transition-colors shadow-lg"
         aria-label="Back to top"
         initial={{ scale: 0, rotate: -180 }}
         whileInView={{ scale: 1, rotate: 0 }}

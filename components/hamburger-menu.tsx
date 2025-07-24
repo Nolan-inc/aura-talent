@@ -66,7 +66,7 @@ export function HamburgerMenu() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-[#4BA3A3] z-[100000]"
+            className="fixed inset-0 bg-tiffany-400 z-[100000]"
           >
             {/* Close Button */}
             <motion.button

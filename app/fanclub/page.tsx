@@ -3,75 +3,7 @@
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
-import { Crown, Users, Calendar, Gift, Star, ArrowRight } from 'lucide-react'
-import Image from 'next/image'
-
-interface FanclubTier {
-  id: string
-  name: string
-  price: string
-  benefits: string[]
-  color: string
-  icon: React.ReactNode
-}
-
-interface SpecialContent {
-  id: string
-  title: string
-  type: 'movie' | 'photo' | 'message'
-  actor: string
-  thumbnail: string
-  date: string
-}
-
-const fanclubTiers: FanclubTier[] = [
-  {
-    id: '1',
-    name: 'SILVER',
-    price: '¥500/月',
-    benefits: [
-      '会員限定ニュースレター',
-      'デジタル壁紙プレゼント',
-      '先行チケット予約権',
-      'バースデーメッセージ',
-    ],
-    color: 'from-gray-300 to-gray-500',
-    icon: <Star className="w-8 h-8" />,
-  },
-  {
-    id: '2',
-    name: 'GOLD',
-    price: '¥1,000/月',
-    benefits: [
-      'SILVER特典すべて',
-      '限定動画コンテンツ',
-      'オンラインイベント参加権',
-      '限定フォトブック割引',
-      'サイン入りブロマイド（年2回）',
-    ],
-    color: 'from-yellow-400 to-amber-600',
-    icon: <Crown className="w-8 h-8" />,
-  },
-  {
-    id: '3',
-    name: 'PLATINUM',
-    price: '¥3,000/月',
-    benefits: [
-      'GOLD特典すべて',
-      'ファンミーティング優先予約',
-      '限定グッズプレゼント',
-      'バックステージツアー抽選権',
-      '誕生日プレゼント',
-      '年末特別イベント招待',
-    ],
-    color: 'from-tiffany-400 to-tiffany-700',
-    icon: <Gift className="w-8 h-8" />,
-  },
-]
-
-const specialContents: SpecialContent[] = [
-
-]
+import { Users } from 'lucide-react'
 
 export default function FanclubPage() {
   return (
