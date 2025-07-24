@@ -96,8 +96,7 @@ export function FullPageRipple({ children }: FullPageRippleProps) {
         ref={containerRef} 
         className="relative min-h-screen"
         style={{
-          backgroundColor: '#f0f8f8', // 薄いターコイズ色の背景
-          backgroundImage: 'linear-gradient(135deg, rgba(75, 163, 163, 0.1) 0%, rgba(75, 163, 163, 0.05) 100%)',
+          backgroundColor: 'transparent',
         }}
       >
         {children}
