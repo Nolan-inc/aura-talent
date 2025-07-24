@@ -150,7 +150,7 @@ export function ActorMarquee() {
     fetchActors()
   }, []) // 空の依存配列で一度だけ実行
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="relative py-20 overflow-hidden bg-white/90 backdrop-blur-sm rounded-3xl mx-4 my-8">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

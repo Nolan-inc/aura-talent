@@ -88,7 +88,7 @@ export function NewsSection() {
   }
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-20 px-4 bg-white/90 backdrop-blur-sm rounded-3xl mx-4 my-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -108,8 +108,8 @@ export function NewsSection() {
 
         {isLoading ? (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading news...</p>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#4BA3A3] mx-auto"></div>
+            <p className="mt-4 text-gray-700">Loading news...</p>
           </div>
         ) : newsItems.length === 0 ? (
           <div className="text-center py-12">
@@ -128,12 +128,12 @@ export function NewsSection() {
               {item.link ? (
                 <Link
                   href={item.link}
-                  className="block border-t border-gray-200 py-6 transition-all duration-300 hover:bg-gray-50 hover:pl-4"
+                  className="block border-t border-gray-200 py-6 transition-all duration-300 hover:bg-[#4BA3A3]/10 hover:pl-4"
                 >
                   <NewsItemContent item={item} />
                 </Link>
               ) : (
-                <div className="block border-t border-gray-200 py-6 transition-all duration-300 hover:pl-4">
+                <div className="block border-t border-gray-200 py-6 transition-all duration-300 hover:bg-[#4BA3A3]/10 hover:pl-4">
                   <NewsItemContent item={item} />
                 </div>
               )}
@@ -147,13 +147,13 @@ export function NewsSection() {
             {!showAll ? (
             <motion.button
               onClick={handleShowMore}
-              className="inline-block px-8 py-3 text-sm font-light tracking-wider border border-gray-800 hover:bg-gray-800 hover:text-white transition-all duration-300 relative overflow-hidden group"
+              className="inline-block px-8 py-3 text-sm font-light tracking-wider border border-[#4BA3A3] text-gray-800 hover:bg-[#4BA3A3] hover:text-white transition-all duration-300 relative overflow-hidden group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <span className="relative z-10">More</span>
               <motion.span
-                className="absolute inset-0 bg-gray-800"
+                className="absolute inset-0 bg-[#4BA3A3]"
                 initial={{ x: "-100%" }}
                 whileHover={{ x: 0 }}
                 transition={{ duration: 0.3 }}
@@ -166,11 +166,11 @@ export function NewsSection() {
             >
               <Link
                 href="/news"
-                className="inline-block px-8 py-3 text-sm font-light tracking-wider border border-gray-800 hover:bg-gray-800 hover:text-white transition-all duration-300 relative overflow-hidden group"
+                className="inline-block px-8 py-3 text-sm font-light tracking-wider border border-[#4BA3A3] text-gray-800 hover:bg-[#4BA3A3] hover:text-white transition-all duration-300 relative overflow-hidden group"
               >
                 <span className="relative z-10">View all →</span>
                 <motion.span
-                  className="absolute inset-0 bg-gray-800"
+                  className="absolute inset-0 bg-[#4BA3A3]"
                   initial={{ x: "-100%" }}
                   whileHover={{ x: 0 }}
                   transition={{ duration: 0.3 }}

@@ -23,7 +23,7 @@ export function Footer() {
 
   return (
     <motion.footer 
-      className="relative bg-gray-100 text-gray-800 pt-16 pb-8"
+      className="relative bg-white/90 backdrop-blur-sm text-gray-800 pt-16 pb-8 rounded-t-3xl"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -32,7 +32,7 @@ export function Footer() {
       {/* Back to Top Button */}
       <motion.button
         onClick={scrollToTop}
-        className="absolute -top-6 right-8 flex h-12 w-12 items-center justify-center rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors shadow-lg"
+        className="absolute -top-6 right-8 flex h-12 w-12 items-center justify-center rounded-full bg-[#4BA3A3] text-white hover:bg-[#3a8282] transition-colors shadow-lg"
         aria-label="Back to top"
         initial={{ scale: 0, rotate: -180 }}
         whileInView={{ scale: 1, rotate: 0 }}
