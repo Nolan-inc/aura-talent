@@ -267,7 +267,7 @@ export function ActorMarquee() {
                 href="/talent"
                 className="inline-flex items-center gap-2 px-8 py-3 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 group"
               >
-                <span className="text-sm tracking-wider">VIEW MORE</span>
+                <span className="text-sm tracking-wider text-[#2eb3bf]">VIEW MORE</span>
                 <motion.span
                   className="inline-block"
                   animate={{ x: [0, 5, 0] }}
