@@ -269,7 +269,7 @@ export function ActorMarquee() {
               >
                 <span className="text-sm tracking-wider text-[#2eb3bf]">VIEW MORE</span>
                 <motion.span
-                  className="inline-block"
+                  className="inline-block text-[#2eb3bf]"
                   animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
