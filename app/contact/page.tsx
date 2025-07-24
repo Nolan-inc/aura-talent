@@ -9,7 +9,7 @@ export default function ContactPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-white">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -18,7 +18,7 @@ export default function ContactPage() {
           className="text-center mb-16"
         >
           <h1 className="text-5xl font-light tracking-widest">CONTACT</h1>
-          <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
+          <div className="mt-4 w-20 h-0.5 bg-white mx-auto" />
         </motion.div>
 
         <div className="container mx-auto px-4 max-w-6xl">
@@ -30,7 +30,7 @@ export default function ContactPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h2 className="text-3xl font-light mb-8">お問い合わせ</h2>
-              <p className="text-gray-600 mb-8 leading-relaxed">
+              <p className="text-white/80 mb-8 leading-relaxed">
                 AURAに関するご質問、タレントへのお仕事のご依頼、オーディションについてなど、
                 お気軽にお問い合わせください。
               </p>
@@ -42,14 +42,14 @@ export default function ContactPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                 >
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-tiffany-100 text-tiffany-600 flex-shrink-0">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 text-white flex-shrink-0">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">メールアドレス</h3>
                     <a 
                       href="mailto:info@aura-talent.com" 
-                      className="text-tiffany-600 hover:underline"
+                      className="text-white hover:text-white/80 transition-colors"
                     >
                       info@aura-talent.com
                     </a>
@@ -62,14 +62,14 @@ export default function ContactPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
                 >
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-tiffany-100 text-tiffany-600 flex-shrink-0">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 text-white flex-shrink-0">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">電話番号</h3>
                     <a 
                       href="tel:03-1234-5678" 
-                      className="text-tiffany-600 hover:underline"
+                      className="text-white hover:text-white/80 transition-colors"
                     >
                       03-1234-5678
                     </a>
@@ -82,12 +82,12 @@ export default function ContactPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-tiffany-100 text-tiffany-600 flex-shrink-0">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 text-white flex-shrink-0">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">住所</h3>
-                    <p className="text-gray-600">
+                    <p className="text-white/90">
                       〒150-0001<br />
                       東京都渋谷区神宮前1-1-1<br />
                       AURAビル 5F
@@ -101,12 +101,12 @@ export default function ContactPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.7 }}
                 >
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-tiffany-100 text-tiffany-600 flex-shrink-0">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 text-white flex-shrink-0">
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">営業時間</h3>
-                    <p className="text-gray-600">
+                    <p className="text-white/90">
                       平日 10:00 - 18:00<br />
                       土日祝日 休業
                     </p>
@@ -120,12 +120,12 @@ export default function ContactPage() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="bg-white rounded-2xl shadow-lg p-8"
+              className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20"
             >
-              <h3 className="text-2xl font-light mb-6">メッセージを送る</h3>
+              <h3 className="text-2xl font-light mb-6 text-white">メッセージを送る</h3>
               <form className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
                     お名前 <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -133,13 +133,13 @@ export default function ContactPage() {
                     id="name"
                     name="name"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tiffany-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm"
                     placeholder="山田太郎"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
                     メールアドレス <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -147,13 +147,13 @@ export default function ContactPage() {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tiffany-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm"
                     placeholder="example@email.com"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-white mb-2">
                     件名 <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -161,13 +161,13 @@ export default function ContactPage() {
                     id="subject"
                     name="subject"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tiffany-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm"
                     placeholder="お問い合わせの件名"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
                     メッセージ <span className="text-red-500">*</span>
                   </label>
                   <textarea
@@ -175,14 +175,14 @@ export default function ContactPage() {
                     name="message"
                     rows={6}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tiffany-500 focus:border-transparent transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm resize-none"
                     placeholder="お問い合わせ内容をご記入ください"
                   />
                 </div>
 
                 <motion.button
                   type="submit"
-                  className="w-full bg-tiffany-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-tiffany-700 transition-colors duration-300"
+                  className="w-full bg-white text-[#2eb3bf] py-3 px-6 rounded-lg font-medium hover:bg-white/90 transition-colors duration-300"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -190,7 +190,7 @@ export default function ContactPage() {
                 </motion.button>
               </form>
 
-              <p className="mt-4 text-sm text-gray-500">
+              <p className="mt-4 text-sm text-white/60">
                 お問い合わせいただいた内容については、通常2-3営業日以内にご返信いたします。
               </p>
             </motion.div>
