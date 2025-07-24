@@ -45,42 +45,7 @@ interface ApiResponse {
 }
 
 // 静的なフォールバックデータ
-const staticBanners: Banner[] = [
-  {
-    id: 1,
-    name: 'AURA\nTALENT',
-    subtitle: 'AURA所属タレント',
-    description: '才能あふれるタレントが多数所属\n最高のエンターテインメントをお届けします',
-    imagePC: '/aura/aura1001.jpg',
-    imageSP: '/aura/aura1001.jpg',
-  },
-  {
-    id: 2,
-    name: 'NEW\nTALENTS',
-    subtitle: '新規タレント募集',
-    description: '次世代のスターを目指す\nあなたの夢を応援します',
-    imagePC: '/aura/aura1005.jpg',
-    imageSP: '/aura/aura1005.jpg',
-  },
-  {
-    id: 3,
-    name: 'AURA\nPRESS',
-    subtitle: '会員制ファンサイト',
-    description: '舞台裏や撮影現場の様子など\n限定コンテンツが満載',
-    imagePC: '/aura/aura1009.jpg',
-    imageSP: '/aura/aura1009.jpg',
-    link: 'https://aurapress.com/',
-  },
-  {
-    id: 4,
-    name: 'MAIL\nORDER',
-    subtitle: 'オフィシャルショップ',
-    description: 'オリジナルグッズや出演作品\n限定特典付きで販売中',
-    imagePC: '/aura/aura1012.jpg',
-    imageSP: '/aura/aura1012.jpg',
-    link: 'https://aura-mailorder.com/',
-  },
-]
+const staticBanners: Banner[] = []
 
 export function HeroBanner() {
   const [currentIndex, setCurrentIndex] = useState(0)
