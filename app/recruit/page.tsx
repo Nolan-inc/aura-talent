@@ -46,8 +46,6 @@ interface Benefit {
   description: string
 }
 
-const staticJobPositions: JobPosition[] = []
-
 const benefits: Benefit[] = [
   {
     icon: <TrendingUp className="w-8 h-8" />,
