@@ -42,6 +42,8 @@ const categories = ['ALL', 'MEDIA', 'EVENT', 'NEWS', 'AWARD']
 
 export default function NewsPage() {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<string>('ALL')
+  const [filteredItems, setFilteredItems] = useState<NewsItem[]>([])
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -50,7 +52,7 @@ export default function NewsPage() {
           'news-list',
           async () => {
             const response = await fetch(
-              'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article'
+              'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=article'
             )
 
             if (!response.ok) {
@@ -88,10 +90,21 @@ export default function NewsPage() {
 
     fetchNews()
   }, [])
+
+  // Filter items based on selected category
+  useEffect(() => {
+    if (selectedCategory === 'ALL') {
+      setFilteredItems(newsItems)
+    } else {
+      setFilteredItems(newsItems.filter(item => 
+        item.category.toUpperCase() === selectedCategory
+      ))
+    }
+  }, [selectedCategory, newsItems])
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-white">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -100,7 +113,7 @@ export default function NewsPage() {
           className="text-center mb-16"
         >
           <h1 className="text-5xl font-light tracking-widest">NEWS</h1>
-          <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
+          <div className="mt-4 w-20 h-0.5 bg-white mx-auto" />
         </motion.div>
 
         {/* Category Filter */}
@@ -114,7 +127,12 @@ export default function NewsPage() {
             {categories.map((category) => (
               <button
                 key={category}
-                className="px-6 py-2 text-sm border border-gray-300 hover:bg-gray-800 hover:text-white transition-all duration-300"
+                onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-2 text-sm border rounded-md transition-all duration-300 ${
+                  selectedCategory === category
+                    ? 'bg-white/20 text-white border-white backdrop-blur-sm'
+                    : 'border-white/50 text-white hover:bg-white/10 hover:border-white'
+                }`}
               >
                 {category}
               </button>
@@ -125,7 +143,7 @@ export default function NewsPage() {
         {/* News List */}
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="space-y-8">
-            {newsItems.map((item, index) => (
+            {filteredItems.map((item, index) => (
               <motion.article
                 key={item.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -134,7 +152,7 @@ export default function NewsPage() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div className="flex flex-col lg:flex-row gap-6 p-6 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-300">
+                <div className="flex flex-col lg:flex-row gap-6 p-6 border-b border-white/20 hover:bg-white/5 transition-colors duration-300">
                   {item.image && (
                     <div className="lg:w-48 h-32 lg:h-32 relative overflow-hidden bg-tiffany-100 flex-shrink-0">
                       <img
@@ -146,7 +164,7 @@ export default function NewsPage() {
                   )}
                   
                   <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-4 mb-3 text-sm text-gray-600">
+                    <div className="flex flex-wrap items-center gap-4 mb-3 text-sm text-white/70">
                       <span className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
                         {item.date}
@@ -157,18 +175,18 @@ export default function NewsPage() {
                       </span>
                     </div>
                     
-                    <h2 className="text-xl mb-2 group-hover:text-tiffany-600 transition-colors">
+                    <h2 className="text-xl mb-2 text-white group-hover:text-white/90 transition-colors">
                       {item.title}
                     </h2>
                     
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-white/80 leading-relaxed">
                       {item.excerpt}
                     </p>
                     
                     {item.link && (
                       <Link
                         href={item.link}
-                        className="inline-block mt-4 text-sm text-tiffany-600 hover:underline"
+                        className="inline-block mt-4 text-sm text-white hover:text-white/80 transition-colors"
                       >
                         続きを読む →
                       </Link>
@@ -187,7 +205,7 @@ export default function NewsPage() {
             viewport={{ once: true }}
             className="text-center mt-16"
           >
-            <button className="px-8 py-3 text-sm font-light tracking-wider border border-gray-800 hover:bg-gray-800 hover:text-white transition-all duration-300">
+            <button className="px-8 py-3 text-sm font-light tracking-wider border border-white text-white hover:bg-white hover:text-[#2eb3bf] transition-all duration-300">
               もっと見る
             </button>
           </motion.div>
