@@ -85,23 +85,12 @@ export function Footer() {
               viewport={{ once: true }}
               whileHover={{ scale: 1.1 }}
             >
-              {link.external ? (
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-70 transition-opacity"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  href={link.href}
-                  className="hover:opacity-70 transition-opacity"
-                >
-                  {link.label}
-                </Link>
-              )}
+              <Link
+                href={link.href}
+                className="hover:opacity-70 transition-opacity"
+              >
+                {link.label}
+              </Link>
             </motion.li>
           ))}
         </motion.ul>
