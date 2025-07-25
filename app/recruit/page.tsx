@@ -124,7 +124,7 @@ export default function RecruitPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-white">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -132,8 +132,8 @@ export default function RecruitPage() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl font-light tracking-widest font-gesta">RECRUIT</h1>
-          <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
+          <h1 className="text-5xl font-light tracking-widest">RECRUIT</h1>
+          <div className="mt-4 w-20 h-0.5 bg-white mx-auto" />
         </motion.div>
 
         {/* Hero Section */}
@@ -146,11 +146,11 @@ export default function RecruitPage() {
             className="text-center"
           >
             <h2 className="text-3xl mb-6">共に、新しい感動を創ろう</h2>
-            <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto mb-8">
+            <p className="text-lg text-white/80 leading-relaxed max-w-3xl mx-auto mb-8">
               AURAは、日本のエンターテインメントの未来を共に創造する
               情熱的な仲間を求めています。
             </p>
-            <button className="px-8 py-3 border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition-all">
+            <button className="px-8 py-3 border border-white text-white hover:bg-white hover:text-[#2eb3bf] transition-all duration-300 rounded-full">
               エントリーする
             </button>
           </motion.div>
@@ -172,7 +172,7 @@ export default function RecruitPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-center text-gray-600 mb-12 max-w-2xl mx-auto"
+            className="text-center text-white/70 mb-12 max-w-2xl mx-auto"
           >
             業界をリードする環境で、あなたの才能を最大限に発揮してください
           </motion.p>
@@ -187,11 +187,11 @@ export default function RecruitPage() {
                 viewport={{ once: true }}
                 className="text-center group"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-tiffany-100 text-tiffany-600 mb-4 group-hover:scale-110 transition-transform">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm text-white mb-4 group-hover:scale-110 transition-transform">
                   {benefit.icon}
                 </div>
                 <h3 className="text-xl mb-3">{benefit.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-white/70 text-sm leading-relaxed">
                   {benefit.description}
                 </p>
               </motion.div>
@@ -219,40 +219,40 @@ export default function RecruitPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className={`${position.isFromApi ? 'bg-tiffany-50 border-2 border-tiffany-200' : 'bg-gray-50'} rounded-lg p-6 hover:shadow-md transition-shadow group`}
+                className={`${position.isFromApi ? 'bg-white/10 backdrop-blur-sm border-2 border-white/30' : 'bg-white/5 backdrop-blur-sm border border-white/20'} rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 group`}
               >
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
                   <div>
-                    <h3 className="text-2xl mb-2 group-hover:text-tiffany-600 transition-colors">
+                    <h3 className="text-2xl mb-2 text-white group-hover:text-white/90 transition-colors">
                       {position.title}
                     </h3>
                     <div className="flex flex-wrap gap-2 text-sm">
-                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-tiffany-100' : 'bg-gray-100'} rounded-full`}>
+                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-white/20' : 'bg-white/10'} text-white rounded-full`}>
                         {position.department}
                       </span>
-                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-tiffany-100' : 'bg-gray-100'} rounded-full`}>
+                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-white/20' : 'bg-white/10'} text-white rounded-full`}>
                         {position.type}
                       </span>
-                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-tiffany-100' : 'bg-gray-100'} rounded-full`}>
+                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-white/20' : 'bg-white/10'} text-white rounded-full`}>
                         {position.location}
                       </span>
                       {position.isFromApi && (
-                        <span className="px-3 py-1 bg-tiffany-500 text-white rounded-full text-xs">
+                        <span className="px-3 py-1 bg-white text-[#2eb3bf] rounded-full text-xs font-medium">
                           NEW
                         </span>
                       )}
                     </div>
                   </div>
-                  <button className="mt-4 lg:mt-0 px-6 py-2 border border-tiffany-600 text-tiffany-600 hover:bg-tiffany-600 hover:text-white transition-all">
+                  <button className="mt-4 lg:mt-0 px-6 py-2 border border-white text-white hover:bg-white hover:text-[#2eb3bf] transition-all duration-300 rounded-full">
                     詳細を見る
                   </button>
                 </div>
                 
-                <p className="text-gray-700 mb-4">{position.description}</p>
+                <p className="text-white/80 mb-4 leading-relaxed">{position.description}</p>
                 
                 <div>
-                  <h4 className="font-medium mb-2">応募資格：</h4>
-                  <ul className="list-disc list-inside text-gray-600 space-y-1">
+                  <h4 className="font-medium mb-2 text-white">応募資格：</h4>
+                  <ul className="list-disc list-inside text-white/70 space-y-1">
                     {position.requirements.map((req, i) => (
                       <li key={i}>{req}</li>
                     ))}
@@ -299,16 +299,16 @@ export default function RecruitPage() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-tiffany-50 rounded-lg p-6"
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300"
               >
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-tiffany-300 rounded-full mr-4" />
+                  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full mr-4" />
                   <div>
-                    <h4 className="font-medium">{employee.name}</h4>
-                    <p className="text-sm text-gray-600">{employee.department}</p>
+                    <h4 className="font-medium text-white">{employee.name}</h4>
+                    <p className="text-sm text-white/70">{employee.department}</p>
                   </div>
                 </div>
-                <p className="text-gray-700 italic">
+                <p className="text-white/80 italic leading-relaxed">
                   "{employee.message}"
                 </p>
               </motion.div>
@@ -323,9 +323,9 @@ export default function RecruitPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-tiffany-50 rounded-lg p-12"
+            className="bg-white/10 backdrop-blur-sm rounded-3xl p-12 border border-white/20"
           >
-            <h2 className="text-3xl text-center mb-8">選考プロセス</h2>
+            <h2 className="text-3xl text-center mb-8 text-white">選考プロセス</h2>
             
             <div className="space-y-4">
               {['書類選考', '一次面接', '二次面接', '最終面接', '内定'].map((step, index) => (
@@ -337,16 +337,16 @@ export default function RecruitPage() {
                   viewport={{ once: true }}
                   className="flex items-center"
                 >
-                  <div className="w-10 h-10 bg-tiffany-600 text-white rounded-full flex items-center justify-center font-medium mr-4">
+                  <div className="w-10 h-10 bg-white text-[#2eb3bf] rounded-full flex items-center justify-center font-medium mr-4">
                     {index + 1}
                   </div>
-                  <span className="text-lg">{step}</span>
+                  <span className="text-lg text-white">{step}</span>
                 </motion.div>
               ))}
             </div>
 
             <div className="text-center mt-8">
-              <button className="px-8 py-3 bg-tiffany-600 text-white hover:bg-tiffany-700 transition-colors">
+              <button className="px-8 py-3 bg-white text-[#2eb3bf] hover:bg-white/90 transition-all duration-300 rounded-full font-medium">
                 応募フォームへ
               </button>
             </div>
