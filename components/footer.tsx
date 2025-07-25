@@ -13,7 +13,7 @@ export function Footer() {
   const footerLinks = [
     { href: '/talent', label: 'Talent' },
     { href: '/news', label: 'News' },
-      { href: '/fanclub', label: 'Fanclub' },
+    { href: '/fanclub', label: 'Fanclub' },
     { href: '/company-profile', label: 'Company Profile' },
     { href: '/recruit', label: 'Recruit' },
     { href: '/audition', label: 'Audition' },
