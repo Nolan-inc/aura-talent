@@ -7,7 +7,7 @@ import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Film, Tv, Radio, ChevronLeft, Instagram, Link as LinkIcon, Globe } from 'lucide-react'
+import { Film, Tv, Radio, ChevronLeft, Instagram, Globe } from 'lucide-react'
 import { fetchWithCache } from '@/lib/cache'
 import { TikTokIcon } from '@/components/icons/tiktok'
 
