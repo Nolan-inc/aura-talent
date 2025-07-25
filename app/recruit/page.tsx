@@ -121,7 +121,7 @@ export default function RecruitPage() {
     const fetchRecruitData = async () => {
       try {
         const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=article,event,card'
+          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=article'
         )
         
         if (!response.ok) {
@@ -131,26 +131,22 @@ export default function RecruitPage() {
         const data: ApiResponse = await response.json()
         
         if (data.success && data.data) {
-          // 求人関連の記事を抽出
+          // type=articleかつcategory.slug=recruitの記事を抽出
           const recruitArticles = data.data.filter(
             item => item.type === 'article' && 
-            (item.title.includes('募集') || item.title.includes('マネージャー') || 
-             item.title.includes('採用') || item.title.includes('求人'))
+            item.category?.slug === 'recruit'
           )
 
           if (recruitArticles.length > 0) {
             const apiJobs: JobPosition[] = recruitArticles.map(article => ({
               id: article.id,
-              title: article.title.replace('総合職（', '').replace('）', ''),
-              department: 'マネジメント部',
-              type: '正社員',
-              location: '東京（港区・渋谷区）',
-              description: article.excerpt || '詳細は募集要項をご確認ください。',
-              requirements: [
-                '社会人経験3年以上',
-                'コミュニケーション能力に優れた方',
-                'エンターテインメント業界への情熱がある方',
-                '未経験者歓迎',
+              title: article.title,
+              department: article.metadata?.department || 'マネジメント部',
+              type: article.metadata?.employmentType || '正社員',
+              location: article.metadata?.location || '東京',
+              description: article.excerpt || article.content || '詳細は募集要項をご確認ください。',
+              requirements: article.metadata?.requirements || [
+                '詳細は募集要項をご確認ください',
               ],
               isFromApi: true,
             }))
