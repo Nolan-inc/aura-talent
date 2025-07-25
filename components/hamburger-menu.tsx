@@ -19,7 +19,6 @@ export function HamburgerMenu() {
     { href: '/contact', label: 'Contact' },
   ]
 
-
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
