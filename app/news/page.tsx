@@ -38,12 +38,11 @@ interface ApiResponse {
   data: ApiNewsItem[]
 }
 
-const categories = ['ALL', 'MEDIA', 'EVENT', 'NEWS', 'AWARD']
-
 export default function NewsPage() {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL')
   const [filteredItems, setFilteredItems] = useState<NewsItem[]>([])
+  const [categories, setCategories] = useState<string[]>(['ALL'])
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -80,6 +79,18 @@ export default function NewsPage() {
           }))
 
           setNewsItems(mappedNews)
+          
+          // Extract unique categories from articles
+          const uniqueCategories = new Set<string>()
+          data.data.forEach(item => {
+            if (item.type === 'article' && item.category?.name) {
+              uniqueCategories.add(item.category.name)
+            }
+          })
+          
+          // Set categories with 'ALL' first, then sorted categories
+          const sortedCategories = Array.from(uniqueCategories).sort()
+          setCategories(['ALL', ...sortedCategories])
         }
       } catch (error) {
         console.error('Error fetching news:', error)
@@ -97,7 +108,7 @@ export default function NewsPage() {
       setFilteredItems(newsItems)
     } else {
       setFilteredItems(newsItems.filter(item => 
-        item.category.toUpperCase() === selectedCategory
+        item.category === selectedCategory
       ))
     }
   }, [selectedCategory, newsItems])
