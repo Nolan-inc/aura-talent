@@ -12,7 +12,7 @@ export function HamburgerMenu() {
   const menuItems = [
     { href: '/talent', label: 'Talent' },
     { href: '/news', label: 'News' },
-      { href: '/fanclub', label: 'Fanclub' },
+    { href: '/fanclub', label: 'Fanclub' },
     { href: '/company-profile', label: 'Company Profile' },
     { href: '/recruit', label: 'Recruit' },
     { href: '/audition', label: 'Audition' },
@@ -122,26 +122,14 @@ export function HamburgerMenu() {
                         transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
                         className="border-b border-gray-600/50"
                       >
-                        {item.external ? (
-                          <a
-                            href={item.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-between px-12 py-6 text-white hover:bg-white/5 transition-colors group"
-                          >
-                            <span className="text-lg font-light">{item.label}</span>
-                            <ChevronRight className="w-5 h-5 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                          </a>
-                        ) : (
-                          <Link
-                            href={item.href}
-                            onClick={() => setIsOpen(false)}
-                            className="flex items-center justify-between px-12 py-6 text-white hover:bg-white/5 transition-colors group"
-                          >
-                            <span className="text-lg font-light">{item.label}</span>
-                            <ChevronRight className="w-5 h-5 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                          </Link>
-                        )}
+                        <Link
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center justify-between px-12 py-6 text-white hover:bg-white/5 transition-colors group"
+                        >
+                          <span className="text-lg font-light">{item.label}</span>
+                          <ChevronRight className="w-5 h-5 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                        </Link>
                       </motion.li>
                     ))}
                   </ul>
