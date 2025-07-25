@@ -46,50 +46,7 @@ interface Benefit {
   description: string
 }
 
-const staticJobPositions: JobPosition[] = [
-  {
-    id: '2',
-    title: 'プロデューサー',
-    department: '制作部',
-    type: '正社員',
-    location: '東京',
-    description: '映画・ドラマ・配信コンテンツの企画開発、制作進行を担当していただきます。',
-    requirements: [
-      '映像制作経験3年以上',
-      '企画立案能力',
-      'プロジェクトマネジメント経験',
-      '柔軟な発想力と実行力',
-    ],
-  },
-  {
-    id: '3',
-    title: 'デジタルマーケティング',
-    department: 'マーケティング部',
-    type: '正社員',
-    location: '東京',
-    description: 'SNS運用、デジタル広告、WEBサイト管理、データ分析を担当していただきます。',
-    requirements: [
-      'デジタルマーケティング経験2年以上',
-      'SNS運用経験',
-      'データ分析スキル',
-      'トレンドに敏感な方',
-    ],
-  },
-  {
-    id: '4',
-    title: '経理・財務',
-    department: '管理部',
-    type: '正社員',
-    location: '東京',
-    description: '日常経理業務、決算業務、予算管理などを担当していただきます。',
-    requirements: [
-      '簿記2級以上',
-      '経理実務経験3年以上',
-      'Excel中級以上',
-      '正確性と責任感のある方',
-    ],
-  },
-]
+const staticJobPositions: JobPosition[] = []
 
 const benefits: Benefit[] = [
   {
@@ -115,7 +72,7 @@ const benefits: Benefit[] = [
 ]
 
 export default function RecruitPage() {
-  const [jobPositions, setJobPositions] = useState<JobPosition[]>(staticJobPositions)
+  const [jobPositions, setJobPositions] = useState<JobPosition[]>([])
 
   useEffect(() => {
     const fetchRecruitData = async () => {
@@ -151,13 +108,13 @@ export default function RecruitPage() {
               isFromApi: true,
             }))
 
-            // APIからのデータを先頭に、静的データを後ろに結合
-            setJobPositions([...apiJobs, ...staticJobPositions])
+            // APIからのデータを設定
+            setJobPositions(apiJobs)
           }
         }
       } catch (error) {
         console.error('Error fetching recruit data:', error)
-        // エラー時は静的データをそのまま使用
+        // エラー時は空の配列のまま
       }
     }
 
