@@ -234,8 +234,8 @@ export default function ActorDetailPage() {
         <Header />
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
+            <p className="mt-4 text-white/80">Loading...</p>
           </div>
         </div>
         <Footer />
@@ -249,9 +249,9 @@ export default function ActorDetailPage() {
         <Header />
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <p className="text-gray-600">俳優が見つかりませんでした</p>
-            <Link href="/talent" className="mt-4 inline-block text-tiffany-600 hover:underline">
-              女優一覧に戻る
+            <p className="text-white/80">タレントが見つかりませんでした</p>
+            <Link href="/talent" className="mt-4 inline-block text-white hover:text-white/80 transition-colors">
+              タレント一覧に戻る
             </Link>
           </div>
         </div>
@@ -263,36 +263,85 @@ export default function ActorDetailPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-white">
+        {/* Decorative background elements */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+          <motion.div
+            className="absolute rounded-full"
+            style={{
+              left: '10%',
+              top: '20%',
+              width: 300,
+              height: 300,
+              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
+              filter: 'blur(40px)',
+            }}
+            animate={{
+              y: [0, -30, 0],
+              x: [0, 20, 0],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+          <motion.div
+            className="absolute rounded-full"
+            style={{
+              right: '15%',
+              bottom: '30%',
+              width: 250,
+              height: 250,
+              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%)',
+              filter: 'blur(35px)',
+            }}
+            animate={{
+              y: [0, 40, 0],
+              x: [0, -25, 0],
+            }}
+            transition={{
+              duration: 30,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: 3,
+            }}
+          />
+        </div>
+
         {/* Back Button */}
         <div className="container mx-auto px-4 mb-8">
           <Link 
             href="/talent"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
-            <span className="text-sm">俳優一覧に戻る</span>
+            <span className="text-sm">タレント一覧に戻る</span>
           </Link>
         </div>
 
         {/* Profile Section */}
         <section className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="max-w-6xl mx-auto bg-white/5 backdrop-blur-sm rounded-3xl p-6 sm:p-8 lg:p-12 border border-white/10 shadow-2xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
               {/* Profile Image */}
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
+                className="relative"
               >
-                <div className={`relative ${actor.category === 'idol' ? 'aspect-[16/9]' : 'aspect-[3/4]'} rounded-2xl overflow-hidden shadow-2xl`}>
+                <div className={`relative ${actor.category === 'idol' ? 'aspect-[16/9]' : 'aspect-[3/4]'} rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 group`}>
                   <Image
                     src={actor.profileImage}
                     alt={actor.nameJa}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
+                {/* Decorative glow effect */}
+                <div className="absolute -inset-4 bg-gradient-to-r from-tiffany-400/20 to-tiffany-600/20 rounded-2xl blur-xl opacity-50 -z-10" />
               </motion.div>
 
               {/* Profile Info */}
@@ -302,27 +351,27 @@ export default function ActorDetailPage() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="flex flex-col justify-center"
               >
-                <h1 className="text-4xl font-light mb-2">{actor.nameJa}</h1>
-                <p className="text-lg text-gray-600 mb-8">{actor.name}</p>
+                <h1 className="text-4xl font-light mb-2 text-white">{actor.nameJa}</h1>
+                <p className="text-lg text-white/70 mb-8">{actor.name}</p>
 
 
                 {/* Biography */}
                 {actor.biography && (
                   <div className="mb-8">
-                    <h2 className="text-xl font-light mb-4">Biography</h2>
-                    <p className="text-gray-600 leading-relaxed whitespace-pre-line">{actor.biography}</p>
+                    <h2 className="text-xl font-light mb-4 text-white">Biography</h2>
+                    <p className="text-white/80 leading-relaxed whitespace-pre-line bg-white/10 backdrop-blur-sm rounded-lg p-4">{actor.biography}</p>
                   </div>
                 )}
 
                 {/* Skills */}
                 {actor.skills && actor.skills.length > 0 && (
                   <div className="mb-8">
-                    <h2 className="text-xl font-light mb-4">特技</h2>
+                    <h2 className="text-xl font-light mb-4 text-white">特技</h2>
                     <div className="flex flex-wrap gap-2">
                       {actor.skills.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-4 py-2 bg-tiffany-100 rounded-full text-sm"
+                          className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm text-white border border-white/30 hover:bg-white/30 transition-colors"
                         >
                           {skill}
                         </span>
@@ -334,8 +383,8 @@ export default function ActorDetailPage() {
                 {/* Social Links */}
                 {actor.socialLinks && actor.socialLinks.length > 0 && (
                   <div>
-                    <h2 className="text-xl font-light mb-4">Links</h2>
-                    <div className="flex gap-4">
+                    <h2 className="text-xl font-light mb-4 text-white">Links</h2>
+                    <div className="flex flex-wrap gap-2 sm:gap-3">
                       {actor.socialLinks.map((link, index) => {
                         const getSocialIcon = (title: string) => {
                           switch (title.toLowerCase()) {
@@ -354,13 +403,13 @@ export default function ActorDetailPage() {
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-tiffany-100 rounded-full transition-colors duration-300 group"
+                            className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full transition-all duration-300 group border border-white/30 hover:scale-105 transform"
                             title={link.title}
                           >
-                            <span className="text-gray-600 group-hover:text-tiffany-600 transition-colors">
+                            <span className="text-white group-hover:text-white/90 transition-colors">
                               {getSocialIcon(link.title)}
                             </span>
-                            <span className="text-sm text-gray-700 group-hover:text-gray-900">
+                            <span className="text-sm text-white group-hover:text-white/90">
                               {link.title}
                             </span>
                           </a>
@@ -380,20 +429,20 @@ export default function ActorDetailPage() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="mt-20"
               >
-                <h2 className="text-3xl font-light text-center mb-12">Works</h2>
+                <h2 className="text-2xl sm:text-3xl font-light text-center mb-8 sm:mb-12 text-white">Works</h2>
                 <div className="space-y-2">
                   {actor.works.map((work) => (
                     <div
                       key={work.id}
-                      className="flex items-center gap-6 p-4 hover:bg-gray-50 rounded-lg transition-colors"
+                      className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-6 p-4 hover:bg-white/10 backdrop-blur-sm rounded-lg transition-all duration-300 border border-transparent hover:border-white/20"
                     >
-                      <span className="text-sm text-gray-500 w-16">{work.year}</span>
-                      {work.type === 'movie' && <Film className="w-5 h-5 text-gray-400" />}
-                      {work.type === 'tv' && <Tv className="w-5 h-5 text-gray-400" />}
-                      {work.type === 'radio' && <Radio className="w-5 h-5 text-gray-400" />}
-                      <h3 className="flex-1 text-lg">{work.title}</h3>
+                      <span className="text-sm text-white/60 w-full sm:w-16">{work.year}</span>
+                      {work.type === 'movie' && <Film className="w-5 h-5 text-white/60" />}
+                      {work.type === 'tv' && <Tv className="w-5 h-5 text-white/60" />}
+                      {work.type === 'radio' && <Radio className="w-5 h-5 text-white/60" />}
+                      <h3 className="flex-1 text-lg text-white">{work.title}</h3>
                       {work.role && (
-                        <span className="text-sm text-gray-600">{work.role}</span>
+                        <span className="text-sm text-white/70">{work.role}</span>
                       )}
                     </div>
                   ))}

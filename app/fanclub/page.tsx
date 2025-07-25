@@ -9,7 +9,7 @@ export default function FanclubPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-white">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -18,7 +18,7 @@ export default function FanclubPage() {
           className="text-center mb-16"
         >
           <h1 className="text-5xl font-light tracking-widest">FANCLUB</h1>
-          <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
+          <div className="mt-4 w-20 h-0.5 bg-white mx-auto" />
         </motion.div>
 
         {/* Hero Section */}
@@ -58,7 +58,6 @@ export default function FanclubPage() {
 
 
 
-
         {/* Decorative bubbles */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
           {[...Array(5)].map((_, i) => (
@@ -70,7 +69,7 @@ export default function FanclubPage() {
                 top: `${18 + i * 16}%`,
                 width: 90 + i * 18,
                 height: 90 + i * 18,
-                background: 'radial-gradient(circle, rgba(10, 186, 181, 0.05) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
                 filter: 'blur(3px)',
               }}
               animate={{

@@ -133,7 +133,7 @@ export default function ActorPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-32 pb-20 text-gray-900">
+      <main className="relative min-h-screen pt-32 pb-20 text-white">
         {/* Page Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -142,21 +142,21 @@ export default function ActorPage() {
           className="text-center mb-16"
         >
           <h1 className="text-5xl font-light tracking-widest font-gesta">TALENT</h1>
-          <div className="mt-4 w-20 h-0.5 bg-gray-800 mx-auto" />
+          <div className="mt-4 w-20 h-0.5 bg-white mx-auto" />
         </motion.div>
 
         {/* Tab Navigation */}
         <div className="container mx-auto px-4 max-w-7xl mb-12">
           <div className="flex justify-center">
-            <div className="inline-flex border-b-2 border-gray-200">
+            <div className="inline-flex border-b-2 border-white/20">
               {(['actor', 'idol', 'artist'] as TabType[]).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={`px-8 py-3 text-lg font-light tracking-wide transition-all duration-300 ${
                     activeTab === tab
-                      ? 'text-tiffany-600 border-b-2 border-tiffany-600 -mb-[2px]'
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'text-white border-b-2 border-white -mb-[2px]'
+                      : 'text-white/60 hover:text-white'
                   }`}
                 >
                   {tab.toUpperCase()}
@@ -168,15 +168,21 @@ export default function ActorPage() {
 
         {/* Talent Grid */}
         <div className="container mx-auto px-4 max-w-7xl">
+          <motion.div 
+            className="bg-white/5 backdrop-blur-sm rounded-3xl p-6 sm:p-8 lg:p-12 border border-white/10 shadow-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
           {isLoading[activeTab] ? (
             <div className="flex justify-center items-center min-h-[400px]">
               <div className="text-center">
-                <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-tiffany-600 border-r-transparent mb-4"></div>
-                <p className="text-gray-600">Loading...</p>
+                <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-white border-r-transparent mb-4"></div>
+                <p className="text-white/80">Loading...</p>
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {talents[activeTab].map((talent, index) => (
               <motion.article
                 key={talent.id}
@@ -184,10 +190,10 @@ export default function ActorPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="group"
+                className="group transform hover:scale-105 transition-transform duration-300"
               >
-                <Link href={`/talent/${talent.slug}`}>
-                  <div className={`relative overflow-hidden bg-tiffany-100 ${activeTab === 'idol' ? 'aspect-[16/9]' : 'aspect-[3/4]'}`}>
+                <Link href={`/talent/${talent.slug}`} className="block">
+                  <div className={`relative overflow-hidden bg-white/10 ${activeTab === 'idol' ? 'aspect-[16/9]' : 'aspect-[3/4]'} rounded-lg border border-white/20 shadow-lg hover:border-white/40 transition-colors duration-300`}>
                     <Image
                       src={talent.image}
                       alt={talent.nameJa}
@@ -204,19 +210,20 @@ export default function ActorPage() {
                     <motion.div
                       className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
                     >
-                      <p className="text-sm opacity-80">{talent.profile}</p>
+                      <p className="text-sm opacity-90">{talent.profile}</p>
                     </motion.div>
                   </div>
                   
                   <div className="mt-4 text-center">
-                    <h2 className="text-xl font-light">{talent.nameJa}</h2>
-                    <p className="text-sm text-gray-600 mt-1">{talent.name}</p>
+                    <h2 className="text-xl font-light text-white">{talent.nameJa}</h2>
+                    <p className="text-sm text-white/70 mt-1">{talent.name}</p>
                   </div>
                 </Link>
               </motion.article>
               ))}
             </div>
           )}
+          </motion.div>
         </div>
 
         {/* Subtle floating decorative elements */}
@@ -228,8 +235,8 @@ export default function ActorPage() {
               top: '25%',
               width: 180,
               height: 180,
-              background: 'radial-gradient(circle, rgba(10, 186, 181, 0.15) 0%, transparent 70%)',
-              filter: 'blur(5px)',
+              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
+              filter: 'blur(30px)',
             }}
             animate={{
               y: [0, -25, 0],
@@ -249,8 +256,8 @@ export default function ActorPage() {
               top: '70%',
               width: 200,
               height: 200,
-              background: 'radial-gradient(circle, rgba(10, 186, 181, 0.15) 0%, transparent 70%)',
-              filter: 'blur(5px)',
+              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
+              filter: 'blur(30px)',
             }}
             animate={{
               y: [0, 20, 0],
@@ -271,8 +278,8 @@ export default function ActorPage() {
               top: '10%',
               width: 160,
               height: 160,
-              background: 'radial-gradient(circle, rgba(10, 186, 181, 0.12) 0%, transparent 70%)',
-              filter: 'blur(7px)',
+              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%)',
+              filter: 'blur(20px)',
             }}
             animate={{
               y: [0, 30, 0],
