@@ -7,8 +7,14 @@ import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Film, Tv, Radio, ChevronLeft } from 'lucide-react'
+import { Film, Tv, Radio, ChevronLeft, Instagram, Link as LinkIcon, Globe } from 'lucide-react'
 import { fetchWithCache } from '@/lib/cache'
+import { TikTokIcon } from '@/components/icons/tiktok'
+
+interface SocialLink {
+  title: string
+  url: string
+}
 
 interface ActorDetail {
   id: string
@@ -23,6 +29,7 @@ interface ActorDetail {
   skills?: string[]
   works?: Work[]
   category?: 'actor' | 'idol' | 'artist'
+  socialLinks?: SocialLink[]
 }
 
 interface Work {
@@ -45,6 +52,10 @@ interface ApiActor {
   }
   metadata?: {
     images?: Array<{
+      url: string
+    }>
+    links?: Array<{
+      title: string
       url: string
     }>
   }
@@ -179,7 +190,8 @@ export default function ActorDetailPage() {
               biography: cleanBiography(actorData.content || actorData.excerpt),
               skills: extractSkills(actorData.content),
               works: [],
-              category: foundCategory || (actorData.category?.slug as 'actor' | 'idol' | 'artist')
+              category: foundCategory || (actorData.category?.slug as 'actor' | 'idol' | 'artist'),
+              socialLinks: actorData.metadata?.links || []
             })
         } else {
           // Create mock data if actor not found
@@ -304,7 +316,7 @@ export default function ActorDetailPage() {
 
                 {/* Skills */}
                 {actor.skills && actor.skills.length > 0 && (
-                  <div>
+                  <div className="mb-8">
                     <h2 className="text-xl font-light mb-4">特技</h2>
                     <div className="flex flex-wrap gap-2">
                       {actor.skills.map((skill, index) => (
@@ -315,6 +327,45 @@ export default function ActorDetailPage() {
                           {skill}
                         </span>
                       ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Social Links */}
+                {actor.socialLinks && actor.socialLinks.length > 0 && (
+                  <div>
+                    <h2 className="text-xl font-light mb-4">Links</h2>
+                    <div className="flex gap-4">
+                      {actor.socialLinks.map((link, index) => {
+                        const getSocialIcon = (title: string) => {
+                          switch (title.toLowerCase()) {
+                            case 'instagram':
+                              return <Instagram className="w-5 h-5" />
+                            case 'tiktok':
+                              return <TikTokIcon className="w-5 h-5" />
+                            default:
+                              return <Globe className="w-5 h-5" />
+                          }
+                        }
+
+                        return (
+                          <a
+                            key={index}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-tiffany-100 rounded-full transition-colors duration-300 group"
+                            title={link.title}
+                          >
+                            <span className="text-gray-600 group-hover:text-tiffany-600 transition-colors">
+                              {getSocialIcon(link.title)}
+                            </span>
+                            <span className="text-sm text-gray-700 group-hover:text-gray-900">
+                              {link.title}
+                            </span>
+                          </a>
+                        )
+                      })}
                     </div>
                   </div>
                 )}
