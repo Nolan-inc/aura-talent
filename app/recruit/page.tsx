@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import { Users, Heart, TrendingUp, Award } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 interface ApiArticle {
   id: string
@@ -44,6 +45,19 @@ interface Benefit {
   icon: React.ReactNode
   title: string
   description: string
+}
+
+// HTMLエンティティをクリーンアップする関数
+const cleanHtmlContent = (content: string): string => {
+  return content
+    .replace(/<[^>]*>/g, '') // HTMLタグを削除
+    .replace(/&nbsp;/g, ' ') // &nbsp;をスペースに
+    .replace(/&amp;/g, '&') // &amp;を&に
+    .replace(/&lt;/g, '<') // &lt;を<に
+    .replace(/&gt;/g, '>') // &gt;を>に
+    .replace(/&quot;/g, '"') // &quot;を"に
+    .replace(/&#39;/g, "'") // &#39;を'に
+    .trim()
 }
 
 const benefits: Benefit[] = [
@@ -99,7 +113,7 @@ export default function RecruitPage() {
               department: article.metadata?.department || 'マネジメント部',
               type: article.metadata?.employmentType || '正社員',
               location: article.metadata?.location || '東京',
-              description: article.excerpt || article.content || '詳細は募集要項をご確認ください。',
+              description: cleanHtmlContent(article.excerpt || article.content || '詳細は募集要項をご確認ください。'),
               requirements: article.metadata?.requirements || [
                 '詳細は募集要項をご確認ください',
               ],
@@ -241,9 +255,12 @@ export default function RecruitPage() {
                       )}
                     </div>
                   </div>
-                  <button className="mt-4 lg:mt-0 px-6 py-2 border border-white text-white hover:bg-white hover:text-[#2eb3bf] transition-all duration-300 rounded-full">
+                  <Link 
+                    href={`/recruit/${position.id}`}
+                    className="mt-4 lg:mt-0 px-6 py-2 border border-white text-white hover:bg-white hover:text-[#2eb3bf] transition-all duration-300 rounded-full inline-block text-center"
+                  >
                     詳細を見る
-                  </button>
+                  </Link>
                 </div>
                 
                 <p className="text-white/80 mb-4 leading-relaxed">{position.description}</p>
