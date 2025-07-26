@@ -4,8 +4,38 @@ import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Clock } from 'lucide-react'
+import { useState } from 'react'
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  })
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // メール本文を作成
+    const body = `お名前: ${formData.name}%0D%0A` +
+                 `メールアドレス: ${formData.email}%0D%0A` +
+                 `件名: ${formData.subject}%0D%0A%0D%0A` +
+                 `メッセージ:%0D%0A${formData.message}`
+    
+    // メールクライアントで開く
+    const mailtoUrl = `mailto:h_ueda@nolan.co.jp?subject=${encodeURIComponent(formData.subject)}&body=${body}`
+    window.location.href = mailtoUrl
+  }
+
   return (
     <>
       <Header />
@@ -123,7 +153,7 @@ export default function ContactPage() {
               className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20"
             >
               <h3 className="text-2xl font-light mb-6 text-white">メッセージを送る</h3>
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
                     お名前 <span className="text-red-500">*</span>
@@ -132,6 +162,8 @@ export default function ContactPage() {
                     type="text"
                     id="name"
                     name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm"
                     placeholder="山田太郎"
@@ -146,6 +178,8 @@ export default function ContactPage() {
                     type="email"
                     id="email"
                     name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm"
                     placeholder="example@email.com"
@@ -160,6 +194,8 @@ export default function ContactPage() {
                     type="text"
                     id="subject"
                     name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm"
                     placeholder="お問い合わせの件名"
@@ -173,6 +209,8 @@ export default function ContactPage() {
                   <textarea
                     id="message"
                     name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
                     rows={6}
                     required
                     className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm resize-none"
