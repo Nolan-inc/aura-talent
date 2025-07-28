@@ -4,10 +4,10 @@ import { useParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Film, Tv, Radio, ChevronLeft, Instagram, Globe } from 'lucide-react'
+import { Film, Tv, Radio, ChevronLeft, Instagram, Globe, Mail, X } from 'lucide-react'
 import { fetchWithCache } from '@/lib/cache'
 import { TikTokIcon } from '@/components/icons/tiktok'
 
@@ -133,6 +133,14 @@ export default function ActorDetailPage() {
   const slug = params.slug as string
   const [actor, setActor] = useState<ActorDetail | null>(null)
   const [loading, setLoading] = useState(true)
+  const [showContactModal, setShowContactModal] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     const fetchActorDetail = async () => {
@@ -227,6 +235,55 @@ export default function ActorDetailPage() {
 
     fetchActorDetail()
   }, [slug])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    setIsSubmitting(true)
+    
+    // FormSubmitに送信
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    
+    // タレント名を追加
+    formData.append('_subject', `【タレントお問い合わせ】${actor?.nameJa || 'タレント'} - ${formData.get('name')}`)
+    
+    try {
+      const response = await fetch('https://formsubmit.co/h_ueda@nolan.co.jp', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      
+      if (response.ok) {
+        alert('お問い合わせを受け付けました。担当者より折り返しご連絡いたします。')
+        setShowContactModal(false)
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: ''
+        })
+      } else {
+        alert('送信に失敗しました。もう一度お試しください。')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      alert('送信中にエラーが発生しました。')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   if (loading) {
     return (
@@ -418,6 +475,17 @@ export default function ActorDetailPage() {
                     </div>
                   </div>
                 )}
+
+                {/* Contact Button */}
+                <motion.button
+                  onClick={() => setShowContactModal(true)}
+                  className="mt-8 w-full px-6 py-3 bg-white text-[#2eb3bf] hover:bg-white/90 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Mail className="w-5 h-5" />
+                  このタレントにお問い合わせ
+                </motion.button>
               </motion.div>
             </div>
 
@@ -451,6 +519,116 @@ export default function ActorDetailPage() {
             )}
           </div>
         </section>
+
+        {/* Contact Modal */}
+        <AnimatePresence>
+          {showContactModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="relative w-full max-w-md bg-[#2eb3bf] rounded-2xl shadow-2xl p-8 border border-white/20"
+              >
+                <button
+                  onClick={() => setShowContactModal(false)}
+                  className="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+
+                <h3 className="text-2xl font-light mb-2 text-white">お問い合わせ</h3>
+                <p className="text-white/80 text-sm mb-6">{actor?.nameJa}へのお仕事のご依頼</p>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_template" value="table" />
+                  <input type="hidden" name="talent" value={actor?.nameJa || 'タレント'} />
+                  
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-white mb-1">
+                      お名前 <span className="text-red-300">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm"
+                      placeholder="山田太郎"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
+                      メールアドレス <span className="text-red-300">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm"
+                      placeholder="example@email.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-white mb-1">
+                      電話番号
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm"
+                      placeholder="090-1234-5678"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-white mb-1">
+                      お問い合わせ内容 <span className="text-red-300">*</span>
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      rows={4}
+                      required
+                      className="w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-colors text-white placeholder-white/50 backdrop-blur-sm resize-none"
+                      placeholder="お仕事の内容、ご依頼の詳細をご記入ください"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className={`w-full py-3 px-6 rounded-lg font-medium transition-colors duration-300 ${
+                      isSubmitting 
+                        ? 'bg-white/50 text-[#2eb3bf]/50 cursor-not-allowed' 
+                        : 'bg-white text-[#2eb3bf] hover:bg-white/90'
+                    }`}
+                  >
+                    {isSubmitting ? '送信中...' : '送信する'}
+                  </button>
+                </form>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
       <Footer />
     </>
