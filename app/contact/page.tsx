@@ -33,7 +33,7 @@ export default function ContactPage() {
     const formData = new FormData(form)
     
     try {
-      const response = await fetch('https://formsubmit.co/h_ueda@nolan.co.jp', {
+      const response = await fetch('https://formsubmit.co/m.hokazono@japanmusic.jp', {
         method: 'POST',
         body: formData,
         headers: {
