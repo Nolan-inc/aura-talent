@@ -13,6 +13,7 @@ export default function ContactPage() {
     subject: '',
     message: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -22,18 +23,43 @@ export default function ContactPage() {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    // メール本文を作成
-    const body = `お名前: ${formData.name}%0D%0A` +
-                 `メールアドレス: ${formData.email}%0D%0A` +
-                 `件名: ${formData.subject}%0D%0A%0D%0A` +
-                 `メッセージ:%0D%0A${formData.message}`
+    setIsSubmitting(true)
     
-    // メールクライアントで開く
-    const mailtoUrl = `mailto:h_ueda@nolan.co.jp?subject=${encodeURIComponent(formData.subject)}&body=${body}`
-    window.location.href = mailtoUrl
+    // FormSubmitに送信
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    
+    try {
+      const response = await fetch('https://formsubmit.co/h_ueda@nolan.co.jp', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      
+      if (response.ok) {
+        // 成功時の処理
+        alert('メッセージを送信しました。ありがとうございます。')
+        // フォームをリセット
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        })
+      } else {
+        alert('送信に失敗しました。もう一度お試しください。')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      alert('送信中にエラーが発生しました。')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -154,6 +180,11 @@ export default function ContactPage() {
             >
               <h3 className="text-2xl font-light mb-6 text-white">メッセージを送る</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* FormSubmit設定用の隠しフィールド */}
+                <input type="hidden" name="_subject" value="AURAウェブサイトからのお問い合わせ" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
+                
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
                     お名前 <span className="text-red-500">*</span>
@@ -220,11 +251,16 @@ export default function ContactPage() {
 
                 <motion.button
                   type="submit"
-                  className="w-full bg-white text-[#2eb3bf] py-3 px-6 rounded-lg font-medium hover:bg-white/90 transition-colors duration-300"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  disabled={isSubmitting}
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors duration-300 ${
+                    isSubmitting 
+                      ? 'bg-white/50 text-[#2eb3bf]/50 cursor-not-allowed' 
+                      : 'bg-white text-[#2eb3bf] hover:bg-white/90'
+                  }`}
+                  whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                  whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                 >
-                  送信する
+                  {isSubmitting ? '送信中...' : '送信する'}
                 </motion.button>
               </form>
 
