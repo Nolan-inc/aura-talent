@@ -252,7 +252,7 @@ export default function JobDetailPage() {
     formData.append('_subject', `【採用応募】${job?.title || '募集職種'} - ${formData.get('name')}`)
     
     try {
-      const response = await fetch('https://formsubmit.co/h_ueda@nolan.co.jp', {
+      const response = await fetch('https://formsubmit.co/recruit@rise-liver.com', {
         method: 'POST',
         body: formData,
         headers: {
