@@ -257,7 +257,7 @@ export default function ActorDetailPage() {
     formData.append('_subject', `【タレントお問い合わせ】${actor?.nameJa || 'タレント'} - ${formData.get('name')}`)
     
     try {
-      const response = await fetch('https://formsubmit.co/h_ueda@nolan.co.jp', {
+      const response = await fetch('https://formsubmit.co/m.hokazono@japanmusic.jp', {
         method: 'POST',
         body: formData,
         headers: {
