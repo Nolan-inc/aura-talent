@@ -74,7 +74,7 @@ export default function ActorPage() {
           `${category}-list`,
           async () => {
             const response = await fetch(
-              `https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=${CATEGORY_IDS[category]}`,
+              `https://admin.cldv.jp/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=${CATEGORY_IDS[category]}`,
               {
                 method: 'GET',
                 headers: {

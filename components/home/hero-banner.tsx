@@ -56,7 +56,7 @@ export function HeroBanner() {
     const fetchBanners = async () => {
       try {
         const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card'
+          'https://admin.cldv.jp/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card'
         )
         
         if (!response.ok) {

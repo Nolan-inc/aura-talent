@@ -48,7 +48,7 @@ export function Header({ isHomePage = false }: HeaderProps) {
           'header-images',
           async () => {
             const response = await fetch(
-              'http://localhost:3003/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=4008c980-d4ce-4671-a4db-8d119cc7525a'
+              'http://admin.cldv.jp/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=4008c980-d4ce-4671-a4db-8d119cc7525a'
             )
             
             if (!response.ok) {

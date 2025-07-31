@@ -105,7 +105,7 @@ export function ActorMarquee() {
     const fetchActors = async () => {
       try {
         const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=d9ac59d2-4356-4b0f-aa00-8713a909962f%2C9696c6f5-e622-4f83-ae67-e1247a0497e5%2C2afe4b32-4ba2-4ae1-9185-01142930e2b2'
+          'https://admin.cldv.jp/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=card&category_ids=d9ac59d2-4356-4b0f-aa00-8713a909962f%2C9696c6f5-e622-4f83-ae67-e1247a0497e5%2C2afe4b32-4ba2-4ae1-9185-01142930e2b2'
         )
         
         if (!response.ok) {

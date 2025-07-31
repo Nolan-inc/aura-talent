@@ -24,7 +24,7 @@ interface NewsDetail {
 async function getNewsDetail(id: string): Promise<NewsDetail | null> {
   try {
     const response = await fetch(
-      `https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article`,
+      `https://admin.cldv.jp/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?type=article`,
       { 
         cache: 'no-store',
         next: { revalidate: 60 }
