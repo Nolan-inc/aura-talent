@@ -27,7 +27,7 @@ export function NewsSection() {
         // Force fresh fetch without cache for debugging
         console.log('Fetching news from API...')
         const response = await fetch(
-          'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=article',
+          'https://admin.cldv.jp/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=article',
           {
             method: 'GET',
             headers: {
@@ -48,19 +48,26 @@ export function NewsSection() {
         const newsData = rawData.data || rawData;
         
         if (Array.isArray(newsData) && newsData.length > 0) {
-          const mappedNews: NewsItem[] = newsData.slice(0, 10).map((item) => ({
-            id: item.id || item._id || String(Math.random()),
-            date: item.publishedAt 
-              ? new Date(item.publishedAt).toLocaleDateString('ja-JP', {
-                  year: 'numeric',
-                  month: '2-digit',
-                  day: '2-digit',
-                }).replace(/\//g, '.')
-              : new Date().toLocaleDateString('ja-JP').replace(/\//g, '.'),
-            category: item.category?.name || item.type || 'NEWS',
-            title: item.title || 'No title',
-            link: `/news/${item.id}`,
-          }))
+          const mappedNews: NewsItem[] = newsData
+            .filter((item) => {
+              // Recruitカテゴリを除外
+              const categoryName = item.category?.name?.toLowerCase() || '';
+              return categoryName !== 'recruit';
+            })
+            .slice(0, 10)
+            .map((item) => ({
+              id: item.id || item._id || String(Math.random()),
+              date: item.publishedAt 
+                ? new Date(item.publishedAt).toLocaleDateString('ja-JP', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                  }).replace(/\//g, '.')
+                : new Date().toLocaleDateString('ja-JP').replace(/\//g, '.'),
+              category: item.category?.name || item.type || 'NEWS',
+              title: item.title || 'No title',
+              link: `/news/${item.id}`,
+            }))
           console.log('Mapped news:', mappedNews)
           setNewsItems(mappedNews)
         } else {

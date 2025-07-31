@@ -51,7 +51,7 @@ export default function NewsPage() {
           'news-list',
           async () => {
             const response = await fetch(
-              'https://quick-web-admin-xktl.vercel.app/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=article'
+              'https://admin.cldv.jp/api/v1/public/contents/335e80a6-071a-47c3-80d2-b12e3ffe8d48?types=article'
             )
 
             if (!response.ok) {
@@ -64,27 +64,36 @@ export default function NewsPage() {
         )
 
         if (data.success) {
-          const mappedNews: NewsItem[] = data.data.map((item) => ({
-            id: item.id,
-            date: new Date(item.publishedAt).toLocaleDateString('ja-JP', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-            }).replace(/\//g, '.'), // YYYY.MM.DD形式に変換
-            category: item.category?.name || item.type.toUpperCase(), // categoryからnameを取得、なければtypeを大文字に変換
-            title: item.title,
-            excerpt: item.excerpt,
-            link: `/news/${item.id}`,
-            // imageはAPIレスポンスにない場合が多いのでundefined
-          }))
+          const mappedNews: NewsItem[] = data.data
+            .filter((item) => {
+              // Recruitカテゴリを除外
+              const categoryName = item.category?.name?.toLowerCase() || '';
+              return categoryName !== 'recruit';
+            })
+            .map((item) => ({
+              id: item.id,
+              date: new Date(item.publishedAt).toLocaleDateString('ja-JP', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+              }).replace(/\//g, '.'), // YYYY.MM.DD形式に変換
+              category: item.category?.name || item.type.toUpperCase(), // categoryからnameを取得、なければtypeを大文字に変換
+              title: item.title,
+              excerpt: item.excerpt,
+              link: `/news/${item.id}`,
+              // imageはAPIレスポンスにない場合が多いのでundefined
+            }))
 
           setNewsItems(mappedNews)
           
-          // Extract unique categories from articles
+          // Extract unique categories from articles (excluding recruit)
           const uniqueCategories = new Set<string>()
           data.data.forEach(item => {
             if (item.type === 'article' && item.category?.name) {
-              uniqueCategories.add(item.category.name)
+              const categoryName = item.category.name.toLowerCase();
+              if (categoryName !== 'recruit') {
+                uniqueCategories.add(item.category.name)
+              }
             }
           })
           
