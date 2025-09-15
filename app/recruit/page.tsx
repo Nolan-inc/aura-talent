@@ -48,8 +48,8 @@ interface Benefit {
 }
 
 // HTMLエンティティをクリーンアップする関数
-const cleanHtmlContent = (content: string): string => {
-  return content
+const cleanHtmlContent = (content: string, maxLength: number = 0): string => {
+  let cleaned = content
     .replace(/<[^>]*>/g, '') // HTMLタグを削除
     .replace(/&nbsp;/g, ' ') // &nbsp;をスペースに
     .replace(/&amp;/g, '&') // &amp;を&に
@@ -57,7 +57,14 @@ const cleanHtmlContent = (content: string): string => {
     .replace(/&gt;/g, '>') // &gt;を>に
     .replace(/&quot;/g, '"') // &quot;を"に
     .replace(/&#39;/g, "'") // &#39;を'に
+    .replace(/\s+/g, ' ') // 複数の空白を1つに
     .trim()
+  
+  if (maxLength > 0 && cleaned.length > maxLength) {
+    cleaned = cleaned.substring(0, maxLength) + '...'
+  }
+  
+  return cleaned
 }
 
 const benefits: Benefit[] = [
@@ -113,7 +120,7 @@ export default function RecruitPage() {
               department: article.metadata?.department || 'マネジメント部',
               type: article.metadata?.employmentType || '正社員',
               location: article.metadata?.location || '東京',
-              description: cleanHtmlContent(article.excerpt || article.content || '詳細は募集要項をご確認ください。'),
+              description: cleanHtmlContent(article.excerpt || '詳細は募集要項をご確認ください。', 300),
               requirements: article.metadata?.requirements || [
                 '詳細は募集要項をご確認ください',
               ],
@@ -238,22 +245,6 @@ export default function RecruitPage() {
                     <h3 className="text-2xl mb-2 text-white group-hover:text-white/90 transition-colors">
                       {position.title}
                     </h3>
-                    <div className="flex flex-wrap gap-2 text-sm">
-                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-white/20' : 'bg-white/10'} text-white rounded-full`}>
-                        {position.department}
-                      </span>
-                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-white/20' : 'bg-white/10'} text-white rounded-full`}>
-                        {position.type}
-                      </span>
-                      <span className={`px-3 py-1 ${position.isFromApi ? 'bg-white/20' : 'bg-white/10'} text-white rounded-full`}>
-                        {position.location}
-                      </span>
-                      {position.isFromApi && (
-                        <span className="px-3 py-1 bg-white text-[#2eb3bf] rounded-full text-xs font-medium">
-                          NEW
-                        </span>
-                      )}
-                    </div>
                   </div>
                   <Link 
                     href={`/recruit/${position.id}`}
@@ -264,15 +255,6 @@ export default function RecruitPage() {
                 </div>
                 
                 <p className="text-white/80 mb-4 leading-relaxed">{position.description}</p>
-                
-                <div>
-                  <h4 className="font-medium mb-2 text-white">応募資格：</h4>
-                  <ul className="list-disc list-inside text-white/70 space-y-1">
-                    {position.requirements.map((req, i) => (
-                      <li key={i}>{req}</li>
-                    ))}
-                  </ul>
-                </div>
               </motion.article>
             ))}
           </div>

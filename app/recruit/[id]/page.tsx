@@ -10,8 +10,8 @@ import { ChevronLeft, MapPin, Users, Mail, Phone, FileText, X } from 'lucide-rea
 import { fetchWithCache } from '@/lib/cache'
 
 // HTMLエンティティをクリーンアップする関数
-const cleanHtmlContent = (content: string): string => {
-  return content
+const cleanHtmlContent = (content: string, maxLength: number = 0): string => {
+  let cleaned = content
     .replace(/<[^>]*>/g, '') // HTMLタグを削除
     .replace(/&nbsp;/g, ' ') // &nbsp;をスペースに
     .replace(/&amp;/g, '&') // &amp;を&に
@@ -19,7 +19,14 @@ const cleanHtmlContent = (content: string): string => {
     .replace(/&gt;/g, '>') // &gt;を>に
     .replace(/&quot;/g, '"') // &quot;を"に
     .replace(/&#39;/g, "'") // &#39;を'に
+    .replace(/\s+/g, ' ') // 複数の空白を1つに
     .trim()
+  
+  if (maxLength > 0 && cleaned.length > maxLength) {
+    cleaned = cleaned.substring(0, maxLength) + '...'
+  }
+  
+  return cleaned
 }
 
 interface JobDetail {
@@ -125,7 +132,7 @@ export default function JobDetailPage() {
               department: jobArticle.metadata?.department || 'マネジメント部',
               type: jobArticle.metadata?.employmentType || '正社員',
               location: jobArticle.metadata?.location || '東京都港区',
-              description: cleanHtmlContent(jobArticle.excerpt || '詳細は募集要項をご確認ください。'),
+              description: cleanHtmlContent(jobArticle.excerpt || '詳細は募集要項をご確認ください。', 200),
               content: jobArticle.content || '',
               requirements: jobArticle.metadata?.requirements || [
                 '詳細は募集要項をご確認ください',
@@ -338,24 +345,9 @@ export default function JobDetailPage() {
             <div className="grid lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <h1 className="text-3xl lg:text-4xl font-light mb-4">{job.title}</h1>
-                <p className="text-white/80 text-lg leading-relaxed mb-6">
+                <p className="text-white/80 text-lg leading-relaxed">
                   {job.description}
                 </p>
-                
-                <div className="flex flex-wrap gap-3">
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm">
-                    <Users className="w-4 h-4" />
-                    {job.department}
-                  </span>
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm">
-                    <FileText className="w-4 h-4" />
-                    {job.type}
-                  </span>
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm">
-                    <MapPin className="w-4 h-4" />
-                    {job.location}
-                  </span>
-                </div>
               </div>
               
               <div className="lg:col-span-1">
