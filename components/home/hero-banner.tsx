@@ -83,15 +83,20 @@ export function HeroBanner() {
             )
             
             // APIデータをBanner型にマップ
-            const mappedBanners: Banner[] = sortedData.map((item, index) => ({
-              id: index + 1,
-              name: item.title.toUpperCase().replace(/ /g, '\n'), // スペースを改行に変換
-              subtitle: item.slug || '',
-              description: item.title,
-              imagePC: item.metadata?.images?.[0]?.url || item.thumbnail.url,
-              imageSP: item.thumbnail.url,
-              link: item.url
-            }))
+            const mappedBanners: Banner[] = sortedData.map((item, index) => {
+              // metadata.linksから最初のSNSリンクを取得
+              const snsLink = item.metadata?.links?.[0]?.url || ''
+              
+              return {
+                id: index + 1,
+                name: item.title.toUpperCase().replace(/ /g, '\n'), // スペースを改行に変換
+                subtitle: item.slug || '',
+                description: item.title,
+                imagePC: item.metadata?.images?.[0]?.url || item.thumbnail.url,
+                imageSP: item.thumbnail.url,
+                link: snsLink // metadata.linksのURLを使用
+              }
+            })
             
             setBanners(mappedBanners)
           }
@@ -230,10 +235,20 @@ function BannerContent({ banner }: { banner: Banner }) {
       alt={banner.description}
     >
       <JQueryRipple imageUrl={currentImageUrl}>
+        {/* クリック可能なオーバーレイ - URLがある場合のみ */}
+        {banner.link && banner.link !== '' && banner.link !== '#' && (
+          <a 
+            href={banner.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0 z-30 cursor-pointer"
+            aria-label={`Visit ${banner.description}'s page`}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         {/* SP時のテキスト背景 */}
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/50 via-black/20 to-transparent md:hidden" />
-        <div className={`absolute left-6 text-white md:bottom-16 md:left-8 lg:bottom-24 lg:left-16 z-10 ${
+        <div className={`absolute left-6 text-white md:bottom-16 md:left-8 lg:bottom-24 lg:left-16 z-10 pointer-events-none ${
           banner.name.includes('\n') ? 'bottom-3' : 'bottom-6'
         }`}>
         <motion.h1 
