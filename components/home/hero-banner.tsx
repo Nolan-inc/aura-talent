@@ -127,39 +127,57 @@ export function HeroBanner() {
   }
 
   return (
-    <section className="relative h-[65vh] md:h-screen w-full overflow-hidden">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ 
-            duration: 2,
-            ease: "easeInOut"
-          }}
-          className="absolute inset-0"
-        >
-          <BannerContent banner={banners[currentIndex]!} />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Dots Navigation */}
-      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 transform gap-2">
+    <div className="relative">
+      <section className="relative h-[75vh] md:h-screen w-full overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ 
+              duration: 2,
+              ease: "easeInOut"
+            }}
+            className="absolute inset-0"
+          >
+            <BannerContent banner={banners[currentIndex]!} />
+          </motion.div>
+        </AnimatePresence>
+        
+        {/* PC/タブレット用はHero内に配置 */}
+        <div className="absolute bottom-8 left-1/2 z-20 hidden -translate-x-1/2 transform gap-2 md:flex">
+          {banners.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`h-2 w-2 rounded-full transition-all ${
+                index === currentIndex
+                  ? 'bg-white w-8'
+                  : 'bg-white/50 hover:bg-white/75'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+      
+      {/* SP用 Dots Navigation - Heroセクションの外に配置 */}
+      <div className="flex justify-center gap-2 py-3 bg-[#2eb3bf] md:hidden">
         {banners.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`h-2 w-2 rounded-full transition-all ${
+            className={`h-1.5 w-1.5 rounded-full transition-all ${
               index === currentIndex
-                ? 'bg-white w-8'
-                : 'bg-white/50 hover:bg-white/75'
+                ? 'bg-white w-6'
+                : 'bg-white/50 hover:bg-white/70'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
-    </section>
+    </div>
   )
 }
 
@@ -212,10 +230,14 @@ function BannerContent({ banner }: { banner: Banner }) {
       alt={banner.description}
     >
       <JQueryRipple imageUrl={currentImageUrl}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <div className="absolute bottom-16 left-8 text-white lg:bottom-24 lg:left-16 z-10">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        {/* SP時のテキスト背景 */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/50 via-black/20 to-transparent md:hidden" />
+        <div className={`absolute left-6 text-white md:bottom-16 md:left-8 lg:bottom-24 lg:left-16 z-10 ${
+          banner.name.includes('\n') ? 'bottom-3' : 'bottom-6'
+        }`}>
         <motion.h1 
-          className="whitespace-pre-line text-4xl font-light tracking-wider lg:text-6xl drop-shadow-2xl font-gesta"
+          className="whitespace-pre-line text-3xl font-light tracking-wider md:text-4xl lg:text-6xl drop-shadow-2xl font-gesta"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }}
@@ -224,7 +246,7 @@ function BannerContent({ banner }: { banner: Banner }) {
         </motion.h1>
         {banner.subtitle && (
           <motion.p 
-            className="mt-2 text-xl lg:text-2xl font-light tracking-wide drop-shadow-lg font-gesta"
+            className="mt-1 text-lg md:mt-2 md:text-xl lg:text-2xl font-light tracking-wide drop-shadow-lg font-gesta"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 1, ease: "easeOut" }}
