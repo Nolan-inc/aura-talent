@@ -104,7 +104,8 @@ export function HamburgerMenu() {
                         alt="AURA"
                         width={200}
                         height={60}
-                        className="h-12 w-auto filter brightness-0 invert"
+                        className="h-12 w-auto"
+                        style={{ filter: 'brightness(0) invert(1)' }}
                       />
                     </motion.div>
                   </Link>
