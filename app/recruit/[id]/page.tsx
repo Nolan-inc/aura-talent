@@ -6,7 +6,7 @@ import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ChevronLeft, MapPin, Users, Mail, Phone, FileText, X } from 'lucide-react'
+import { ChevronLeft, Mail, Phone, X } from 'lucide-react'
 import { fetchWithCache } from '@/lib/cache'
 
 // HTMLエンティティをクリーンアップする関数
