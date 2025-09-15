@@ -34,6 +34,7 @@ export function HeroWrapper({
         document.head.removeChild(link)
       }
     }
+    return undefined
   }, [imageUrl, priority])
 
   return (
