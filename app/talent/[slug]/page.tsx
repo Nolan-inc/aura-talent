@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { Film, Tv, Radio, ChevronLeft, Instagram, Globe, Mail, X } from 'lucide-react'
 import { fetchWithCache } from '@/lib/cache'
 import { TikTokIcon } from '@/components/icons/tiktok'
+import { XIcon } from '@/components/icons/x-twitter'
 
 interface SocialLink {
   title: string
@@ -449,6 +450,9 @@ export default function ActorDetailPage() {
                               return <Instagram className="w-5 h-5" />
                             case 'tiktok':
                               return <TikTokIcon className="w-5 h-5" />
+                            case 'x':
+                            case 'twitter':
+                              return <XIcon className="w-5 h-5" />
                             default:
                               return <Globe className="w-5 h-5" />
                           }
