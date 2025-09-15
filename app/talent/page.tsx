@@ -10,6 +10,7 @@ import { fetchWithCache } from '@/lib/cache'
 import { Instagram, Globe } from 'lucide-react'
 import { TikTokIcon } from '@/components/icons/tiktok'
 import { XIcon } from '@/components/icons/x-twitter'
+import { YoutubeIcon } from '@/components/icons/youtube'
 
 interface SocialLink {
   title: string
@@ -248,6 +249,8 @@ export default function ActorPage() {
                             case 'x':
                             case 'twitter':
                               return <XIcon className="w-4 h-4" />
+                            case 'youtube':
+                              return <YoutubeIcon className="w-4 h-4" />
                             default:
                               return <Globe className="w-4 h-4" />
                           }
