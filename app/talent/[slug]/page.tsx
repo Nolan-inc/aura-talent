@@ -10,6 +10,8 @@ import Link from 'next/link'
 import { Film, Tv, Radio, ChevronLeft, Instagram, Globe, Mail, X } from 'lucide-react'
 import { fetchWithCache } from '@/lib/cache'
 import { TikTokIcon } from '@/components/icons/tiktok'
+import { XIcon } from '@/components/icons/x-twitter'
+import { YoutubeIcon } from '@/components/icons/youtube'
 
 interface SocialLink {
   title: string
@@ -79,7 +81,7 @@ const CATEGORY_IDS = {
 
 // Extract skills from content text
 function extractSkills(content: string | null): string[] {
-  if (!content) return ['演技'];
+  if (!content) return [];
   
   const skillsMatch = content.match(/特技[：:]　?(.+)/m);
   if (skillsMatch && skillsMatch[1]) {
@@ -89,12 +91,12 @@ function extractSkills(content: string | null): string[] {
       .filter(skill => skill.length > 0);
   }
   
-  return ['演技'];
+  return [];
 }
 
 // Clean content for Biography section - only keep B/W/H/S and birthplace
 function cleanBiography(content: string | null): string {
-  if (!content) return 'AURA所属のタレント。';
+  if (!content) return '';
   
   const lines = content.split('\n');
   const cleanedLines: string[] = [];
@@ -125,7 +127,7 @@ function cleanBiography(content: string | null): string {
     }
   }
   
-  return cleanedLines.length > 0 ? cleanedLines.join('\n') : 'AURA所属のタレント。';
+  return cleanedLines.length > 0 ? cleanedLines.join('\n') : '';
 }
 
 export default function ActorDetailPage() {
@@ -202,32 +204,13 @@ export default function ActorDetailPage() {
               socialLinks: actorData.metadata?.links || []
             })
         } else {
-          // Create mock data if actor not found
-          setActor({
-            id: '999',
-            name: decodeURIComponent(slug).replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-            nameJa: 'タレント名',
-            slug: decodedSlug,
-            profileImage: '/aura/aura1001.jpg',
-            biography: 'AURA所属のタレント。',
-            skills: ['演技'],
-            works: []
-          })
+          // Actor not found - set to null
+          setActor(null)
         }
       } catch (error) {
         console.error('Error fetching actor detail:', error)
-        // Fallback to mock data
-        const decodedSlug = decodeURIComponent(slug).toLowerCase().replace(/ /g, '_')
-        setActor({
-          id: '999',
-          name: decodeURIComponent(slug).replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-          nameJa: 'タレント名',
-          slug: decodedSlug,
-          profileImage: '/aura/aura1001.jpg',
-          biography: 'AURA所属のタレント。',
-          skills: ['演技'],
-          works: []
-        })
+        // Set to null on error
+        setActor(null)
       } finally {
         setLoading(false)
       }
@@ -249,20 +232,21 @@ export default function ActorDetailPage() {
     
     setIsSubmitting(true)
     
-    // FormSubmitに送信
-    const form = e.target as HTMLFormElement
-    const formData = new FormData(form)
-    
-    // タレント名を追加
-    formData.append('_subject', `【タレントお問い合わせ】${actor?.nameJa || 'タレント'} - ${formData.get('name')}`)
-    
     try {
-      const response = await fetch('https://formsubmit.co/m.hokazono@japanmusic.jp', {
+      // Resend APIを使用してメール送信
+      const response = await fetch('/api/send-email', {
         method: 'POST',
-        body: formData,
         headers: {
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'talent',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          talentName: actor?.nameJa || 'タレント',
+        }),
       })
       
       if (response.ok) {
@@ -413,7 +397,7 @@ export default function ActorDetailPage() {
 
 
                 {/* Biography */}
-                {actor.biography && (
+                {actor.biography && actor.biography.trim() !== '' && (
                   <div className="mb-8">
                     <h2 className="text-xl font-light mb-4 text-white">Biography</h2>
                     <p className="text-white/80 leading-relaxed whitespace-pre-line bg-white/10 backdrop-blur-sm rounded-lg p-4">{actor.biography}</p>
@@ -449,10 +433,17 @@ export default function ActorDetailPage() {
                               return <Instagram className="w-5 h-5" />
                             case 'tiktok':
                               return <TikTokIcon className="w-5 h-5" />
+                            case 'x':
+                            case 'twitter':
+                              return <XIcon className="w-5 h-5" />
+                            case 'youtube':
+                              return <YoutubeIcon className="w-5 h-5" />
                             default:
                               return <Globe className="w-5 h-5" />
                           }
                         }
+
+                        const isIconOnly = link.title.toLowerCase() === 'x'
 
                         return (
                           <a
@@ -460,15 +451,17 @@ export default function ActorDetailPage() {
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full transition-all duration-300 group border border-white/30 hover:scale-105 transform"
+                            className={`flex items-center gap-2 ${isIconOnly ? 'px-3' : 'px-3 sm:px-4'} py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full transition-all duration-300 group border border-white/30 hover:scale-105 transform`}
                             title={link.title}
                           >
                             <span className="text-white group-hover:text-white/90 transition-colors">
                               {getSocialIcon(link.title)}
                             </span>
-                            <span className="text-sm text-white group-hover:text-white/90">
-                              {link.title}
-                            </span>
+                            {!isIconOnly && (
+                              <span className="text-sm text-white group-hover:text-white/90">
+                                {link.title}
+                              </span>
+                            )}
                           </a>
                         )
                       })}

@@ -38,8 +38,21 @@ async function getNewsDetail(id: string): Promise<NewsDetail | null> {
     const data = await response.json()
     const newsData = data.data || []
     
-    const newsItem = newsData.find((item: NewsDetail) => item.id === id)
-    return newsItem || null
+    const newsItem = newsData.find((item: any) => item.id === id)
+    
+    if (!newsItem) {
+      return null
+    }
+    
+    // thumbnailがオブジェクトの場合はURLを抽出
+    const thumbnailUrl = typeof newsItem.thumbnail === 'object' && newsItem.thumbnail !== null
+      ? newsItem.thumbnail.url || newsItem.thumbnail.src || null
+      : newsItem.thumbnail
+    
+    return {
+      ...newsItem,
+      thumbnail: thumbnailUrl
+    }
   } catch (error) {
     console.error('Error fetching news detail:', error)
     return null

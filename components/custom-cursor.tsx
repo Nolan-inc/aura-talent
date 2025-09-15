@@ -50,11 +50,6 @@ export function CustomCursor() {
     }
   }, [])
 
-  // Hide on touch devices
-  if (typeof window !== 'undefined' && 'ontouchstart' in window) {
-    return null
-  }
-
   return (
     <motion.div
       className="pointer-events-none fixed z-[99999] hidden lg:block"

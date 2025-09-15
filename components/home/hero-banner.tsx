@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { JQueryRipple } from './jquery-ripple'
+import { HeroWrapper } from './hero-wrapper'
 
 interface Banner {
   id: number
@@ -30,6 +31,10 @@ interface ApiBanner {
       url: string
       alt: string
       order: number
+    }>
+    links?: Array<{
+      url: string
+      title?: string
     }>
   }
   url?: string
@@ -82,15 +87,20 @@ export function HeroBanner() {
             )
             
             // APIデータをBanner型にマップ
-            const mappedBanners: Banner[] = sortedData.map((item, index) => ({
-              id: index + 1,
-              name: item.title.toUpperCase().replace(/ /g, '\n'), // スペースを改行に変換
-              subtitle: item.slug || '',
-              description: item.title,
-              imagePC: item.metadata?.images?.[0]?.url || item.thumbnail.url,
-              imageSP: item.thumbnail.url,
-              link: item.url
-            }))
+            const mappedBanners: Banner[] = sortedData.map((item, index) => {
+              // metadata.linksから最初のSNSリンクを取得
+              const snsLink = item.metadata?.links?.[0]?.url || ''
+              
+              return {
+                id: index + 1,
+                name: item.title.toUpperCase().replace(/ /g, '\n'), // スペースを改行に変換
+                subtitle: item.slug || '',
+                description: item.title,
+                imagePC: item.metadata?.images?.[0]?.url || item.thumbnail.url,
+                imageSP: item.thumbnail.url,
+                link: snsLink // metadata.linksのURLを使用
+              }
+            })
             
             setBanners(mappedBanners)
           }
@@ -126,39 +136,57 @@ export function HeroBanner() {
   }
 
   return (
-    <section className="relative h-[65vh] md:h-screen w-full overflow-hidden">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ 
-            duration: 2,
-            ease: "easeInOut"
-          }}
-          className="absolute inset-0"
-        >
-          <BannerContent banner={banners[currentIndex]!} />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Dots Navigation */}
-      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 transform gap-2">
+    <div className="relative">
+      <section className="relative h-[75vh] md:h-screen w-full overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ 
+              duration: 2,
+              ease: "easeInOut"
+            }}
+            className="absolute inset-0"
+          >
+            <BannerContent banner={banners[currentIndex]!} />
+          </motion.div>
+        </AnimatePresence>
+        
+        {/* PC/タブレット用はHero内に配置 */}
+        <div className="absolute bottom-8 left-1/2 z-20 hidden -translate-x-1/2 transform gap-2 md:flex">
+          {banners.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`h-2 w-2 rounded-full transition-all ${
+                index === currentIndex
+                  ? 'bg-white w-8'
+                  : 'bg-white/50 hover:bg-white/75'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+      
+      {/* SP用 Dots Navigation - Heroセクションの外に配置 */}
+      <div className="flex justify-center gap-2 py-3 bg-[#2eb3bf] md:hidden">
         {banners.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`h-2 w-2 rounded-full transition-all ${
+            className={`h-1.5 w-1.5 rounded-full transition-all ${
               index === currentIndex
-                ? 'bg-white w-8'
-                : 'bg-white/50 hover:bg-white/75'
+                ? 'bg-white w-6'
+                : 'bg-white/50 hover:bg-white/70'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
-    </section>
+    </div>
   )
 }
 
@@ -185,12 +213,50 @@ function BannerContent({ banner }: { banner: Banner }) {
     }
   }, [])
 
+  // 簡易的なBlurHash生成（実際の画像からは事前生成推奨）
+  const generateSimpleBlurDataURL = () => {
+    // グラデーション背景のData URL（フォールバック用）
+    return 'data:image/svg+xml;base64,' + btoa(`
+      <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100" height="100" fill="url(#g)"/>
+      </svg>
+    `)
+  }
+
+  const currentImageUrl = isMobile ? banner.imageSP : banner.imagePC
+
   return (
-    <JQueryRipple imageUrl={isMobile ? banner.imageSP : banner.imagePC}>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-      <div className="absolute bottom-16 left-8 text-white lg:bottom-24 lg:left-16 z-10">
+    <HeroWrapper 
+      imageUrl={currentImageUrl}
+      priority={true}
+      blurhash={generateSimpleBlurDataURL()}
+      alt={banner.description}
+    >
+      <JQueryRipple imageUrl={currentImageUrl}>
+        {/* クリック可能なオーバーレイ - URLがある場合のみ */}
+        {banner.link && banner.link !== '' && banner.link !== '#' && (
+          <a 
+            href={banner.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0 z-30 cursor-pointer"
+            aria-label={`Visit ${banner.description}'s page`}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        {/* SP時のテキスト背景 */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/50 via-black/20 to-transparent md:hidden" />
+        <div className={`absolute left-6 text-white md:bottom-16 md:left-8 lg:bottom-24 lg:left-16 z-10 pointer-events-none ${
+          banner.name.includes('\n') ? 'bottom-3' : 'bottom-6'
+        }`}>
         <motion.h1 
-          className="whitespace-pre-line text-4xl font-light tracking-wider lg:text-6xl drop-shadow-2xl font-gesta"
+          className="whitespace-pre-line text-3xl font-light tracking-wider md:text-4xl lg:text-6xl drop-shadow-2xl font-gesta"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }}
@@ -199,7 +265,7 @@ function BannerContent({ banner }: { banner: Banner }) {
         </motion.h1>
         {banner.subtitle && (
           <motion.p 
-            className="mt-2 text-xl lg:text-2xl font-light tracking-wide drop-shadow-lg font-gesta"
+            className="mt-1 text-lg md:mt-2 md:text-xl lg:text-2xl font-light tracking-wide drop-shadow-lg font-gesta"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 1, ease: "easeOut" }}
@@ -208,6 +274,7 @@ function BannerContent({ banner }: { banner: Banner }) {
           </motion.p>
         )}
       </div>
-    </JQueryRipple>
+      </JQueryRipple>
+    </HeroWrapper>
   )
 }

@@ -56,13 +56,15 @@ export function Footer() {
             <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
+              className="relative"
             >
               <Image
                 src="/aura_logo.png"
                 alt="AURA"
                 width={150}
                 height={50}
-                className="h-10 w-auto filter brightness-0 invert"
+                className="h-10 w-auto"
+                style={{ filter: 'brightness(0) invert(1)' }}
               />
             </motion.div>
           </Link>

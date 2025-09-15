@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import { CustomCursor } from "@/components/custom-cursor"
-import { BubbleBackground } from "@/components/bubble-background"
+import { ClientOnlyCustomCursor, ClientOnlyBubbleBackground } from "@/components/client-only-wrapper"
 import { LoadingAnimation } from "@/components/loading-animation"
 import { HamburgerMenu } from "@/components/hamburger-menu"
 
@@ -40,8 +39,8 @@ export default function RootLayout({
       </head>
       <body className={`antialiased bg-[#2eb3bf] text-gray-900`}>
         <LoadingAnimation />
-        <CustomCursor />
-        <BubbleBackground />
+        <ClientOnlyCustomCursor />
+        <ClientOnlyBubbleBackground />
         {/* Hamburger Menu positioned globally */}
         <div className="fixed top-6 right-6 z-[100002]">
           <HamburgerMenu />

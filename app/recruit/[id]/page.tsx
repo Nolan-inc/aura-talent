@@ -6,12 +6,12 @@ import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ChevronLeft, MapPin, Users, Mail, Phone, FileText, X } from 'lucide-react'
+import { ChevronLeft, Mail, Phone, X } from 'lucide-react'
 import { fetchWithCache } from '@/lib/cache'
 
 // HTMLエンティティをクリーンアップする関数
-const cleanHtmlContent = (content: string): string => {
-  return content
+const cleanHtmlContent = (content: string, maxLength: number = 0): string => {
+  let cleaned = content
     .replace(/<[^>]*>/g, '') // HTMLタグを削除
     .replace(/&nbsp;/g, ' ') // &nbsp;をスペースに
     .replace(/&amp;/g, '&') // &amp;を&に
@@ -19,7 +19,14 @@ const cleanHtmlContent = (content: string): string => {
     .replace(/&gt;/g, '>') // &gt;を>に
     .replace(/&quot;/g, '"') // &quot;を"に
     .replace(/&#39;/g, "'") // &#39;を'に
+    .replace(/\s+/g, ' ') // 複数の空白を1つに
     .trim()
+  
+  if (maxLength > 0 && cleaned.length > maxLength) {
+    cleaned = cleaned.substring(0, maxLength) + '...'
+  }
+  
+  return cleaned
 }
 
 interface JobDetail {
@@ -125,8 +132,8 @@ export default function JobDetailPage() {
               department: jobArticle.metadata?.department || 'マネジメント部',
               type: jobArticle.metadata?.employmentType || '正社員',
               location: jobArticle.metadata?.location || '東京都港区',
-              description: cleanHtmlContent(jobArticle.excerpt || '詳細は募集要項をご確認ください。'),
-              content: cleanHtmlContent(jobArticle.content || ''),
+              description: cleanHtmlContent(jobArticle.excerpt || '詳細は募集要項をご確認ください。', 200),
+              content: jobArticle.content || '',
               requirements: jobArticle.metadata?.requirements || [
                 '詳細は募集要項をご確認ください',
               ],
@@ -244,20 +251,21 @@ export default function JobDetailPage() {
     
     setIsSubmitting(true)
     
-    // FormSubmitに送信
-    const form = e.target as HTMLFormElement
-    const formData = new FormData(form)
-    
-    // 職種名を追加
-    formData.append('_subject', `【採用応募】${job?.title || '募集職種'} - ${formData.get('name')}`)
-    
     try {
-      const response = await fetch('https://formsubmit.co/recruit@rise-liver.com', {
+      // Resend APIを使用してメール送信
+      const response = await fetch('/api/send-email', {
         method: 'POST',
-        body: formData,
         headers: {
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'recruit',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          position: job?.title || '募集職種',
+        }),
       })
       
       if (response.ok) {
@@ -338,24 +346,9 @@ export default function JobDetailPage() {
             <div className="grid lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <h1 className="text-3xl lg:text-4xl font-light mb-4">{job.title}</h1>
-                <p className="text-white/80 text-lg leading-relaxed mb-6">
+                <p className="text-white/80 text-lg leading-relaxed">
                   {job.description}
                 </p>
-                
-                <div className="flex flex-wrap gap-3">
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm">
-                    <Users className="w-4 h-4" />
-                    {job.department}
-                  </span>
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm">
-                    <FileText className="w-4 h-4" />
-                    {job.type}
-                  </span>
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm">
-                    <MapPin className="w-4 h-4" />
-                    {job.location}
-                  </span>
-                </div>
               </div>
               
               <div className="lg:col-span-1">
@@ -406,9 +399,15 @@ export default function JobDetailPage() {
               className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20"
             >
               <h2 className="text-2xl font-light mb-6">詳細</h2>
-              <div className="text-white/80 leading-relaxed whitespace-pre-line">
-                {job.content}
-              </div>
+              <div 
+                className="text-white/80 leading-relaxed prose prose-invert max-w-none
+                  prose-p:mb-4 prose-headings:text-white prose-headings:font-light
+                  prose-strong:text-white prose-strong:font-medium
+                  prose-ul:list-disc prose-ul:pl-5 prose-ul:mb-4
+                  prose-ol:list-decimal prose-ol:pl-5 prose-ol:mb-4
+                  prose-li:mb-2"
+                dangerouslySetInnerHTML={{ __html: job.content }}
+              />
             </motion.div>
           )}
         </section>

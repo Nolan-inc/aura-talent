@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Script from 'next/script'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 interface JQueryRippleProps {
   children: React.ReactNode
@@ -18,8 +19,19 @@ declare global {
 export function JQueryRipple({ children, imageUrl }: JQueryRippleProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInitialized = useRef(false)
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const [shouldLoadScripts, setShouldLoadScripts] = useState(false)
+
+  // isDesktopがnullでない場合（クライアントサイドでマウント後）にのみスクリプトをロード
+  useEffect(() => {
+    if (isDesktop !== null) {
+      setShouldLoadScripts(isDesktop)
+    }
+  }, [isDesktop])
 
   useEffect(() => {
+    if (!shouldLoadScripts) return
+
     const initializeRipples = () => {
       if (!window.$ || !containerRef.current || isInitialized.current) return
 
@@ -62,37 +74,41 @@ export function JQueryRipple({ children, imageUrl }: JQueryRippleProps) {
       }
       window.removeEventListener('load', initializeRipples)
     }
-  }, [])
+  }, [shouldLoadScripts])
 
   return (
     <>
-      <Script
-        src="https://code.jquery.com/jquery-3.7.1.min.js"
-        strategy="beforeInteractive"
-      />
-      <Script
-        src="/jquery.ripples.min.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          if (window.$ && containerRef.current && !isInitialized.current) {
-            const $ = window.$
-            const $container = $(containerRef.current)
-            if (typeof $container.ripples === 'function') {
-              try {
-                $container.ripples({
-                  resolution: 256, // 解像度を下げてパフォーマンス向上
-                  dropRadius: 30,
-                  perturbance: 0.04, // 揺らぎを弱めて安定性向上
-                  interactive: true
-                })
-                isInitialized.current = true
-              } catch (error) {
-                console.error('Failed to initialize ripples on load:', error)
+      {shouldLoadScripts && (
+        <>
+          <Script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            strategy="beforeInteractive"
+          />
+          <Script
+            src="/jquery.ripples.min.js"
+            strategy="afterInteractive"
+            onLoad={() => {
+              if (window.$ && containerRef.current && !isInitialized.current) {
+                const $ = window.$
+                const $container = $(containerRef.current)
+                if (typeof $container.ripples === 'function') {
+                  try {
+                    $container.ripples({
+                      resolution: 256, // 解像度を下げてパフォーマンス向上
+                      dropRadius: 30,
+                      perturbance: 0.04, // 揺らぎを弱めて安定性向上
+                      interactive: true
+                    })
+                    isInitialized.current = true
+                  } catch (error) {
+                    console.error('Failed to initialize ripples on load:', error)
+                  }
+                }
               }
-            }
-          }
-        }}
-      />
+            }}
+          />
+        </>
+      )}
       <div 
         ref={containerRef} 
         className="relative w-full h-full overflow-hidden"

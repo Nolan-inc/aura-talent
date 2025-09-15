@@ -8,6 +8,20 @@ import { Calendar, Tag } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { fetchWithCache } from '@/lib/cache'
 
+// HTMLタグを除去する関数
+const stripHtmlTags = (html: string): string => {
+  return html
+    .replace(/<[^>]*>/g, '') // HTMLタグを除去
+    .replace(/&nbsp;/g, ' ') // &nbsp;をスペースに
+    .replace(/&amp;/g, '&') // &amp;を&に
+    .replace(/&lt;/g, '<') // &lt;を<に
+    .replace(/&gt;/g, '>') // &gt;を>に
+    .replace(/&quot;/g, '"') // &quot;を"に
+    .replace(/&#39;/g, "'") // &#39;を'に
+    .replace(/\s+/g, ' ') // 連続する空白を1つに
+    .trim()
+}
+
 interface NewsItem {
   id: string
   date: string
@@ -78,8 +92,8 @@ export default function NewsPage() {
                 day: '2-digit',
               }).replace(/\//g, '.'), // YYYY.MM.DD形式に変換
               category: item.category?.name || item.type.toUpperCase(), // categoryからnameを取得、なければtypeを大文字に変換
-              title: item.title,
-              excerpt: item.excerpt,
+              title: stripHtmlTags(item.title),
+              excerpt: stripHtmlTags(item.excerpt),
               link: `/news/${item.id}`,
               // imageはAPIレスポンスにない場合が多いのでundefined
             }))
@@ -172,47 +186,44 @@ export default function NewsPage() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div className="flex flex-col lg:flex-row gap-6 p-6 border-b border-white/20 hover:bg-white/5 transition-colors duration-300">
-                  {item.image && (
-                    <div className="lg:w-48 h-32 lg:h-32 relative overflow-hidden bg-tiffany-100 flex-shrink-0">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  )}
-                  
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-4 mb-3 text-sm text-white/70">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {item.date}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Tag className="w-4 h-4" />
-                        {item.category}
-                      </span>
-                    </div>
-                    
-                    <h2 className="text-xl mb-2 text-white group-hover:text-white/90 transition-colors">
-                      {item.title}
-                    </h2>
-                    
-                    <p className="text-white/80 leading-relaxed">
-                      {item.excerpt}
-                    </p>
-                    
-                    {item.link && (
-                      <Link
-                        href={item.link}
-                        className="inline-block mt-4 text-sm text-white hover:text-white/80 transition-colors"
-                      >
-                        続きを読む →
-                      </Link>
+                <Link href={item.link || '#'} className="block">
+                  <div className="flex flex-col lg:flex-row gap-6 p-6 border-b border-white/20 hover:bg-white/5 transition-colors duration-300 cursor-pointer">
+                    {item.image && (
+                      <div className="lg:w-48 h-32 lg:h-32 relative overflow-hidden bg-tiffany-100 flex-shrink-0">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
                     )}
+                    
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-center gap-4 mb-3 text-sm text-white/70">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-4 h-4" />
+                          {item.date}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Tag className="w-4 h-4" />
+                          {item.category}
+                        </span>
+                      </div>
+                      
+                      <h2 className="text-xl mb-2 text-white group-hover:text-white/90 transition-colors">
+                        {item.title}
+                      </h2>
+                      
+                      <p className="text-white/80 leading-relaxed">
+                        {item.excerpt}
+                      </p>
+                      
+                      <span className="inline-block mt-4 text-sm text-white/70 group-hover:text-white transition-colors">
+                        続きを読む →
+                      </span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </motion.article>
             ))}
           </div>

@@ -28,17 +28,20 @@ export default function ContactPage() {
     
     setIsSubmitting(true)
     
-    // FormSubmitに送信
-    const form = e.target as HTMLFormElement
-    const formData = new FormData(form)
-    
     try {
-      const response = await fetch('https://formsubmit.co/m.hokazono@japanmusic.jp', {
+      // Resend APIを使用してメール送信
+      const response = await fetch('/api/send-email', {
         method: 'POST',
-        body: formData,
         headers: {
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'contact',
+          name: formData.name,
+          email: formData.email,
+          phone: '',
+          message: `件名: ${formData.subject}\n\n${formData.message}`,
+        }),
       })
       
       if (response.ok) {

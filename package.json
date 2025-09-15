@@ -9,13 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "blurhash": "^2.0.5",
     "clsx": "^2.1.1",
     "framer-motion": "^12.19.2",
     "lucide-react": "^0.525.0",
     "next": "15.3.4",
+    "plaiceholder": "^3.0.0",
     "react": "^19.0.0",
+    "react-blurhash": "^0.3.0",
     "react-dom": "^19.0.0",
     "react-water-wave": "^2.0.1",
+    "resend": "^6.0.3",
+    "sharp": "^0.34.3",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {

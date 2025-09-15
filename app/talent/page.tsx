@@ -7,6 +7,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { fetchWithCache } from '@/lib/cache'
+import { Instagram, Globe } from 'lucide-react'
+import { TikTokIcon } from '@/components/icons/tiktok'
+import { XIcon } from '@/components/icons/x-twitter'
+import { YoutubeIcon } from '@/components/icons/youtube'
+
+interface SocialLink {
+  title: string
+  url: string
+}
 
 interface Talent {
   id: string
@@ -16,6 +25,7 @@ interface Talent {
   image: string
   profile?: string
   category: 'actor' | 'idol' | 'artist'
+  socialLinks?: SocialLink[]
 }
 
 // APIレスポンスの型定義
@@ -34,6 +44,10 @@ interface ApiTalent {
       url: string
       alt: string
       order: number
+    }>
+    links?: Array<{
+      title: string
+      url: string
     }>
   }
 }
@@ -100,7 +114,8 @@ export default function ActorPage() {
           slug: item.slug.toLowerCase().replace(/ /g, '_'),
           image: item.metadata?.images?.[1]?.url || item.thumbnail.url,
           profile: item.excerpt || '',
-          category
+          category,
+          socialLinks: item.metadata?.links || []
         }))
 
         // displayOrderで並び替え（displayOrderがない場合は公開日順）
@@ -192,33 +207,71 @@ export default function ActorPage() {
                 viewport={{ once: true }}
                 className="group transform hover:scale-105 transition-transform duration-300"
               >
-                <Link href={`/talent/${talent.slug}`} className="block">
-                  <div className={`relative overflow-hidden bg-white/10 ${activeTab === 'idol' ? 'aspect-[16/9]' : 'aspect-[3/4]'} rounded-lg border border-white/20 shadow-lg hover:border-white/40 transition-colors duration-300`}>
-                    <Image
-                      src={talent.image}
-                      alt={talent.nameJa}
-                      fill
-                      loading="lazy"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div>
+                  <Link href={`/talent/${talent.slug}`} className="block">
+                    <div className={`relative overflow-hidden bg-white/10 ${activeTab === 'idol' ? 'aspect-[16/9]' : 'aspect-[3/4]'} rounded-lg border border-white/20 shadow-lg hover:border-white/40 transition-colors duration-300`}>
+                      <Image
+                        src={talent.image}
+                        alt={talent.nameJa}
+                        fill
+                        loading="lazy"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      
+                      {/* Hover overlay with talent info */}
+                      <motion.div
+                        className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
+                      >
+                        <p className="text-sm opacity-90">{talent.profile}</p>
+                      </motion.div>
+                    </div>
                     
-                    {/* Hover overlay with talent info */}
-                    <motion.div
-                      className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
-                    >
-                      <p className="text-sm opacity-90">{talent.profile}</p>
-                    </motion.div>
-                  </div>
+                    <div className="mt-4 text-center">
+                      <h2 className="text-xl font-light text-white">{talent.nameJa}</h2>
+                      <p className="text-sm text-white/70 mt-1">{talent.name}</p>
+                    </div>
+                  </Link>
                   
-                  <div className="mt-4 text-center">
-                    <h2 className="text-xl font-light text-white">{talent.nameJa}</h2>
-                    <p className="text-sm text-white/70 mt-1">{talent.name}</p>
-                  </div>
-                </Link>
+                  {/* Social Links - Outside of Link component */}
+                  {talent.socialLinks && talent.socialLinks.length > 0 && (
+                    <div className="flex justify-center gap-3 mt-3">
+                      {talent.socialLinks.map((link, linkIndex) => {
+                        const getSocialIcon = (title: string) => {
+                          switch (title.toLowerCase()) {
+                            case 'instagram':
+                              return <Instagram className="w-4 h-4" />
+                            case 'tiktok':
+                              return <TikTokIcon className="w-4 h-4" />
+                            case 'x':
+                            case 'twitter':
+                              return <XIcon className="w-4 h-4" />
+                            case 'youtube':
+                              return <YoutubeIcon className="w-4 h-4" />
+                            default:
+                              return <Globe className="w-4 h-4" />
+                          }
+                        }
+                        
+                        return (
+                          <a
+                            key={linkIndex}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-white/60 hover:text-white transition-colors"
+                            title={link.title}
+                          >
+                            {getSocialIcon(link.title)}
+                          </a>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
               </motion.article>
               ))}
             </div>
