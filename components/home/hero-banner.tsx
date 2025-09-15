@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { JQueryRipple } from './jquery-ripple'
+import { HeroWrapper } from './hero-wrapper'
 
 interface Banner {
   id: number
@@ -185,10 +186,34 @@ function BannerContent({ banner }: { banner: Banner }) {
     }
   }, [])
 
+  // 簡易的なBlurHash生成（実際の画像からは事前生成推奨）
+  const generateSimpleBlurDataURL = () => {
+    // グラデーション背景のData URL（フォールバック用）
+    return 'data:image/svg+xml;base64,' + btoa(`
+      <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100" height="100" fill="url(#g)"/>
+      </svg>
+    `)
+  }
+
+  const currentImageUrl = isMobile ? banner.imageSP : banner.imagePC
+
   return (
-    <JQueryRipple imageUrl={isMobile ? banner.imageSP : banner.imagePC}>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-      <div className="absolute bottom-16 left-8 text-white lg:bottom-24 lg:left-16 z-10">
+    <HeroWrapper 
+      imageUrl={currentImageUrl}
+      priority={true}
+      blurhash={generateSimpleBlurDataURL()}
+      alt={banner.description}
+    >
+      <JQueryRipple imageUrl={currentImageUrl}>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        <div className="absolute bottom-16 left-8 text-white lg:bottom-24 lg:left-16 z-10">
         <motion.h1 
           className="whitespace-pre-line text-4xl font-light tracking-wider lg:text-6xl drop-shadow-2xl font-gesta"
           initial={{ opacity: 0, y: 30 }}
@@ -208,6 +233,7 @@ function BannerContent({ banner }: { banner: Banner }) {
           </motion.p>
         )}
       </div>
-    </JQueryRipple>
+      </JQueryRipple>
+    </HeroWrapper>
   )
 }
