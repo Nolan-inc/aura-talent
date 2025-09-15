@@ -251,20 +251,21 @@ export default function JobDetailPage() {
     
     setIsSubmitting(true)
     
-    // FormSubmitに送信
-    const form = e.target as HTMLFormElement
-    const formData = new FormData(form)
-    
-    // 職種名を追加
-    formData.append('_subject', `【採用応募】${job?.title || '募集職種'} - ${formData.get('name')}`)
-    
     try {
-      const response = await fetch('https://formsubmit.co/recruit@rise-liver.com', {
+      // Resend APIを使用してメール送信
+      const response = await fetch('/api/send-email', {
         method: 'POST',
-        body: formData,
         headers: {
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'recruit',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          position: job?.title || '募集職種',
+        }),
       })
       
       if (response.ok) {

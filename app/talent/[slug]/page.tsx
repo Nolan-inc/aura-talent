@@ -232,20 +232,21 @@ export default function ActorDetailPage() {
     
     setIsSubmitting(true)
     
-    // FormSubmitに送信
-    const form = e.target as HTMLFormElement
-    const formData = new FormData(form)
-    
-    // タレント名を追加
-    formData.append('_subject', `【タレントお問い合わせ】${actor?.nameJa || 'タレント'} - ${formData.get('name')}`)
-    
     try {
-      const response = await fetch('https://formsubmit.co/m.hokazono@japanmusic.jp', {
+      // Resend APIを使用してメール送信
+      const response = await fetch('/api/send-email', {
         method: 'POST',
-        body: formData,
         headers: {
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'talent',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          talentName: actor?.nameJa || 'タレント',
+        }),
       })
       
       if (response.ok) {

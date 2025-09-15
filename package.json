@@ -19,6 +19,7 @@
     "react-blurhash": "^0.3.0",
     "react-dom": "^19.0.0",
     "react-water-wave": "^2.0.1",
+    "resend": "^6.0.3",
     "sharp": "^0.34.3",
     "tailwind-merge": "^3.3.1"
   },
