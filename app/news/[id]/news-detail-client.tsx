@@ -64,9 +64,14 @@ export default function NewsDetailClient({ news }: { news: NewsDetail }) {
           
           <div className="prose prose-lg max-w-none">
             {news.content ? (
-              <div dangerouslySetInnerHTML={{ __html: news.content }} />
+              <div 
+                className="news-content [&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-6 [&>h1]:mt-8 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-4 [&>h2]:mt-6 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-4 [&>h3]:mt-6 [&>p]:text-lg [&>p]:leading-relaxed [&>p]:mb-4 [&>p]:text-gray-700 [&>p>strong]:font-bold [&>p>strong]:text-gray-900 [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-4 [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-4 [&>li]:mb-2 [&>img]:max-w-full [&>img]:h-auto [&>img]:my-4 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600 [&>a]:text-tiffany-600 [&>a]:underline [&>a:hover]:text-tiffany-700"
+                dangerouslySetInnerHTML={{ __html: news.content }} 
+              />
             ) : (
-              <p className="text-gray-600 text-lg leading-relaxed">{news.excerpt}</p>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                {news.excerpt}
+              </p>
             )}
           </div>
           
