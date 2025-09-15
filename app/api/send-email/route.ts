@@ -194,7 +194,7 @@ export async function POST(request: NextRequest) {
       to: ['recruit@rise-liver.com'],
       subject: subject,
       html: htmlContent,
-      reply_to: email,
+      replyTo: email,
     })
 
     if (error) {
