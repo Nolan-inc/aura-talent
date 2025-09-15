@@ -278,8 +278,8 @@ export default function RecruitPage() {
           </div>
         </section>
 
-        {/* Employee Voice */}
-        <section className="container mx-auto px-4 max-w-6xl mb-20">
+        {/* Employee Voice - 一時的に非表示 */}
+        {/* <section className="container mx-auto px-4 max-w-6xl mb-20">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -329,7 +329,7 @@ export default function RecruitPage() {
               </motion.div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Application Process */}
         <section className="container mx-auto px-4 max-w-4xl">

@@ -126,7 +126,7 @@ export default function JobDetailPage() {
               type: jobArticle.metadata?.employmentType || '正社員',
               location: jobArticle.metadata?.location || '東京都港区',
               description: cleanHtmlContent(jobArticle.excerpt || '詳細は募集要項をご確認ください。'),
-              content: cleanHtmlContent(jobArticle.content || ''),
+              content: jobArticle.content || '',
               requirements: jobArticle.metadata?.requirements || [
                 '詳細は募集要項をご確認ください',
               ],
@@ -406,9 +406,15 @@ export default function JobDetailPage() {
               className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20"
             >
               <h2 className="text-2xl font-light mb-6">詳細</h2>
-              <div className="text-white/80 leading-relaxed whitespace-pre-line">
-                {job.content}
-              </div>
+              <div 
+                className="text-white/80 leading-relaxed prose prose-invert max-w-none
+                  prose-p:mb-4 prose-headings:text-white prose-headings:font-light
+                  prose-strong:text-white prose-strong:font-medium
+                  prose-ul:list-disc prose-ul:pl-5 prose-ul:mb-4
+                  prose-ol:list-decimal prose-ol:pl-5 prose-ol:mb-4
+                  prose-li:mb-2"
+                dangerouslySetInnerHTML={{ __html: job.content }}
+              />
             </motion.div>
           )}
         </section>
