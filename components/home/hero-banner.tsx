@@ -32,6 +32,10 @@ interface ApiBanner {
       alt: string
       order: number
     }>
+    links?: Array<{
+      url: string
+      title?: string
+    }>
   }
   url?: string
   category?: {
