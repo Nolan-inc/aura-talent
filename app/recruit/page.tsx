@@ -169,7 +169,15 @@ export default function RecruitPage() {
               AURAは、日本のエンターテインメントの未来を共に創造する
               情熱的な仲間を求めています。
             </p>
-            <button className="px-8 py-3 border border-white text-white hover:bg-white hover:text-[#2eb3bf] transition-all duration-300 rounded-full">
+            <button 
+              onClick={() => {
+                const element = document.getElementById('open-positions')
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' })
+                }
+              }}
+              className="px-8 py-3 border border-white text-white hover:bg-white hover:text-[#2eb3bf] transition-all duration-300 rounded-full cursor-pointer"
+            >
               エントリーする
             </button>
           </motion.div>
@@ -219,7 +227,7 @@ export default function RecruitPage() {
         </section>
 
         {/* Open Positions */}
-        <section className="container mx-auto px-4 max-w-6xl mb-20">
+        <section id="open-positions" className="container mx-auto px-4 max-w-6xl mb-20 scroll-mt-20">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -343,7 +351,15 @@ export default function RecruitPage() {
             </div>
 
             <div className="text-center mt-8">
-              <button className="px-8 py-3 bg-white text-[#2eb3bf] hover:bg-white/90 transition-all duration-300 rounded-full font-medium">
+              <button 
+                onClick={() => {
+                  const element = document.getElementById('open-positions')
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' })
+                  }
+                }}
+                className="px-8 py-3 bg-white text-[#2eb3bf] hover:bg-white/90 transition-all duration-300 rounded-full font-medium cursor-pointer"
+              >
                 応募フォームへ
               </button>
             </div>
