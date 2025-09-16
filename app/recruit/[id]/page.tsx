@@ -1,10 +1,10 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import { useParams } from 'next/navigation' // @ts-ignore - Next.js 15 type issue
 import { useState, useEffect } from 'react'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ChevronLeft, Mail, Phone, X } from 'lucide-react'
 import { fetchWithCache } from '@/lib/cache'
@@ -157,7 +157,7 @@ export default function JobDetailPage() {
               workingHours: jobArticle.metadata?.workingHours || '10:00〜19:00（休憩1時間）',
               holidays: jobArticle.metadata?.holidays || '土日祝日、年末年始、夏季休暇',
               contact: {
-                email: jobArticle.metadata?.contactEmail || 'recruit@aura-talent.com',
+                email: jobArticle.metadata?.contactEmail || 'recruit@rise-liver.com',
                 phone: jobArticle.metadata?.contactPhone,
               },
             })
@@ -191,7 +191,7 @@ export default function JobDetailPage() {
               workingHours: '10:00〜19:00（休憩1時間）',
               holidays: '土日祝日、年末年始、夏季休暇',
               contact: {
-                email: 'recruit@aura-talent.com',
+                email: 'recruit@rise-liver.com',
               },
             })
           }
@@ -227,7 +227,7 @@ export default function JobDetailPage() {
           workingHours: '10:00〜19:00（休憩1時間）',
           holidays: '土日祝日、年末年始、夏季休暇',
           contact: {
-            email: 'recruit@aura-talent.com',
+            email: 'recruit@rise-liver.com',
           },
         })
       } finally {
@@ -441,8 +441,7 @@ export default function JobDetailPage() {
         </div>
 
         {/* Entry Modal */}
-        <AnimatePresence>
-          {showEntryModal && (
+        {showEntryModal && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -546,8 +545,7 @@ export default function JobDetailPage() {
                 </form>
               </motion.div>
             </motion.div>
-          )}
-        </AnimatePresence>
+        )}
       </main>
       <Footer />
     </>

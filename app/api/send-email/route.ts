@@ -188,10 +188,15 @@ export async function POST(request: NextRequest) {
       </html>
     `
 
+    // 送信先をtypeによって分岐
+    const toEmail = type === 'recruit' 
+      ? 'recruit@rise-liver.com'
+      : 'info@aura-talent.com'
+
     // メール送信
     const { data, error } = await resend.emails.send({
       from: 'AURA TALENT <noreply@cldv.jp>',
-      to: ['recruit@rise-liver.com'],
+      to: [toEmail],
       subject: subject,
       html: htmlContent,
       replyTo: email,
